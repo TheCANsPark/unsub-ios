@@ -11,6 +11,7 @@ import UIKit
 class HomeViewController: BaseViewController {
 
     
+    
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,30 @@ class HomeViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    //MARK:- UIButtonActions
+    
+    
+    @IBAction func fileComplaintAction(_ sender: Any) {
+    }
+    
+    
+    @IBAction func emergencyAction(_ sender: Any) {
+    }
+    
+    
+    @IBAction func myComplaintsActio(_ sender: Any) {
+    }
+    
+    
+    
+    @IBAction func resourceCenterAction(_ sender: Any) {
+    }
+    
+    
+    @IBAction func loginAction(_ sender: Any) {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+        self.present(vc, animated: true, completion: nil)
+    }
     
 }

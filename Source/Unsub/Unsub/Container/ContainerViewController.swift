@@ -16,7 +16,6 @@ class ContainerViewController: BaseViewController {
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var contactView: UIView!
     
-    
     @IBOutlet weak var imgHome: UIImageView!
     @IBOutlet weak var imgProfile: UIImageView!
     @IBOutlet weak var imgChat: UIImageView!
