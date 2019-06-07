@@ -1,22 +1,19 @@
 //
-//  BaseViewController.swift
+//  ContactViewController.swift
 //  Unsub
 //
-//  Created by codezilla-mac1 on 04/06/19.
+//  Created by codezilla-mac1 on 07/06/19.
 //  Copyright © 2019 codezilla-mac1. All rights reserved.
 //
 
 import UIKit
 
-class BaseViewController: UIViewController {
+class ContactViewController: UIViewController {
 
-   
-    
-    //MARK:- LifeCycleOfViewController
+    @IBOutlet weak var txtDepartment: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         // Do any additional setup after loading the view.
     }
 
@@ -25,5 +22,9 @@ class BaseViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-   
+
+    
+    @IBAction func callNow(_ sender: Any) {
+    }
+    
 }

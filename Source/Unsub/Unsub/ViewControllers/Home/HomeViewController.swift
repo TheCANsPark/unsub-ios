@@ -48,7 +48,7 @@ class HomeViewController: BaseViewController {
     
     @IBAction func loginAction(_ sender: Any) {
         
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
         self.present(vc, animated: true, completion: nil)
     }
     

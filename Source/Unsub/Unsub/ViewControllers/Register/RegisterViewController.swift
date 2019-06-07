@@ -40,27 +40,27 @@ class RegisterViewController: UIViewController {
                      "password" : txtPassword.text!,
                      "mobile_number" : txtMobile.text!,
                      "age" : txtAge.text!]
-        NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary, statusCode : Int) in
+        
+        
+        NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
                 if statusCode == STATUS_CODE.success {
-                    
-                }
-            
+                    let refreshAlert = UIAlertController(title: "Alert", message: response?.value(forKey: "message") as? String, preferredStyle: UIAlertControllerStyle.alert)
+                    refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                        self.dismiss(animated: true, completion: nil)
+                    }))
+                    self.present(refreshAlert, animated: true, completion: nil)
+                   // AppSharedData.sharedInstance.alert(vc: self, message: "A verification link has been send to \(self.txtMail.text!).Please check your email")
+                } else {
+                    let msg = response?.value(forKey: "message") as! String
+                    AppSharedData.sharedInstance.alert(vc: self, message: msg)
+            }
         })
-        
-//        NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, { (response : NSDictionary, statusCode : Int) in
-//            Loader.shared.hide()
-//            if statusCode == STATUS_CODE.success {
-//
-//            }
-//
-//            }
     }
     //MARK:- UIButtonActions
     @IBAction func dismiss(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
     @IBAction func register(_ sender: Any) {
         if txtMail.text?.count == 0 || txtMobile.text?.count == 0 || txtPassword.text?.count == 0 || txtName.text?.count == 0 || txtAge.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
@@ -69,9 +69,10 @@ class RegisterViewController: UIViewController {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
         } else if isAgreed == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please accept terms and conditions")
+        } else {
+            register()
         }
     }
-    
     @IBAction func acceptTermsAndCon(_ sender: Any) {
         if isAgreed == 0 {
             isAgreed = 1
@@ -80,15 +81,8 @@ class RegisterViewController: UIViewController {
             imgAcceptTerms.image = #imageLiteral(resourceName: "unchecked")
             isAgreed = 0
         }
-        
     }
-    
-    
     @IBAction func login(_ sender: Any) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
-        self.present(vc, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    
-    
 }

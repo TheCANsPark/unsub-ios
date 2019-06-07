@@ -7,9 +7,14 @@
 //
 
 import UIKit
-
+import SkyFloatingLabelTextField
 class LoginnViewController: UIViewController {
 
+    
+    @IBOutlet weak var txtMail: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtPassword: SkyFloatingLabelTextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,15 +25,50 @@ class LoginnViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    //MARK:- ServerRequests
+    func loginRequest() {
+        Loader.shared.show()
+        let param = ["grant_type":  "password",
+                     "username"  :  txtMail.text!,
+                     "password"  :  txtPassword.text!,
+                     "scope"     :  "3"] 
+        NetworkManager.sharedInstance.apiParsePost(WEB_URL.login as NSString, postParameters: param as NSDictionary, completionHandler: {(response :NSDictionary?, statusCode : Int?) in
+            Loader.shared.hide()
+            if statusCode == STATUS_CODE.success {
+                self.dismiss(animated: true, completion: nil)
+                let data = response?.value(forKey: "data") as! NSDictionary
+                AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: data.value(forKey: kAccessToken) as! String, refreshToken: data.value(forKey: kRefreshToken) as! String)
+                UserDefaults.standard.set(true, forKey: kLogin)
+             
+                
+            } else if statusCode == STATUS_CODE.pendingAction {
+                let msg = response?.value(forKey: "message") as! String
+                AppSharedData.sharedInstance.alert(vc: self, message: msg)
+            } else {
+                let data = response?.value(forKey: "data") as! NSDictionary
+                AppSharedData.sharedInstance.alert(vc: self, message: data.value(forKey: "message") as! String)
+            }
+        })
+    }
 
     @IBAction func login(_ sender: Any) {
+        if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
+            
+        } else if txtMail.text?.count == 0 || txtPassword.text?.count == 0 {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
+            
+        } else {
+            loginRequest()
+        }
+        
     }
     
     @IBAction func forgotpassword(_ sender: Any) {
     }
     @IBAction func goToRegister(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func dismiss(_ sender: Any) {

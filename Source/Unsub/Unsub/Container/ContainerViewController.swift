@@ -21,13 +21,15 @@ class ContainerViewController: BaseViewController {
     @IBOutlet weak var imgChat: UIImageView!
     @IBOutlet weak var imgContact: UIImageView!
     
+   
+    var rightButtonTitle = UIBarButtonItem()
+    let openMen = UIButton(type: .custom)
+    
     
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.navigationBar.isHidden = true
-        
         homeView.isHidden = false
         profileView.isHidden = true
         chatView.isHidden = true
@@ -38,16 +40,86 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+        
+        //menu
+        let menuBarItem = UIBarButtonItem(customView: openMen)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+        currHeight?.isActive = true
+        openMen.setImage(UIImage(named:"menu-icn"), for: .normal) // Image can be downloaded from here below link
+        openMen.addTarget(self, action: #selector(ContainerViewController.openMenu), for: .touchUpInside)
+        
+        self.navigationItem.leftBarButtonItem = menuBarItem
+
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        //loginImage
+        let loginImg = UIButton(type: .custom)
+        loginImg.setImage(UIImage(named:"login"), for: .normal) // Image can be downloaded from here below link
+        let loginBar = UIBarButtonItem(customView: loginImg)
+        let currWidth1 = loginBar.customView?.widthAnchor.constraint(equalToConstant: 13)
+        currWidth1?.isActive = true
+        let currHeight1 = loginBar.customView?.heightAnchor.constraint(equalToConstant: 13)
+        currHeight1?.isActive = true
+        
+            if UserDefaults.standard.bool(forKey: kLogin) == true {
+            rightButtonTitle = UIBarButtonItem.init(
+                title: "LOGOUT",
+                style: .done,
+                target: self,
+                action: #selector(ContainerViewController.logout)
+            )
+            
+        } else {
+            rightButtonTitle = UIBarButtonItem.init(
+                title: "LOGIN",
+                style: .done,
+                target: self,
+                action: #selector(ContainerViewController.login)
+            )
+        }
+        //loginTitle
+        rightButtonTitle.tintColor = UIColor.white
+        rightButtonTitle.setTitleTextAttributes([ NSAttributedStringKey.font: UIFont(name: "Montserrat-SemiBold", size: 13)!], for: UIControlState.normal)
+        self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-//MARK:-UIButtonActions
-    
+    //MARK:- Helper
+    @objc func openMenu() -> Void {
+//        let popVC:SideBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController") as! SideBarViewController
+//        popVC.modalTransitionStyle = .crossDissolve
+//        popVC.modalPresentationStyle = .overFullScreen
+//        popVC.delegate = self
+//        self.present(popVC, animated: true, completion: nil)
+    }
+    @objc func login() -> Void {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
+        self.present(vc, animated: true, completion: nil)
+    }
+    @objc func logout() -> Void {
+        let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to logout?", preferredStyle: UIAlertControllerStyle.alert)
+        refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+            
+            UserDefaults.standard.set(nil, forKey: kDictTokens)
+            UserDefaults.standard.set(false, forKey: kLogin)
+            self.viewWillAppear(true)
+        }))
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Handle Cancel Logic here")
+        }))
+        self.present(refreshAlert, animated: true, completion: nil)
+    }
+    //MARK:-UIButtonActions
     @IBAction func home(_ sender: Any) {
         homeView.isHidden = false
         profileView.isHidden = true
@@ -97,8 +169,9 @@ class ContainerViewController: BaseViewController {
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
+        
+        
+        
+        //gradient()
     }
-    
-    
-
-}
+  }

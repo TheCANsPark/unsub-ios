@@ -23,4 +23,27 @@ class AppSharedData {
         let boolValue = emailTest.evaluate(with: email)
         return boolValue
     }
+    func saveAccessTokenAndRefreshToken(accessToken : String, refreshToken : String) {
+        let dicTokens = ["accessToken"  : kAccessToken,
+                         "refreshToken" : kRefreshToken]
+        UserDefaults.standard.set(dicTokens, forKey: kDictTokens)
+    }
+    func getRefreshTokenAndAccessToken() -> NSDictionary{
+        let dict = UserDefaults.standard.value(forKey: kDictTokens) as! NSDictionary
+        return dict
+    }
+    func gradient() {
+         var gradientLayer = CAGradientLayer()
+        
+        //   gradientLayer.frame = view.bounds
+        
+        gradientLayer.colors = [UIColor(red: 253/255, green: 150/255, blue: 1/255, alpha: 1), UIColor(red: 253/255, green: 188/255, blue: 50/255, alpha: 1)]
+        
+       // gradientLayer.frame = (self.navigationController?.navigationBar.bounds)!
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        
+   //     navigationController?.navigationBar.layer.addSublayer(gradientLayer)
+    }
+    
 }

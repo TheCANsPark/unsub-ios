@@ -14,12 +14,19 @@ class NetworkManager {
     func apiParsePost(_ url:NSString, postParameters:NSDictionary?, completionHandler:@escaping ( _ response:NSDictionary?,_ statusCode: Int?)->()) {
         
         let urlString  = url as String
-        var header = HTTPHeaders()
-       
+        var header = HTTPHeaders()   
+        if url as String == WEB_URL.login {
+            header = ["Authorization"    : "Basic VU5TVUI6VU5TVUIxMjM=",
+                      "Content-Type"     : "application/x-www-form-urlencoded"]
+        } else {
+            header = ["Content-Type" : "application/x-www-form-urlencoded"]
+        }
+        
+        
              //   header = ["Authorization" : "Token \(token)",
                          //"Content-Type" : "application/json"]
         
-        Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, encoding: JSONEncoding.default, headers: header).responseJSON {
+        Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, headers: header).responseJSON {
             response in
             
             let  statusCode = response.response?.statusCode

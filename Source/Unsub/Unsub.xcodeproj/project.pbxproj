@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */; };
 		134B6EC722A67D9A00DD97C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B6EC622A67D9A00DD97C8 /* AppDelegate.swift */; };
 		134B6EC922A67D9A00DD97C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B6EC822A67D9A00DD97C8 /* ViewController.swift */; };
 		134B6ECC22A67D9A00DD97C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 134B6ECA22A67D9A00DD97C8 /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		134B6EC322A67D9900DD97C8 /* Unsub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unsub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		134B6EC622A67D9A00DD97C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		134B6EC822A67D9A00DD97C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1302FB1D22AA7FAA00D95DBA /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
 		134B6EBA22A67D9900DD97C8 = {
 			isa = PBXGroup;
 			children = (
@@ -135,7 +145,6 @@
 				134B6ED522A67D9B00DD97C8 /* Info.plist */,
 				134B6ECD22A67D9A00DD97C8 /* Unsub.xcdatamodeld */,
 				13DC8A8D22A91A130018097C /* UtilityClasses */,
-				134B6F0D22A68D1500DD97C8 /* Fonts */,
 				134B6EE222A683A600DD97C8 /* Container */,
 				13DC8A9522A93FDC0018097C /* ManagerClasses */,
 				134B6EDF22A6800E00DD97C8 /* BaseViewController */,
@@ -155,6 +164,7 @@
 		134B6EDE22A67FF500DD97C8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1302FB1D22AA7FAA00D95DBA /* Contact */,
 				13DC8A9022A930DC0018097C /* Login */,
 				13DC8A8A22A8F9460018097C /* Register */,
 				134B6EDB22A67FA000DD97C8 /* Home */,
@@ -223,6 +233,7 @@
 		13DC8A8D22A91A130018097C /* UtilityClasses */ = {
 			isa = PBXGroup;
 			children = (
+				134B6F0D22A68D1500DD97C8 /* Fonts */,
 				13DC8A8E22A91A3D0018097C /* AppSharedData.swift */,
 				13DC8A9822A940D70018097C /* Constants.swift */,
 				13DC8A9A22A948800018097C /* Loader.swift */,
@@ -393,6 +404,7 @@
 			files = (
 				13DC8A8F22A91A3D0018097C /* AppSharedData.swift in Sources */,
 				13DC8A9922A940D70018097C /* Constants.swift in Sources */,
+				1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */,
 				13DC8A9B22A948800018097C /* Loader.swift in Sources */,
 				13DC8A8C22A8F96B0018097C /* RegisterViewController.swift in Sources */,
 				13DC8A9722A9401B0018097C /* NetworkManager.swift in Sources */,
