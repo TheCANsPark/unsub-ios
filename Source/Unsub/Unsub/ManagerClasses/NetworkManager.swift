@@ -98,4 +98,36 @@ class NetworkManager {
             completionHandler(statusCode)
         }
     }*/
+    
+    //MARK:- Get
+    func apiParseGet(url: String,completion: @escaping (_ response: NSDictionary?)-> ()){
+        
+        var header = HTTPHeaders()
+        if UserDefaults.standard.bool(forKey: kLogin) == true && url == WEB_URL.contacts {
+                let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
+                header = ["Authorization"  : "Token \(token)"]
+        } else {
+            header = [:]
+        }
+        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header).responseJSON {(responseData) -> Void in
+            
+            
+            let  statusCode = responseData.response?.statusCode
+            print(statusCode ?? "")
+            print("url is: \(url)")
+            print("header : \(header)")
+            print("response is: \(responseData)")
+            // Alamofire.request(url).responseJSON { (responseData) -> Void in
+            if((responseData.result.value) != nil) {
+                switch responseData.result {
+                case .success:
+                    if let value = responseData.result.value {
+                        completion(value as? NSDictionary)
+                    }
+                case .failure(_):
+                    completion(nil)
+                }
+            }
+        }
+    }
 }

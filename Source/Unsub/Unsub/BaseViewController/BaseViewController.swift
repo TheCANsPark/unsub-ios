@@ -10,20 +10,25 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-   
-    
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //back
+        let backbutton = UIButton(type: .custom)
+        backbutton.setImage(UIImage(named:"back-arrow"), for: .normal) // Image can be downloaded from here below link
+        backbutton.addTarget(self, action: #selector(BaseViewController.backAction), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backbutton)
         
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    //MARK:- Helper
+    @objc func backAction() -> Void {
+        navigationController?.popViewController(animated: true)
+    }
    
 }

@@ -24,6 +24,8 @@ let BASE_URL = "http://192.168.1.109:4000/"
 struct WEB_URL {
     static let signUp                    = BASE_URL + "user/sign-up"
     static let login                     = BASE_URL + "login"
+    static let contacts                  = BASE_URL + "emergency-contacts"
+    static let categories                = BASE_URL + "categories"
 }
 
 

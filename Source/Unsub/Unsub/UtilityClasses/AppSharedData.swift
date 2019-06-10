@@ -12,6 +12,8 @@ import UIKit
 class AppSharedData {
     static var sharedInstance = AppSharedData()
     
+    var contactViewControllerRef : ContactViewController!
+    
     func alert(vc: UIViewController,message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -32,18 +34,32 @@ class AppSharedData {
         let dict = UserDefaults.standard.value(forKey: kDictTokens) as! NSDictionary
         return dict
     }
-    func gradient() {
-         var gradientLayer = CAGradientLayer()
-        
-        //   gradientLayer.frame = view.bounds
-        
-        gradientLayer.colors = [UIColor(red: 253/255, green: 150/255, blue: 1/255, alpha: 1), UIColor(red: 253/255, green: 188/255, blue: 50/255, alpha: 1)]
-        
-       // gradientLayer.frame = (self.navigationController?.navigationBar.bounds)!
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-        
-   //     navigationController?.navigationBar.layer.addSublayer(gradientLayer)
+    func setGradientOnObject(_ object : AnyObject)  {
+        let gradient = CAGradientLayer()
+        let color2 = UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1).cgColor
+        let color1 = UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1).cgColor
+        gradient.colors = [color2,color1]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
+        gradient.frame = CGRect(x: 0.0, y: 0.0, width: object.frame.size.width, height: object.frame.size.height)
+        let image = getImageFrom(gradientLayer: gradient)
+        object.setBackgroundImage(image, for: UIBarMetrics.default)
     }
-    
+    func getImageFrom(gradientLayer:CAGradientLayer) -> UIImage? {
+        var gradientImage:UIImage?
+        UIGraphicsBeginImageContext(gradientLayer.frame.size)
+        if let context = UIGraphicsGetCurrentContext() {
+            gradientLayer.render(in: context)
+            gradientImage = UIGraphicsGetImageFromCurrentImageContext()?.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: .stretch)
+        }
+        UIGraphicsEndImageContext()
+        return gradientImage
+    }
+//    func customizeNavigationBar(_ object : AnyObject) {
+//        object.navigationController??.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        object.navigationController??.navigationBar.shadowImage = UIImage()
+//        object.navigationController??.navigationBar.isTranslucent = true
+//        object.navigationController??.view.backgroundColor = .clear
+//    }
 }

@@ -40,25 +40,21 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
+        customizeNavigationBar()
         
-        //menu
-        let menuBarItem = UIBarButtonItem(customView: openMen)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
-        currHeight?.isActive = true
-        openMen.setImage(UIImage(named:"menu-icn"), for: .normal) // Image can be downloaded from here below link
-        openMen.addTarget(self, action: #selector(ContainerViewController.openMenu), for: .touchUpInside)
-        
-        self.navigationItem.leftBarButtonItem = menuBarItem
-
     }
-
     override func viewWillAppear(_ animated: Bool) {
+        homeView.isHidden = false
+        profileView.isHidden = true
+        chatView.isHidden = true
+        contactView.isHidden = true
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-active")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+        
+        customizeNavigationBar()
         //loginImage
         let loginImg = UIButton(type: .custom)
         loginImg.setImage(UIImage(named:"login"), for: .normal) // Image can be downloaded from here below link
@@ -88,19 +84,95 @@ class ContainerViewController: BaseViewController {
         rightButtonTitle.tintColor = UIColor.white
         rightButtonTitle.setTitleTextAttributes([ NSAttributedStringKey.font: UIFont(name: "Montserrat-SemiBold", size: 13)!], for: UIControlState.normal)
         self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
+        self.navigationItem.leftBarButtonItem = nil
+
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+//        //menu
+//        let menuBarItem = UIBarButtonItem(customView: openMen)
+//        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
+//        currWidth?.isActive = true
+//        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+//        currHeight?.isActive = true
+//        openMen.setImage(UIImage(named:"back-arrow"), for: .normal) // Image can be downloaded from here below link
+//        openMen.addTarget(self, action: #selector(ContainerViewController.openMenu), for: .touchUpInside)
+//        self.navigationItem.leftBarButtonItem = menuBarItem
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK:-UIButtonActions
+    @IBAction func home(_ sender: Any) {
+        homeView.isHidden = false
+        profileView.isHidden = true
+        chatView.isHidden = true
+        contactView.isHidden = true
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-active")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+        
+        customizeNavigationBar()
+    }
+    @IBAction func profile(_ sender: Any) {
+        homeView.isHidden = true
+        profileView.isHidden = false
+        chatView.isHidden = true
+        contactView.isHidden = true
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-active")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+        
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+    }
+    @IBAction func chat(_ sender: Any) {
+        homeView.isHidden = true
+        profileView.isHidden = true
+        chatView.isHidden = false
+        contactView.isHidden = true
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+        
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+    }
+    @IBAction func contact(_ sender: Any) {
+        AppSharedData.sharedInstance.contactViewControllerRef.getContacts()
+        
+        homeView.isHidden = true
+        profileView.isHidden = true
+        chatView.isHidden = true
+        contactView.isHidden = false
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
+        
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+    }
     //MARK:- Helper
+    func customizeNavigationBar() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+    }
     @objc func openMenu() -> Void {
-//        let popVC:SideBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController") as! SideBarViewController
-//        popVC.modalTransitionStyle = .crossDissolve
-//        popVC.modalPresentationStyle = .overFullScreen
-//        popVC.delegate = self
-//        self.present(popVC, animated: true, completion: nil)
+        //        let popVC:SideBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController") as! SideBarViewController
+        //        popVC.modalTransitionStyle = .crossDissolve
+        //        popVC.modalPresentationStyle = .overFullScreen
+        //        popVC.delegate = self
+        //        self.present(popVC, animated: true, completion: nil)
     }
     @objc func login() -> Void {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
@@ -118,60 +190,5 @@ class ContainerViewController: BaseViewController {
             print("Handle Cancel Logic here")
         }))
         self.present(refreshAlert, animated: true, completion: nil)
-    }
-    //MARK:-UIButtonActions
-    @IBAction func home(_ sender: Any) {
-        homeView.isHidden = false
-        profileView.isHidden = true
-        chatView.isHidden = true
-        contactView.isHidden = true
-        
-        imgHome.image = #imageLiteral(resourceName: "footer-home-active")
-        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
-        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
-    }
-    
-    
-    @IBAction func profile(_ sender: Any) {
-        homeView.isHidden = true
-        profileView.isHidden = false
-        chatView.isHidden = true
-        contactView.isHidden = true
-        
-        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
-        imgProfile.image = #imageLiteral(resourceName: "footer-profile-active")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
-        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
-    }
-    
-    
-    @IBAction func chat(_ sender: Any) {
-        homeView.isHidden = true
-        profileView.isHidden = true
-        chatView.isHidden = false
-        contactView.isHidden = true
-        
-        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
-        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment")
-        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
-    }
-    
-    
-    @IBAction func contact(_ sender: Any) {
-        homeView.isHidden = true
-        profileView.isHidden = true
-        chatView.isHidden = true
-        contactView.isHidden = false
-        
-        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
-        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
-        imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
-        
-        
-        
-        //gradient()
     }
   }

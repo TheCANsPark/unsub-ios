@@ -30,6 +30,8 @@ class HomeViewController: BaseViewController {
     
     
     @IBAction func fileComplaintAction(_ sender: Any) {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FileComplaintsViewController") as? FileComplaintsViewController
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
     
     
@@ -46,10 +48,6 @@ class HomeViewController: BaseViewController {
     }
     
     
-    @IBAction func loginAction(_ sender: Any) {
-        
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
-        self.present(vc, animated: true, completion: nil)
-    }
+    
     
 }
