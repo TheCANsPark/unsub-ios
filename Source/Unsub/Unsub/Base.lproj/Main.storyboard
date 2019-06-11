@@ -790,13 +790,22 @@
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </imageView>
+                                                                <activityIndicatorView opaque="NO" tag="200" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AZO-Qq-fVK">
+                                                                    <rect key="frame" x="20" y="20" width="20" height="20"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="20" id="8qS-VO-Uke"/>
+                                                                        <constraint firstAttribute="height" constant="20" id="sIx-xl-g70"/>
+                                                                    </constraints>
+                                                                </activityIndicatorView>
                                                             </subviews>
                                                         </view>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="VAx-Se-SMB" secondAttribute="trailing" id="2v5-wT-1Ys"/>
                                                             <constraint firstAttribute="bottom" secondItem="VAx-Se-SMB" secondAttribute="bottom" id="EpX-W8-Sfp"/>
                                                             <constraint firstItem="VAx-Se-SMB" firstAttribute="top" secondItem="zgr-dR-8SA" secondAttribute="top" id="Wra-AY-Sh3"/>
+                                                            <constraint firstItem="AZO-Qq-fVK" firstAttribute="centerX" secondItem="zgr-dR-8SA" secondAttribute="centerX" id="omT-sN-fMs"/>
                                                             <constraint firstItem="VAx-Se-SMB" firstAttribute="leading" secondItem="zgr-dR-8SA" secondAttribute="leading" id="oyV-mH-Jqh"/>
+                                                            <constraint firstItem="AZO-Qq-fVK" firstAttribute="centerY" secondItem="zgr-dR-8SA" secondAttribute="centerY" id="yt9-rE-KNW"/>
                                                         </constraints>
                                                     </collectionViewCell>
                                                 </cells>
@@ -933,6 +942,7 @@
                     </view>
                     <size key="freeformSize" width="375" height="940"/>
                     <connections>
+                        <outlet property="collectionView" destination="XEO-yY-7nx" id="qIJ-S7-6R3"/>
                         <outlet property="txtAddress" destination="mxM-MJ-KRE" id="esn-Wd-xgy"/>
                         <outlet property="txtCategory" destination="DPX-4R-QMz" id="hde-n8-65T"/>
                         <outlet property="txtCrimeDetail" destination="tMT-jr-9cY" id="Kul-gi-Te4"/>
@@ -1420,7 +1430,7 @@
                                 <rect key="frame" x="0.0" y="515" width="375" height="30"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="aSt-IF-JrU">
-                                        <rect key="frame" x="62.5" y="1" width="250" height="28"/>
+                                        <rect key="frame" x="63" y="1" width="250" height="28"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SMi-cQ-5Iy">
                                                 <rect key="frame" x="0.0" y="0.0" width="156" height="28"/>

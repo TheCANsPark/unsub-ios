@@ -8,6 +8,12 @@
 
 import Foundation
 import Alamofire
+import AWSS3
+import AWSAuthCore
+import AWSMobileClient
+import AWSUserPoolsSignIn
+import AWSCognitoIdentityProviderASF
+
 class NetworkManager {
     static let sharedInstance = NetworkManager()
     //MARK:- Post
@@ -130,4 +136,98 @@ class NetworkManager {
             }
         }
     }
+    
+    
+    func uploadVideo(videoFileUrl: URL, isVideo: Bool, imageUrl: URL, isCamera: Bool, imageData : NSData, filePath: URL, isFile :Bool, completionHandler :@escaping (_ urlImageVideo : URL) -> ()) {
+        
+        let ticks = Date().ticks
+        var newKey: String = ""
+        let uploadRequest = AWSS3TransferManagerUploadRequest()
+        if isCamera == true {
+            var filePath:URL?
+            let fileManager = FileManager.default
+            
+            if isVideo == true {
+                newKey = "temp_folder/\(ticks).mov"
+                uploadRequest?.body = videoFileUrl as URL
+                uploadRequest?.contentType = "movie/mov"
+                
+            } else {
+                let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+                let folderPath = documentsPath.appendingPathComponent("\(1)")
+                filePath = folderPath?.appendingPathComponent("\(ticks)")
+                do {
+                    try fileManager.createDirectory(atPath: folderPath!.path, withIntermediateDirectories: true, attributes: nil)
+                } catch {
+                    NSLog("Unable to create directory!!!!")
+                }
+                do  {
+                    try imageData.write(to: filePath!)
+                    print("Successfully saved")
+                } catch {
+                    print("Unable to save file!!!!!")
+                }
+                newKey = "temp_folder/\(ticks).jpeg"
+                uploadRequest?.body = filePath!
+                uploadRequest?.contentType = "image/jpeg"
+            }
+            
+            
+        } else {//gallery
+            if isVideo == true {
+                newKey = "temp_folder/\(ticks).mov"
+                uploadRequest?.body = videoFileUrl as URL
+                uploadRequest?.contentType = "movie/mov"
+                
+            } else {
+                newKey = "temp_folder/\(ticks).jpeg"
+                uploadRequest?.body = imageUrl as URL
+                uploadRequest?.contentType = "image/jpeg"
+            }
+        }
+        
+        //uploadRequest?.body = videoFileUrl as URL
+        uploadRequest?.key = newKey
+        uploadRequest?.bucket = "unsub-test-media-bucket"
+        uploadRequest?.acl = AWSS3ObjectCannedACL.publicRead
+        //  uploadRequest?.contentType = "movie/mov"
+        
+        uploadRequest?.uploadProgress = { (bytesSent, totalBytesSent, totalBytesExpectedToSend) -> Void in
+            DispatchQueue.main.async(execute: {
+                let amountUploaded = totalBytesSent // To show the updating data status in label.
+                print(amountUploaded)
+            })
+        }
+        //url to be send on server
+        var s3URL = NSURL(string: "https://s3-eu-west-1.amazonaws.com/unsub-test-media-bucket/\(newKey)")!
+        let transferManager = AWSS3TransferManager.default()
+        transferManager.upload(uploadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task) in
+            if task.error != nil {
+                s3URL = NSURL()
+                print(task.error.debugDescription)
+                completionHandler(s3URL as URL)
+                
+            } else {
+                completionHandler(s3URL as URL)
+                //https://s3-eu-west-1.amazonaws.com/unsub-test-media-bucket/temp_folder/636958313655505536.jpeg/
+                //https://s3-eu-west-1.amazonaws.com/bucket_name/folder_name/file
+                // Do something with your result.
+                print("done")
+            }
+            return nil
+        })
+    }
 }
+
+
+extension Date {
+    var ticks: UInt64 {
+        return UInt64((self.timeIntervalSince1970 + 62_135_596_800) * 10_000_000)
+    }
+}
+
+    
+    
+    
+    
+

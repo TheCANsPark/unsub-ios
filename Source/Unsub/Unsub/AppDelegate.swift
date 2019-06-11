@@ -9,6 +9,9 @@
 import UIKit
 import CoreData
 import IQKeyboardManagerSwift
+import AWSCognitoIdentityProviderASF
+import AWSMobileClient
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
+        let cognitoCredential = AWSCognitoCredentialsProvider(regionType: .EUWest1, identityPoolId: "eu-west-1:95ae450b-47a9-4ab7-a8b5-809a465954ba")
+        let configuration = AWSServiceConfiguration.init(region: .EUWest1, credentialsProvider: cognitoCredential)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration!
         // Override point for customization after application launch.
         return true
     }

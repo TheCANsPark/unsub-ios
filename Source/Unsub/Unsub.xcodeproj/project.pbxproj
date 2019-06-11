@@ -39,6 +39,7 @@
 		137A50F122AE30E8006F41BD /* FileComplaintsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A50F022AE30E8006F41BD /* FileComplaintsViewController.swift */; };
 		137A50F422AE3835006F41BD /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A50F322AE3835006F41BD /* Contacts.swift */; };
 		137A50F622AE8617006F41BD /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A50F522AE8617006F41BD /* Categories.swift */; };
+		13C2AD6C22AF942800822273 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C2AD6B22AF942800822273 /* UIImageView.swift */; };
 		13DC8A8C22A8F96B0018097C /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A8B22A8F96B0018097C /* RegisterViewController.swift */; };
 		13DC8A8F22A91A3D0018097C /* AppSharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A8E22A91A3D0018097C /* AppSharedData.swift */; };
 		13DC8A9422A936740018097C /* LoginnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9322A936740018097C /* LoginnViewController.swift */; };
@@ -83,6 +84,7 @@
 		137A50F022AE30E8006F41BD /* FileComplaintsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileComplaintsViewController.swift; sourceTree = "<group>"; };
 		137A50F322AE3835006F41BD /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		137A50F522AE8617006F41BD /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		13C2AD6B22AF942800822273 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		13DC8A8B22A8F96B0018097C /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		13DC8A8E22A91A3D0018097C /* AppSharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSharedData.swift; sourceTree = "<group>"; };
 		13DC8A9322A936740018097C /* LoginnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginnViewController.swift; sourceTree = "<group>"; };
@@ -150,13 +152,14 @@
 				134B6ED222A67D9B00DD97C8 /* LaunchScreen.storyboard */,
 				134B6ED522A67D9B00DD97C8 /* Info.plist */,
 				134B6ECD22A67D9A00DD97C8 /* Unsub.xcdatamodeld */,
+				134B6EDE22A67FF500DD97C8 /* ViewControllers */,
+				13C2AD6A22AF92D600822273 /* Extensions */,
 				137A50F222AE381E006F41BD /* Models */,
 				134B6F0D22A68D1500DD97C8 /* Fonts */,
 				13DC8A8D22A91A130018097C /* UtilityClasses */,
 				134B6EE222A683A600DD97C8 /* Container */,
 				13DC8A9522A93FDC0018097C /* ManagerClasses */,
 				134B6EDF22A6800E00DD97C8 /* BaseViewController */,
-				134B6EDE22A67FF500DD97C8 /* ViewControllers */,
 			);
 			path = Unsub;
 			sourceTree = "<group>";
@@ -246,6 +249,14 @@
 				137A50F522AE8617006F41BD /* Categories.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		13C2AD6A22AF92D600822273 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				13C2AD6B22AF942800822273 /* UIImageView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		13DC8A8A22A8F9460018097C /* Register */ = {
@@ -405,17 +416,33 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Unsub/Pods-Unsub-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProviderASF/AWSCognitoIdentityProviderASF.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSUserPoolsSignIn/AWSUserPoolsSignIn.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Gloss/Gloss.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAuthCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProvider.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognitoIdentityProviderASF.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSMobileClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSUserPoolsSignIn.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gloss.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 			);
@@ -446,6 +473,7 @@
 				134B6ECF22A67D9A00DD97C8 /* Unsub.xcdatamodeld in Sources */,
 				134B6EE422A683C000DD97C8 /* ContainerViewController.swift in Sources */,
 				134B6EDD22A67FDF00DD97C8 /* HomeViewController.swift in Sources */,
+				13C2AD6C22AF942800822273 /* UIImageView.swift in Sources */,
 				137A50F422AE3835006F41BD /* Contacts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

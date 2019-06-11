@@ -11,6 +11,8 @@ import AVKit
 import MobileCoreServices
 import Gloss
 import SkyFloatingLabelTextField
+import AVFoundation
+
 class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
     
@@ -25,6 +27,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var txtAddress: SkyFloatingLabelTextField!
     
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     let picker = UIImagePickerController()
     var videoURL = NSURL()
     var imageURL = NSURL()
@@ -34,6 +38,11 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     let pickerCategories:UIPickerView = UIPickerView()
     var selectedTextField:UITextField!
     var catName = String()
+    var fileURL = NSURL()
+    var arrImgURL = [URL]()
+    var arrVideoURL = [URL]()
+    var photoVideoImageArr = [UIImage]()
+    var isPicVideoSelected : Int = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +62,20 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             }
         })
     }
-    
+    func createIncidents() {
+        let param = ["fullName"          : txtName.text!,
+                     "email"             : txtEmail.text!,
+                     "contact_number"    : txtMobile.text!,
+                     "Category"          : txtCategory.text!,
+                     "crime_details"     : txtCrimeDetail.text!,
+                     "images"            : imgVideoUrls,
+                     "videos"            : imgVideoUrls
+                    ] as [String : Any]
+        NetworkManager.sharedInstance.apiParsePost(WEB_URL.createIncidents as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
+            
+            
+        })
+    }
      override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -107,12 +129,35 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     }
     //MARK:- UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if photoVideoImageArr.count != 0 && isPicVideoSelected == 1 {
+            return photoVideoImageArr.count
+        } else if photoVideoImageArr.count != 0 && isPicVideoSelected == 0 {
+            return photoVideoImageArr.count + 1
+        } else if photoVideoImageArr.count == 0 && isPicVideoSelected == 0 {
+            return 1
+        } else {
+            return 0
+        }
+        
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageVideoCollectionCell", for: indexPath)
         let imgView : UIImageView = cell.contentView.viewWithTag(100) as! UIImageView
-        imgView.image = #imageLiteral(resourceName: "bg-top")
+        let activityInd : UIActivityIndicatorView = cell.contentView.viewWithTag(200) as! UIActivityIndicatorView
+        if indexPath.row == indexPath.last {
+            print("lastt")
+        }
+        
+        
+        if isPicVideoSelected == 1 {
+            activityInd.stopAnimating()
+            let image = photoVideoImageArr[indexPath.row]
+            imgView.image = image
+        } else {
+            imgView.image = #imageLiteral(resourceName: "placeholder")  //placeholder
+            activityInd.startAnimating()
+        }
+        
         return cell
     }
     //MARK:- UIImagePickerControllerDelegate
@@ -121,38 +166,79 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
+        self.isPicVideoSelected = 0
+        self.collectionView.reloadData()
         print(info)
         if picker.sourceType == .photoLibrary {
             if let mediaType = info[UIImagePickerControllerMediaType] as? String {
                 if mediaType  == "public.image" {
                     print("Image Selected")
+                    let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+                    imgData = UIImagePNGRepresentation(image)!
                     imageURL = (info["UIImagePickerControllerImageURL"] as? NSURL)!
-                  //  NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false)
+                    NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
+                        self.arrImgURL.append(urlImgVideo!)
+                        self.photoVideoImageArr.append(image)
+                        self.isPicVideoSelected = 1
+                        self.collectionView.reloadData()
+                    })
                 }
                 if mediaType == "public.movie" {
                     print("Video Selected")
                     videoURL = (info["UIImagePickerControllerMediaURL"] as? NSURL)!
-                  //  NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false)
+                    NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
+                        self.arrVideoURL.append(urlImgVideo!)
+                        self.photoVideoImageArr.append(self.thumbnailForVideoAtURL(url: self.videoURL)!)
+                        self.isPicVideoSelected = 1
+                        self.collectionView.reloadData()
+                    })
                 }
             }
             
         } else if picker.sourceType == .camera {
+            print("Image Selected")
             if let mediaType = info[UIImagePickerControllerMediaType] as? String {
                 if mediaType  == "public.image" {
                     let image = info[UIImagePickerControllerOriginalImage] as! UIImage
                     imgData = UIImagePNGRepresentation(image)!
-                  //  NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false)
+                    NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
+                        self.arrImgURL.append(urlImgVideo!)
+                        self.photoVideoImageArr.append(image)
+                        self.isPicVideoSelected = 1
+                        self.collectionView.reloadData()
+                    })
                 }
                 if mediaType == "public.movie" {
+                    print("Video Selected")
                     videoURL = (info["UIImagePickerControllerMediaURL"] as? NSURL)!
-                   // NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false)
+                    NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
+                        self.arrVideoURL.append(urlImgVideo!)
+                        self.photoVideoImageArr.append(self.thumbnailForVideoAtURL(url: self.videoURL)!)
+                        self.isPicVideoSelected = 1
+                        self.collectionView.reloadData()
+                    })
                 }
             }
         }
+        
         dismiss(animated: true,completion: nil)
      }
-    
+    //MARK:- Generate Thumbnail
+     func thumbnailForVideoAtURL(url: NSURL) -> UIImage? {
+        let asset = AVAsset(url: url as URL)
+        let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        var time = asset.duration
+        time.value = min(time.value, 2)
+        
+        do {
+            let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+            return UIImage(cgImage: imageRef)
+        } catch {
+            print("error")
+            return nil
+        }
+    }
     //MARK:- UIButtonActions
     @IBAction func chooseMedia(_ sender: Any) {
         // create an actionSheet
