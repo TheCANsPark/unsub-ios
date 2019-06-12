@@ -20,6 +20,14 @@ class BaseViewController: UIViewController {
         backbutton.addTarget(self, action: #selector(BaseViewController.backAction), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backbutton)
         
+        let menuBarItem = UIBarButtonItem(customView: backbutton)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+        currHeight?.isActive = true
+        
+        
+
     }
 
     override func didReceiveMemoryWarning() {

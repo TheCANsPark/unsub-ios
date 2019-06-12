@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let cognitoCredential = AWSCognitoCredentialsProvider(regionType: .EUWest1, identityPoolId: "eu-west-1:95ae450b-47a9-4ab7-a8b5-809a465954ba")
         let configuration = AWSServiceConfiguration.init(region: .EUWest1, credentialsProvider: cognitoCredential)
         AWSServiceManager.default().defaultServiceConfiguration = configuration!
+        
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         // Override point for customization after application launch.
         return true
     }

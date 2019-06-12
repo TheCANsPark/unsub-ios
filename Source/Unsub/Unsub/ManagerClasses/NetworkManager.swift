@@ -148,7 +148,7 @@ class NetworkManager {
             let fileManager = FileManager.default
             
             if isVideo == true {
-                newKey = "temp_folder/\(ticks).mov"
+                newKey = "\(ticks).mov"
                 uploadRequest?.body = videoFileUrl as URL
                 uploadRequest?.contentType = "movie/mov"
                 
@@ -167,7 +167,7 @@ class NetworkManager {
                 } catch {
                     print("Unable to save file!!!!!")
                 }
-                newKey = "temp_folder/\(ticks).jpeg"
+                newKey = "\(ticks).jpeg"
                 uploadRequest?.body = filePath!
                 uploadRequest?.contentType = "image/jpeg"
             }
@@ -175,12 +175,12 @@ class NetworkManager {
             
         } else {//gallery
             if isVideo == true {
-                newKey = "temp_folder/\(ticks).mov"
+                newKey = "\(ticks).mov"
                 uploadRequest?.body = videoFileUrl as URL
                 uploadRequest?.contentType = "movie/mov"
                 
             } else {
-                newKey = "temp_folder/\(ticks).jpeg"
+                newKey = "\(ticks).jpeg"
                 uploadRequest?.body = imageUrl as URL
                 uploadRequest?.contentType = "image/jpeg"
             }
@@ -199,7 +199,7 @@ class NetworkManager {
             })
         }
         //url to be send on server
-        var s3URL = NSURL(string: "https://s3-eu-west-1.amazonaws.com/unsub-test-media-bucket/\(newKey)")!
+        var s3URL = NSURL(string: "\(newKey)")!
         let transferManager = AWSS3TransferManager.default()
         transferManager.upload(uploadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task) in
             if task.error != nil {
