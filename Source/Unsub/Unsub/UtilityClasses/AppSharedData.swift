@@ -26,8 +26,8 @@ class AppSharedData {
         return boolValue
     }
     func saveAccessTokenAndRefreshToken(accessToken : String, refreshToken : String) {
-        let dicTokens = ["accessToken"  : kAccessToken,
-                         "refreshToken" : kRefreshToken]
+        let dicTokens = ["accessToken"  : accessToken,
+                         "refreshToken" : refreshToken]
         UserDefaults.standard.set(dicTokens, forKey: kDictTokens)
     }
     func getRefreshTokenAndAccessToken() -> NSDictionary{

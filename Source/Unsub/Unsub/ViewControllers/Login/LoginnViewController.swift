@@ -44,6 +44,10 @@ class LoginnViewController: UIViewController {
             } else if statusCode == STATUS_CODE.pendingAction {
                 let msg = response?.value(forKey: "message") as! String
                 AppSharedData.sharedInstance.alert(vc: self, message: msg)
+            } else if statusCode == STATUS_CODE.verifyEmail {
+                AppSharedData.sharedInstance.alert(vc: self, message: "Please verify email")
+            } else if AppSharedData.sharedInstance.isEmailValid(email: self.txtMail.text!) == false {
+                AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
             } else {
                 let data = response?.value(forKey: "data") as! NSDictionary
                 AppSharedData.sharedInstance.alert(vc: self, message: data.value(forKey: "message") as! String)

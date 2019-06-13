@@ -27,10 +27,7 @@ class NetworkManager {
         } else {
             header = ["Content-Type" : "application/x-www-form-urlencoded"]
         }
-        
-        
-             //   header = ["Authorization" : "Token \(token)",
-                         //"Content-Type" : "application/json"]
+      
         
         Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, headers: header).responseJSON {
             response in
@@ -66,6 +63,58 @@ class NetworkManager {
             completionHandler(json as NSDictionary?,statusCode)
         }
     }
+    
+     //MARK:- Post With JsonEncoding
+    func apiParsePostWithJsonEncoding(_ url:NSString, postParameters:NSDictionary?, completionHandler:@escaping ( _ response:NSDictionary?,_ statusCode: Int?)->()) {
+        
+        let urlString  = url as String
+        var header = HTTPHeaders()
+        
+        if url as String == WEB_URL.createIncidents {
+            if UserDefaults.standard.bool(forKey: kLogin) == true {
+                let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
+                header = ["Content-Type"   : "application/json",
+                          "Authorization"  : "Bearer \(token)"]
+            } else {
+                header = ["Content-Type"   : "application/json",
+                          "Authorization"  : "Bearer any"]
+            }
+        }
+        Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, encoding: JSONEncoding.default, headers: header).responseJSON {
+            response in
+            
+            let  statusCode = response.response?.statusCode
+            print(statusCode ?? "")
+            print("url is: \(urlString)")
+            print("post parameters: \(String(describing: postParameters))")
+            print("header : \(header)")
+            print("response is: \(response)")
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(nil,statusCode)
+                return
+            }
+            // make sure we got some JSON since that's what we expect
+            guard let json = response.result.value as? [String: Any] else {
+                print("Response is not in JSON format")
+                //print("Error: \(response.result.error ?? "" as? String)")
+                completionHandler(nil,statusCode)
+                return
+            }
+            /*   if statusCode == STATUS_CODE.tokenExpire {
+             self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
+             if status == STATUS_CODE.success {
+             self.apiParsePost(urlString as NSString,postParameters: postParameters , completionHandler: {
+             json , statusCode in
+             completionHandler(json as NSDictionary?, statusCode)
+             })
+             }
+             })
+             }*/
+            completionHandler(json as NSDictionary?,statusCode)
+        }
+    }
+    
     //MARK:- GetNewRefreshToken
    /* func getNewRefreshTokenAndAccessToken(completionHandler:@escaping(_ statusCode: Int?)->()){
         
@@ -109,12 +158,14 @@ class NetworkManager {
     func apiParseGet(url: String,completion: @escaping (_ response: NSDictionary?)-> ()){
         
         var header = HTTPHeaders()
-        if UserDefaults.standard.bool(forKey: kLogin) == true && url == WEB_URL.contacts {
+        if UserDefaults.standard.bool(forKey: kLogin) == true && url == WEB_URL.contacts || url == WEB_URL.getIncidents {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
-                header = ["Authorization"  : "Token \(token)"]
+                header = ["Authorization"  : "Bearer \(token)"]
         } else {
             header = [:]
         }
+        
+        
         Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header).responseJSON {(responseData) -> Void in
             
             
@@ -148,7 +199,7 @@ class NetworkManager {
             let fileManager = FileManager.default
             
             if isVideo == true {
-                newKey = "\(ticks).mov"
+                newKey = "temp_folder/\(ticks).mov"
                 uploadRequest?.body = videoFileUrl as URL
                 uploadRequest?.contentType = "movie/mov"
                 
@@ -167,7 +218,7 @@ class NetworkManager {
                 } catch {
                     print("Unable to save file!!!!!")
                 }
-                newKey = "\(ticks).jpeg"
+                newKey = "temp_folder/\(ticks).jpeg"
                 uploadRequest?.body = filePath!
                 uploadRequest?.contentType = "image/jpeg"
             }
@@ -175,16 +226,22 @@ class NetworkManager {
             
         } else {//gallery
             if isVideo == true {
-                newKey = "\(ticks).mov"
+                newKey = "temp_folder/\(ticks).mov"
                 uploadRequest?.body = videoFileUrl as URL
                 uploadRequest?.contentType = "movie/mov"
                 
             } else {
-                newKey = "\(ticks).jpeg"
+                newKey = "temp_folder/\(ticks).jpeg"
                 uploadRequest?.body = imageUrl as URL
                 uploadRequest?.contentType = "image/jpeg"
             }
         }
+        if isFile == true {
+            newKey = "temp_folder/\(ticks).pdf"
+            uploadRequest?.body = filePath as URL
+            uploadRequest?.contentType = "file/pdf"
+        }
+        
         
         //uploadRequest?.body = videoFileUrl as URL
         uploadRequest?.key = newKey

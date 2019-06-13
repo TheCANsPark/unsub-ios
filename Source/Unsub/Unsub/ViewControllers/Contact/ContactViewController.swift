@@ -8,7 +8,7 @@
 
 import UIKit
 import Gloss
-class ContactViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
     @IBOutlet weak var txtDepartment: UITextField!
     var contactArr = [Contacts]()
@@ -16,9 +16,30 @@ class ContactViewController: UIViewController, UITextFieldDelegate, UIPickerView
     var selectedTextField:UITextField!
     var deptName = String()
     var contactNumber = String()
+    var isHome = Int()
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppSharedData.sharedInstance.contactViewControllerRef = self
+        
+        if isHome == 1 {
+            self.title = "Emergency Contact"
+            self.view.backgroundColor = UIColor.white
+            //back
+            let backbutton = UIButton(type: .custom)
+            backbutton.setImage(UIImage(named:"back-arrow"), for: .normal) // Image can be downloaded from here below link
+            backbutton.addTarget(self, action: #selector(BaseViewController.backAction), for: .touchUpInside)
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backbutton)
+            
+            let menuBarItem = UIBarButtonItem(customView: backbutton)
+            let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+            currWidth?.isActive = true
+            let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+            currHeight?.isActive = true
+            self.navigationItem.rightBarButtonItem = nil
+            getContacts()
+            
+        } else {
+            AppSharedData.sharedInstance.contactViewControllerRef = self
+        }
         // Do any additional setup after loading the view.
     }
 

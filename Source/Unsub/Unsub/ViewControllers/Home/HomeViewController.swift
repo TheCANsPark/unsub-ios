@@ -36,10 +36,15 @@ class HomeViewController: BaseViewController {
     
     
     @IBAction func emergencyAction(_ sender: Any) {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContactViewController") as? ContactViewController
+        vc?.isHome = 1
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
     
     
     @IBAction func myComplaintsActio(_ sender: Any) {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "MyComplaintsViewController") as? MyComplaintsViewController
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
     
     

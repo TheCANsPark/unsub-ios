@@ -27,6 +27,7 @@ struct WEB_URL {
     static let contacts                  = BASE_URL + "emergency-contacts"
     static let categories                = BASE_URL + "categories"
     static let createIncidents           = BASE_URL + "user/incident"
+    static let getIncidents              = BASE_URL + "incidents/user/list"
 }
 
 
@@ -37,4 +38,5 @@ struct STATUS_CODE {
     static let successButEmpty     = 204
     static let urlNotFound         = 404
     static let internalServerError = 500
+    static let verifyEmail         = 403
 }
