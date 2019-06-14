@@ -34,7 +34,7 @@ struct Incidents : JSONDecodable {
     let updatedAt        : String?
     let createdAt        : String?
     let complaint_number        : String?
-    
+    let updated_on        : String?
     init?(json: JSON) {
         self.address = "address" <~~ json
         self.name = "name" <~~ json
@@ -60,6 +60,7 @@ struct Incidents : JSONDecodable {
         self.updatedAt = "updatedAt" <~~ json
         self.createdAt = "createdAt" <~~ json
         self.complaint_number = "complaint_number" <~~ json
+        self.updated_on = "updated_on" <~~ json
     }
 }
 struct Name : JSONDecodable {

@@ -43,12 +43,16 @@ class HomeViewController: BaseViewController {
     
     
     @IBAction func myComplaintsActio(_ sender: Any) {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "MyComplaintsViewController") as? MyComplaintsViewController
-        self.navigationController?.pushViewController(vc!, animated: true)
+        if UserDefaults.standard.bool(forKey: kLogin) == true  {
+            let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "MyComplaintsViewController") as? MyComplaintsViewController
+            self.navigationController?.pushViewController(vc!, animated: true)
+            
+        } else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
+            self.present(vc, animated: true, completion: nil)
+        }
+        
     }
-    
-    
-    
     @IBAction func resourceCenterAction(_ sender: Any) {
     }
     

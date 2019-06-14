@@ -51,7 +51,7 @@ class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerVi
     //MARK:- Server Request
     func getContacts() {
         Loader.shared.show()
-        NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.contacts, completion: {(response : NSDictionary?) in
+        NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.contacts, completion: {(response : NSDictionary?,statusCode : Int?) in
             Loader.shared.hide()
             if let con = [Contacts].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                 self.contactArr = con
@@ -60,7 +60,11 @@ class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerVi
     }
     //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        createStockPicker(txtDepartment)
+        if self.contactArr.count != 0 {
+            createStockPicker(txtDepartment)
+        } else {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Contact is empty.")
+        }
         return true
     }
     

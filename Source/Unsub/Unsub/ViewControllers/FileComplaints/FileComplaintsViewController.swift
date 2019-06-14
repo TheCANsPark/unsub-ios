@@ -30,6 +30,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     
     @IBOutlet weak var lblNameAttachment: UILabel!
     
+    
+    @IBOutlet weak var btnAddRemoveAttachment: UIButton!
+    
     let picker = UIImagePickerController()
     var videoURL = NSURL()
     var imageURL = NSURL()
@@ -56,6 +59,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var longitute : Double = 0.0
     var arrImagesName = [String]()
     var arrVideoName = [String]()
+    var isAttachedFile : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +71,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     //MARK:- Server Requests
     func getCategories() {
         Loader.shared.show()
-        NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.categories, completion: {(response: NSDictionary?) in
+        NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.categories, completion: {(response: NSDictionary?,statusCode : Int?) in
             Loader.shared.hide()
             print(response!)
             if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
@@ -137,7 +141,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         let fileName = myURL.lastPathComponent
         lblNameAttachment.isHidden = false
         lblNameAttachment.text = fileName
-        
+        btnAddRemoveAttachment.setTitle("Delete it", for: .normal)
+        isAttachedFile = 1
+        lblNameAttachment.isHidden = false
         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: true, completionHandler: {(urlImgVideo : URL?) in
             print(urlImgVideo!)
             let str = String(describing: urlImgVideo!)
@@ -531,9 +537,18 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         locationManager.startUpdatingLocation()
     }
     @IBAction func addAttachment(_ sender: Any) {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text", "com.apple.iwork.pages.pages", "public.data"], in: .import)
-        documentPicker.delegate = self
-        present(documentPicker, animated: true, completion: nil)
+        if isAttachedFile == 1 {
+            btnAddRemoveAttachment.setTitle("Add attachment", for: .normal)
+            lblNameAttachment.isHidden = true
+            lblNameAttachment.text = ""
+            self.isAttachedFile = 0
+            
+        } else {
+            let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text", "com.apple.iwork.pages.pages", "public.data"], in: .import)
+            documentPicker.delegate = self
+            present(documentPicker, animated: true, completion: nil)
+        }
+        
     }
     @IBAction func submit(_ sender: Any) {
         if txtFirstName.text?.count == 0 || txtEmail.text?.count == 0 || txtMobSubmitter.text?.count == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {

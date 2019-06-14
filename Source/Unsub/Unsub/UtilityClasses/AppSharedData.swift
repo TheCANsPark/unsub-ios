@@ -13,6 +13,7 @@ class AppSharedData {
     static var sharedInstance = AppSharedData()
     
     var contactViewControllerRef : ContactViewController!
+    var profileViewControllerRef : ProfileViewController!
     
     func alert(vc: UIViewController,message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)

@@ -120,6 +120,14 @@ class ContainerViewController: BaseViewController {
         customizeNavigationBar()
     }
     @IBAction func profile(_ sender: Any) {
+        
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            AppSharedData.sharedInstance.profileViewControllerRef.getProfile()
+        } else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
+            self.present(vc, animated: true, completion: nil)
+        }
+        
         homeView.isHidden = true
         profileView.isHidden = false
         chatView.isHidden = true

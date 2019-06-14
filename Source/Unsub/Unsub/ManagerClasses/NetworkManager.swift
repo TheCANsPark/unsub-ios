@@ -50,7 +50,7 @@ class NetworkManager {
                 completionHandler(nil,statusCode)
                 return
             }
-         /*   if statusCode == STATUS_CODE.tokenExpire {
+            if statusCode == STATUS_CODE.tokenExpire {
                 self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
                     if status == STATUS_CODE.success {
                         self.apiParsePost(urlString as NSString,postParameters: postParameters , completionHandler: {
@@ -59,11 +59,55 @@ class NetworkManager {
                         })
                     }
                 })
-            }*/
+            }
             completionHandler(json as NSDictionary?,statusCode)
         }
     }
-    
+    //MARK:- Put
+    func apiParsePut(_ url:NSString, postParameters:NSDictionary?, completionHandler:@escaping ( _ response:NSDictionary?,_ statusCode: Int?)->()) {
+        
+        let urlString  = url as String
+        var header = HTTPHeaders()
+        if url as String == WEB_URL.getProfile {
+            let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
+            header = ["Content-Type"   : "application/json",
+                      "Authorization"  : "Bearer \(token)"]
+        }
+        
+        Alamofire.request(urlString, method: .put, parameters: postParameters as? Parameters, headers: header).responseJSON {
+            response in
+            
+            let  statusCode = response.response?.statusCode
+            print(statusCode ?? "")
+            print("url is: \(urlString)")
+            print("post parameters: \(String(describing: postParameters))")
+            print("header : \(header)")
+            print("response is: \(response)")
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(nil,statusCode)
+                return
+            }
+            // make sure we got some JSON since that's what we expect
+            guard let json = response.result.value as? [String: Any] else {
+                print("Response is not in JSON format")
+                //print("Error: \(response.result.error ?? "" as? String)")
+                completionHandler(nil,statusCode)
+                return
+            }
+            if statusCode == STATUS_CODE.tokenExpire {
+                self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
+                    if status == STATUS_CODE.success {
+                        self.apiParsePost(urlString as NSString,postParameters: postParameters , completionHandler: {
+                            json , statusCode in
+                            completionHandler(json as NSDictionary?, statusCode)
+                        })
+                    }
+                })
+            }
+            completionHandler(json as NSDictionary?,statusCode)
+        }
+    }
      //MARK:- Post With JsonEncoding
     func apiParsePostWithJsonEncoding(_ url:NSString, postParameters:NSDictionary?, completionHandler:@escaping ( _ response:NSDictionary?,_ statusCode: Int?)->()) {
         
@@ -101,34 +145,38 @@ class NetworkManager {
                 completionHandler(nil,statusCode)
                 return
             }
-            /*   if statusCode == STATUS_CODE.tokenExpire {
-             self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
-             if status == STATUS_CODE.success {
-             self.apiParsePost(urlString as NSString,postParameters: postParameters , completionHandler: {
-             json , statusCode in
-             completionHandler(json as NSDictionary?, statusCode)
-             })
+               if statusCode == STATUS_CODE.tokenExpire {
+                self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
+                    if status == STATUS_CODE.success {
+                        self.apiParsePost(urlString as NSString,postParameters: postParameters , completionHandler: {
+                            json , statusCode in
+                            completionHandler(json as NSDictionary?, statusCode)
+                        })
+                    }
+                })
              }
-             })
-             }*/
             completionHandler(json as NSDictionary?,statusCode)
         }
     }
     
     //MARK:- GetNewRefreshToken
-   /* func getNewRefreshTokenAndAccessToken(completionHandler:@escaping(_ statusCode: Int?)->()){
+    func getNewRefreshTokenAndAccessToken(completionHandler:@escaping(_ statusCode: Int?)->()){
         
-        let param = ["refresh_token":AppSharedData.sharedInstance.getAccessTokenAndRefreshToken()!.value(forKey: kRefreshToken)!] as [String:Any]
+        let param = ["refresh_token": AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kRefreshToken)!,
+                      "grant_type" : "refresh_token"] as [String:Any]
         
-        //        var header = HTTPHeaders()
-        //        header = ["Authorization":"Token \(AppSharedData.sharedInstance.getAccessTokenAndRefreshToken()!.value(forKey: kAccessToken)!)"]
-        let urlString = WEB_URL.getRefeshToken
-        Alamofire.request(urlString, method: .post, parameters: param ,headers: nil).responseJSON{ response in
+        var header = HTTPHeaders()
+        header = ["Authorization":"Basic VU5TVUI6VU5TVUIxMjM=",
+                          "Content-Type" : "application/x-www-form-urlencoded"]
+        
+        let urlString = WEB_URL.login
+        Alamofire.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header).responseJSON{ response in
+       // Alamofire.request(urlString, method: .post, parameters: param ,headers: header).responseJSON{ response in
             let  statusCode = response.response?.statusCode
             print(statusCode!)
             print("url is: \(urlString)")
             print("post parameters: \(String(describing: param))")
-            //  print("header : \(header)")
+             print("header : \(header)")
             print("response is: \(response)")
             
             guard response.result.error == nil else {
@@ -147,20 +195,22 @@ class NetworkManager {
                 let response = json as NSDictionary?
                 let userResponse = response?.value(forKey: "response") as! NSDictionary
                 if let access_token = userResponse.value(forKey: "access_token") , let refresh_token = userResponse.value(forKey: "refresh_token"){
-                    AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: access_token as! String, refreshtoken: refresh_token as! String)
+                    AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: access_token as! String, refreshToken: refresh_token as! String)
                 }
             }
             completionHandler(statusCode)
         }
-    }*/
+    }
     
     //MARK:- Get
-    func apiParseGet(url: String,completion: @escaping (_ response: NSDictionary?)-> ()){
+    func apiParseGet(url: String,completion: @escaping (_ response: NSDictionary?,_ statusCode : Int?)-> ()){
         
         var header = HTTPHeaders()
-        if UserDefaults.standard.bool(forKey: kLogin) == true && url == WEB_URL.contacts || url == WEB_URL.getIncidents {
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
                 header = ["Authorization"  : "Bearer \(token)"]
+            }
         } else {
             header = [:]
         }
@@ -179,10 +229,20 @@ class NetworkManager {
                 switch responseData.result {
                 case .success:
                     if let value = responseData.result.value {
-                        completion(value as? NSDictionary)
+                        if statusCode == STATUS_CODE.tokenExpire {
+                            self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
+                                if status == STATUS_CODE.success {
+                                    self.apiParseGet(url: url , completion: { json , statusCode in
+                                        
+                                        completion(json as NSDictionary?, statusCode)
+                                    })
+                                }
+                            })
+                        }
+                        completion(value as? NSDictionary, statusCode)
                     }
                 case .failure(_):
-                    completion(nil)
+                    completion(nil, statusCode)
                 }
             }
         }
