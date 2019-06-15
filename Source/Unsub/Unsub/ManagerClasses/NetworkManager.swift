@@ -167,11 +167,11 @@ class NetworkManager {
         
         var header = HTTPHeaders()
         header = ["Authorization":"Basic VU5TVUI6VU5TVUIxMjM=",
-                          "Content-Type" : "application/x-www-form-urlencoded"]
+                  "Content-Type" : "application/x-www-form-urlencoded"]
         
         let urlString = WEB_URL.login
-        Alamofire.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header).responseJSON{ response in
-       // Alamofire.request(urlString, method: .post, parameters: param ,headers: header).responseJSON{ response in
+        //Alamofire.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header).responseJSON{ response in
+        Alamofire.request(urlString, method: .post, parameters: param ,headers: header).responseJSON{ response in
             let  statusCode = response.response?.statusCode
             print(statusCode!)
             print("url is: \(urlString)")
@@ -193,7 +193,7 @@ class NetworkManager {
             }
             if statusCode == STATUS_CODE.success {
                 let response = json as NSDictionary?
-                let userResponse = response?.value(forKey: "response") as! NSDictionary
+                let userResponse = response?.value(forKey: "data") as! NSDictionary
                 if let access_token = userResponse.value(forKey: "access_token") , let refresh_token = userResponse.value(forKey: "refresh_token"){
                     AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: access_token as! String, refreshToken: refresh_token as! String)
                 }
@@ -207,7 +207,7 @@ class NetworkManager {
         
         var header = HTTPHeaders()
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile {
+            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails)   {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
                 header = ["Authorization"  : "Bearer \(token)"]
             }

@@ -30,7 +30,9 @@ struct WEB_URL {
     static let categories                = BASE_URL + "categories"
     static let createIncidents           = BASE_URL + "user/incident"
     static let getIncidents              = BASE_URL + "incidents/user/list"
+    static let getIncidentDetails        = BASE_URL + "incident/"
     static let getProfile                = BASE_URL + "user/profile"
+    
 }
 
 

@@ -124,12 +124,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         
         return true
     }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == txtAddressLocation {
-           // let vc = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-          //  self.present(vc, animated: true, completion: nil)
-        }
-    }
+    
     
     //MARK:- UIDocumentPickerDelegate
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {

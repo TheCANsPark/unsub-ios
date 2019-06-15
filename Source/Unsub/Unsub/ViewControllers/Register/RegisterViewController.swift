@@ -9,7 +9,7 @@
 import UIKit
 import SkyFloatingLabelTextField
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController,UITextFieldDelegate {
 
     
     @IBOutlet weak var txtMail: SkyFloatingLabelTextField!
@@ -21,6 +21,8 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var imgAcceptTerms: UIImageView!
     
     var isAgreed : Int = 0
+    let datePicker:UIDatePicker = UIDatePicker()
+    var dateUTC = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +41,7 @@ class RegisterViewController: UIViewController {
                      "email"    : txtMail.text!,
                      "password" : txtPassword.text!,
                      "mobile_number" : txtMobile.text!,
-                     "age" : txtAge.text!]
+                     "age"      : dateUTC]
         
         
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
@@ -57,6 +59,49 @@ class RegisterViewController: UIViewController {
             }
         })
     }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == txtAge {
+            createDatePicker()
+        }
+        return true
+    }
+    
+    //MARK:- Date Picker
+    func createDatePicker(){
+        datePicker.datePickerMode = .date
+        datePicker.maximumDate = Date()
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        //done button & cancel button
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(fromTimePickerDone))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(fromTimePickerCancel))
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+        txtAge.inputAccessoryView = toolbar
+        txtAge.inputView = datePicker
+    }
+    @objc func fromTimePickerDone(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd,yyyy"
+        txtAge.text = formatter.string(from: datePicker.date)
+        dateUTC = get_Date_time_from_UTC_time(string: txtAge.text!)
+        self.view.endEditing(true)
+    }
+    func get_Date_time_from_UTC_time(string : String) -> String {
+        
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "MMM dd,yyyy"
+        let dt = string
+        let dt1 = dateformattor.date(from: dt)
+        dateformattor.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZ"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        return dateformattor.string(from: dt1!)
+    }
+    @objc func fromTimePickerCancel(){
+        self.view.endEditing(true)
+    }
+    
     //MARK:- UIButtonActions
     @IBAction func dismiss(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)

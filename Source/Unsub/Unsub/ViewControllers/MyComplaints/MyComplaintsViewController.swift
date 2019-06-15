@@ -71,7 +71,6 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         print(components.second)
         print(components.day)
         
-        
         if components.hour != 0 || components.minute != 0 || components.second != 0 || components.day != 0 {
             imgRedDot.isHidden = false
         } else {
@@ -93,6 +92,11 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         lblComment.text = "\(incident.comments_count!)"
         
         return cell!
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintDetailViewController") as? ComplaintDetailViewController
+        vc?.complaintID = incidentArr[indexPath.row]._id!  
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
