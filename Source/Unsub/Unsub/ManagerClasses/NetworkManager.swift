@@ -28,6 +28,17 @@ class NetworkManager {
             header = ["Content-Type" : "application/x-www-form-urlencoded"]
         }
       
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            let urlString  = url as String
+            if urlString  == WEB_URL.commentQuery {
+                let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
+                header = ["Content-Type"   : "application/json",
+                          "Authorization"  : "Bearer \(token)"]
+            } else {
+                header = ["Content-Type" : "application/x-www-form-urlencoded"]
+            }
+            
+        }
         
         Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, headers: header).responseJSON {
             response in
@@ -122,6 +133,13 @@ class NetworkManager {
             } else {
                 header = ["Content-Type"   : "application/json",
                           "Authorization"  : "Bearer any"]
+            }
+        }
+        if url as String == WEB_URL.commentQuery {
+            if UserDefaults.standard.bool(forKey: kLogin) == true {
+                let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
+                header = ["Content-Type"   : "application/json",
+                          "Authorization"  : "Bearer \(token)"]
             }
         }
         Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, encoding: JSONEncoding.default, headers: header).responseJSON {
@@ -259,9 +277,9 @@ class NetworkManager {
             let fileManager = FileManager.default
             
             if isVideo == true {
-                newKey = "temp_folder/\(ticks).mov"
+                newKey = "temp_folder/\(ticks).mp4"
                 uploadRequest?.body = videoFileUrl as URL
-                uploadRequest?.contentType = "movie/mov"
+                uploadRequest?.contentType = "movie/mp4"
                 
             } else {
                 let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
@@ -286,9 +304,9 @@ class NetworkManager {
             
         } else {//gallery
             if isVideo == true {
-                newKey = "temp_folder/\(ticks).mov"
+                newKey = "temp_folder/\(ticks).mp4"
                 uploadRequest?.body = videoFileUrl as URL
-                uploadRequest?.contentType = "movie/mov"
+                uploadRequest?.contentType = "movie/mp4"
                 
             } else {
                 newKey = "temp_folder/\(ticks).jpeg"

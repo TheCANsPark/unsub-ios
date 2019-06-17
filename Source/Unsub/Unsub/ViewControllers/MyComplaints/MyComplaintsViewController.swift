@@ -19,9 +19,12 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        self.title = "Complaint List"
-        getIncidents()
+        self.title = "Incidence List"
+        
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        getIncidents()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -65,19 +68,14 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let updatedOnDate = formatter.date(from: incident.updated_on!)
         let viewedOnDate = formatter.date(from: incident.viewed_on!)
-        let components = Calendar.current.dateComponents([.hour, .minute], from: updatedOnDate!, to: viewedOnDate!)
-        print(components.hour)
-        print(components.minute)
-        print(components.second)
-        print(components.day)
         
-        if components.hour != 0 || components.minute != 0 || components.second != 0 || components.day != 0 {
-            imgRedDot.isHidden = false
+        if updatedOnDate! > viewedOnDate! {
+           imgRedDot.isHidden = false
         } else {
             imgRedDot.isHidden = true
         }
-
         
+  
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let showDate = inputFormatter.date(from: incident.incident_date!)
@@ -95,7 +93,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintDetailViewController") as? ComplaintDetailViewController
-        vc?.complaintID = incidentArr[indexPath.row]._id!  
+        vc?.complaintID = incidentArr[indexPath.row]._id!
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

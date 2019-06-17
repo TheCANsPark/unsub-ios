@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BaseViewController: UIViewController {
+class BaseViewController: UIViewController, UIGestureRecognizerDelegate {
 
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
@@ -26,8 +26,6 @@ class BaseViewController: UIViewController {
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
         currHeight?.isActive = true
         
-        
-
     }
 
     override func didReceiveMemoryWarning() {

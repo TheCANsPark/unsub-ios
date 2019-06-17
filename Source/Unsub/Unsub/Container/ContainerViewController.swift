@@ -29,7 +29,10 @@ class ContainerViewController: BaseViewController {
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil)
 
+        
         homeView.isHidden = false
         profileView.isHidden = true
         chatView.isHidden = true
@@ -44,6 +47,7 @@ class ContainerViewController: BaseViewController {
         
     }
     override func viewWillAppear(_ animated: Bool) {
+        
         homeView.isHidden = false
         profileView.isHidden = true
         chatView.isHidden = true
@@ -64,7 +68,7 @@ class ContainerViewController: BaseViewController {
         let currHeight1 = loginBar.customView?.heightAnchor.constraint(equalToConstant: 13)
         currHeight1?.isActive = true
         
-            if UserDefaults.standard.bool(forKey: kLogin) == true {
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
             rightButtonTitle = UIBarButtonItem.init(
                 title: "LOGOUT",
                 style: .done,
@@ -87,19 +91,21 @@ class ContainerViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = nil
 
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        self.navigationController?.view.removeGestureRecognizer((navigationController?.interactivePopGestureRecognizer)!)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as UIGestureRecognizerDelegate
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        self.navigationController?.view.addGestureRecognizer((navigationController?.interactivePopGestureRecognizer)!)
+    }
     override func viewWillDisappear(_ animated: Bool) {
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
-//        //menu
-//        let menuBarItem = UIBarButtonItem(customView: openMen)
-//        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
-//        currWidth?.isActive = true
-//        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
-//        currHeight?.isActive = true
-//        openMen.setImage(UIImage(named:"back-arrow"), for: .normal) // Image can be downloaded from here below link
-//        openMen.addTarget(self, action: #selector(ContainerViewController.openMenu), for: .touchUpInside)
-//        self.navigationItem.leftBarButtonItem = menuBarItem
-
-    }
+  }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -199,4 +205,21 @@ class ContainerViewController: BaseViewController {
         }))
         self.present(refreshAlert, animated: true, completion: nil)
     }
+    @objc func loadContact(notification: Notification) {
+        AppSharedData.sharedInstance.contactViewControllerRef.getContacts()
+        
+        homeView.isHidden = true
+        profileView.isHidden = true
+        chatView.isHidden = true
+        contactView.isHidden = false
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
+        
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+    }
+
+
   }

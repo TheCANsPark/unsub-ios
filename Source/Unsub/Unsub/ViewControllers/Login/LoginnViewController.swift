@@ -35,11 +35,15 @@ class LoginnViewController: UIViewController {
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.login as NSString, postParameters: param as NSDictionary, completionHandler: {(response :NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
             if statusCode == STATUS_CODE.success {
-                self.dismiss(animated: true, completion: nil)
-                let data = response?.value(forKey: "data") as! NSDictionary
-                AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: data.value(forKey: kAccessToken) as! String, refreshToken: data.value(forKey: kRefreshToken) as! String)
-                UserDefaults.standard.set(true, forKey: kLogin)
-             
+                
+                let refreshAlert = UIAlertController(title: "Alert", message: "Login successful", preferredStyle: UIAlertControllerStyle.alert)
+                refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                    self.dismiss(animated: true, completion: nil)
+                    let data = response?.value(forKey: "data") as! NSDictionary
+                    AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: data.value(forKey: kAccessToken) as! String, refreshToken: data.value(forKey: kRefreshToken) as! String)
+                    UserDefaults.standard.set(true, forKey: kLogin)
+                }))
+                self.present(refreshAlert, animated: true, completion: nil)
                 
             } else if statusCode == STATUS_CODE.pendingAction {
                 let msg = response?.value(forKey: "message") as! String
@@ -54,7 +58,7 @@ class LoginnViewController: UIViewController {
             }
         })
     }
-
+    //MARK:- UIButtonAction
     @IBAction func login(_ sender: Any) {
         if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")

@@ -36,9 +36,12 @@ class HomeViewController: BaseViewController {
     
     
     @IBAction func emergencyAction(_ sender: Any) {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContactViewController") as? ContactViewController
-        vc?.isHome = 1
-        self.navigationController?.pushViewController(vc!, animated: true)
+        NotificationCenter.default.post(name: Notification.Name("loadContactViewController"), object: nil)
+
+        
+//        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContactViewController") as? ContactViewController
+//        vc?.isHome = 1
+//        self.navigationController?.pushViewController(vc!, animated: true)
     }
     
     

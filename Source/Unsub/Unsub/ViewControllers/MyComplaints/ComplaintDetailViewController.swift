@@ -15,9 +15,12 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     var complaintDetailArr : Incidents!
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var txtQuery: UITextField!
+    var isComment : Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Complaint Details"
+        self.title = "Incidence Details"
         getComplaintDetail()
         // Do any additional setup after loading the view.
     }
@@ -26,21 +29,57 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //back
+        let rightImage = UIButton(type: .custom)
+        rightImage.setImage(UIImage(named:"top"), for: .normal) // Image can be downloaded from here below link
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightImage)
+        
+        let menuBarItem = UIBarButtonItem(customView: rightImage)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+        currHeight?.isActive = true
+    }
     //MARK:- Server Request
     func getComplaintDetail() {
-        tableView.isHidden = true
+        //tableView.isHidden = true
         Loader.shared.show()
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getIncidentDetails + "\(complaintID)", completion: {(response : NSDictionary?, statusCode :Int?) in
             Loader.shared.hide()
             
             if statusCode == STATUS_CODE.success {
-               self.tableView.isHidden = false
+             //  self.tableView.isHidden = false
                 if let com = Incidents.init(json: response?.value(forKey: "data") as! JSON) {
                     self.complaintDetailArr = com
                     self.tableView.reloadData()
+                    if self.isComment == 0 {
+                        
+                    } else {
+                       self.scrollToBottom()
+                    }
+                    
                 }
+            } else {
+                AppSharedData.sharedInstance.alert(vc: self, message: "Could not load")
             }
-            
+        })
+    }
+    func commentQuery() {
+        Loader.shared.show()
+        let param = ["comment"       : txtQuery.text!,
+                     "incident_id"   : complaintID]
+        NetworkManager.sharedInstance.apiParsePostWithJsonEncoding(WEB_URL.commentQuery as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode :Int?) in
+            if statusCode == STATUS_CODE.success {
+                self.isComment = 1
+                self.txtQuery.text = ""
+                self.getComplaintDetail()
+                
+            }else {
+                AppSharedData.sharedInstance.alert(vc: self, message: "Could not load")
+            }
         })
     }
     //MARK:- UITableViewDataSource
@@ -117,8 +156,33 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
        
         return UITableViewCell()
     }
+   
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
+    //MARK:- UIButtonActions
+    @IBAction func askQuery(_ sender: Any) {
+        if txtQuery.text == "" {
+            
+        } else {
+            commentQuery()
+        }
+    }
+    @IBAction func showImgVideo(_ sender: Any) {
+        //DispatchQueue.main.async {
+            let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintImagesVideosVC") as? ComplaintImagesVideosVC
+            vc?.imgArr = self.complaintDetailArr.images!
+          //  vc?.videoArr = self.complaintDetailArr.videos!
+           //  vc?.imgVideoArr = self.complaintDetailArr.images! +  self.complaintDetailArr.videos!
+            self.navigationController?.pushViewController(vc!, animated: true)
+       // }
+        
+    }
+    //MARK:- Helper
+    func scrollToBottom(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: (self.complaintDetailArr.incident_comments?.count)!-1, section: 1)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
 }

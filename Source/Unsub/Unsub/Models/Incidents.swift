@@ -12,8 +12,8 @@ import Gloss
 struct Incidents : JSONDecodable {
     let address              : Address?
     let name             : Name?
-    let images   : String?
-    let videos        : String?
+    let images   : [URL]?
+    let videos        : [URL]?
     let status        : String?
     
     let viewed_on              : String?
