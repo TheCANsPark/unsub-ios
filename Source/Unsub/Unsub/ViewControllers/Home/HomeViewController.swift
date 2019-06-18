@@ -25,26 +25,14 @@ class HomeViewController: BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     //MARK:- UIButtonActions
-    
-    
     @IBAction func fileComplaintAction(_ sender: Any) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FileComplaintsViewController") as? FileComplaintsViewController
         self.navigationController?.pushViewController(vc!, animated: true)
     }
-    
-    
     @IBAction func emergencyAction(_ sender: Any) {
         NotificationCenter.default.post(name: Notification.Name("loadContactViewController"), object: nil)
-
-        
-//        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContactViewController") as? ContactViewController
-//        vc?.isHome = 1
-//        self.navigationController?.pushViewController(vc!, animated: true)
     }
-    
-    
     @IBAction func myComplaintsActio(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: kLogin) == true  {
             let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "MyComplaintsViewController") as? MyComplaintsViewController
@@ -54,12 +42,9 @@ class HomeViewController: BaseViewController {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
             self.present(vc, animated: true, completion: nil)
         }
-        
     }
     @IBAction func resourceCenterAction(_ sender: Any) {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ResourceCenterViewController") as? ResourceCenterViewController
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
-    
-    
-    
-    
-}
+   }

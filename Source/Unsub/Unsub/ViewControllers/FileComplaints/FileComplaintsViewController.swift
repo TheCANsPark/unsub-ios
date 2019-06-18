@@ -20,12 +20,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var txtLastname: SkyFloatingLabelTextField!
     @IBOutlet weak var txtEmail: SkyFloatingLabelTextField!
     @IBOutlet weak var txtCategory: SkyFloatingLabelTextField!
-    @IBOutlet weak var txtCrimeDetail: SkyFloatingLabelTextField!
     @IBOutlet weak var txtDatetime: SkyFloatingLabelTextField!
     @IBOutlet weak var txtMobVictim: SkyFloatingLabelTextField!
     @IBOutlet weak var txtMobSubmitter: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAddressLocation: SkyFloatingLabelTextField!
    
+    @IBOutlet weak var txtCrimeDetail: UITextView!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var lblNameAttachment: UILabel!
@@ -64,9 +65,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self
-        self.title = "File Complaint"
+        self.title = "File Incidence"
         getCategories()
         lblNameAttachment.isHidden = true
+        txtCrimeDetail.layer.cornerRadius = 10.0
+        txtCrimeDetail.clipsToBounds = true
+        txtCrimeDetail.layer.borderWidth = 1.0
+        txtCrimeDetail.layer.borderColor = UIColor.lightGray.cgColor
     }
     //MARK:- Server Requests
     func getCategories() {

@@ -32,9 +32,10 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //back
+        //timeline image
         let rightImage = UIButton(type: .custom)
         rightImage.setImage(UIImage(named:"top"), for: .normal) // Image can be downloaded from here below link
+        rightImage.addTarget(self, action: #selector(ComplaintDetailViewController.timeline), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightImage)
         
         let menuBarItem = UIBarButtonItem(customView: rightImage)
@@ -184,5 +185,10 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
             let indexPath = IndexPath(row: (self.complaintDetailArr.incident_comments?.count)!-1, section: 1)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
+    }
+    @objc func timeline() -> Void {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TimelineViewController") as? TimelineViewController
+        vc?.complaintID = complaintID
+        self.navigationController?.pushViewController(vc!, animated: true)
     }
 }

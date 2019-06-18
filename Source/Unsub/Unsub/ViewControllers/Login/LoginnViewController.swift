@@ -60,11 +60,12 @@ class LoginnViewController: UIViewController {
     }
     //MARK:- UIButtonAction
     @IBAction func login(_ sender: Any) {
-        if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
-            AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
-            
-        } else if txtMail.text?.count == 0 || txtPassword.text?.count == 0 {
+        
+        if txtMail.text?.count == 0 || txtPassword.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
+            
+        } else  if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
             
         } else {
             loginRequest()

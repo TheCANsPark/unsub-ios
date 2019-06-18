@@ -57,6 +57,11 @@ class AppSharedData {
         UIGraphicsEndImageContext()
         return gradientImage
     }
+    func getUnsubFolderPath()->URL  {
+        let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+        let folderPath = documentsPath.appendingPathComponent("Unsub")
+        return folderPath!
+    }
 //    func customizeNavigationBar(_ object : AnyObject) {
 //        object.navigationController??.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        object.navigationController??.navigationBar.shadowImage = UIImage()
