@@ -25,14 +25,18 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var txtMobSubmitter: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAddressLocation: SkyFloatingLabelTextField!
    
+    @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtCrimeDetail: UITextView!
-    
     @IBOutlet weak var collectionView: UICollectionView!
-    
     @IBOutlet weak var lblNameAttachment: UILabel!
-    
-    
     @IBOutlet weak var btnAddRemoveAttachment: UIButton!
+    
+    @IBOutlet weak var lblVolunteer: UILabel!
+    @IBOutlet weak var lblSelf: UILabel!
+    
+    @IBOutlet weak var imgVol: UIImageView!
+    @IBOutlet weak var imgSelf: UIImageView!
+    
     
     let picker = UIImagePickerController()
     var videoURL = NSURL()
@@ -61,6 +65,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var arrImagesName = [String]()
     var arrVideoName = [String]()
     var isAttachedFile : Int = 0
+    var submittedBy = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,7 +95,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                      "last_name"                 : txtLastname.text!,
                      "email"                     : txtEmail.text!,
                      "victims_contact_number"    : txtMobVictim.text!,
-                     "submitter_contact_number"  : txtMobSubmitter.text!,
+                     "volunteers_contact_number"  : txtMobSubmitter.text!,
                      "Category"                  : catID,
                      "crime_details"             : txtCrimeDetail.text!,
                      "images"                    : arrImagesName,
@@ -99,7 +104,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                      "lat"                       : latitute,
                      "long"                      : longitute,
                      "address"                   : txtAddressLocation.text!,
-                     "attachment"                : pdfName
+                     "attachment"                : pdfName,
+                     "submitted_by"              : submittedBy,
+                     "annonymous_name"           : txtAnnonymousName.text!
                     ] as [String : Any]
         NetworkManager.sharedInstance.apiParsePostWithJsonEncoding(WEB_URL.createIncidents as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
@@ -560,4 +567,19 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             createIncidents()
         }
     }
+   @IBAction func volunteer(_ sender: Any) {
+            imgVol.image = #imageLiteral(resourceName: "checked")
+            imgSelf.image = #imageLiteral(resourceName: "without-check")
+            lblVolunteer.textColor = UIColor.black
+            lblSelf.textColor = UIColor.lightGray
+            submittedBy = "volunteer"
+    }
+    @IBAction func selfComplaint(_ sender: Any) {
+            imgVol.image = #imageLiteral(resourceName: "without-check")
+            imgSelf.image = #imageLiteral(resourceName: "checked")
+            lblSelf.textColor = UIColor.black
+            lblVolunteer.textColor = UIColor.lightGray
+            submittedBy = "self"
+    }
+    
 }

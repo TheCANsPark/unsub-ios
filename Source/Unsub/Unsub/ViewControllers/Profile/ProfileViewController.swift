@@ -26,6 +26,7 @@ class ProfileViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     AppSharedData.sharedInstance.profileViewControllerRef = self
     imgProfile.layer.borderWidth = 2.0
     imgProfile.layer.borderColor = UIColor(red: 240/255, green: 166/255, blue: 74/255, alpha: 1).cgColor
@@ -52,12 +53,22 @@ class ProfileViewController: BaseViewController {
                 self.txtMail.text = res.value(forKey: "email") as? String
                 self.lblName.text = res.value(forKey: "fullName") as? String
                 self.txtPhone.text = res.value(forKey: "mobile_number") as? String
-                self.txtAge.text = res.value(forKey: "age") as? String
+                
+                let inputFormatter = DateFormatter()
+                inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                let showDate = inputFormatter.date(from: res.value(forKey: "age") as! String)
+                inputFormatter.dateFormat = "MMM dd,yyyy"
+                let resultString = inputFormatter.string(from: showDate!)
+                self.txtAge.text = resultString
             }
         })
     }
     //MARK:- UIButtonActions
     @IBAction func changePassword(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordViewController") as! ChangePasswordViewController
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: true, completion: nil)
     }
     
     

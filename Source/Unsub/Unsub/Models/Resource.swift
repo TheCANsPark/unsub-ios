@@ -16,6 +16,7 @@ struct Resource : JSONDecodable {
     let updatedAt        : String?
     let createdAt        : String?
     let media_url        : String?
+    let category        : String?
     let __v              : Int?
     
     init?(json: JSON) {
@@ -25,6 +26,7 @@ struct Resource : JSONDecodable {
         self.updatedAt = "updatedAt" <~~ json
         self.createdAt = "createdAt" <~~ json
         self.media_url = "media_url" <~~ json
+        self.category = "category" <~~ json
         self.__v = "__v" <~~ json
     }
 }

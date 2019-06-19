@@ -18,9 +18,9 @@ let kLogin            = "isLogin"
 var isLogin : Bool = false
 
 //URL
-//let BASE_URL = "http://192.168.1.109:4000/"
+let BASE_URL = "http://192.168.1.109:4000/"
 
-let BASE_URL = "http://104.154.76.106:4000/" //Live
+//let BASE_URL = "http://104.154.76.106:4000/" //Live
 
 
 struct WEB_URL {
@@ -35,6 +35,10 @@ struct WEB_URL {
     static let getProfile                = BASE_URL + "user/profile"
     static let getTimeline               = BASE_URL + "incidents/timeline/"
     static let getResource               = BASE_URL + "resource-center"
+    static let forgotPassword            = BASE_URL + "forget-password"
+    static let changePassword            = BASE_URL + "user/change/password"
+    static let getResourceCategory       = BASE_URL + "resource-category"
+    static let getResourceDetail         = BASE_URL + "resource-center?"
     
 }
 

@@ -57,6 +57,9 @@
 		13DC8A9722A9401B0018097C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9622A9401B0018097C /* NetworkManager.swift */; };
 		13DC8A9922A940D70018097C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9822A940D70018097C /* Constants.swift */; };
 		13DC8A9B22A948800018097C /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9A22A948800018097C /* Loader.swift */; };
+		13DD331722BA069900591F45 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */; };
+		13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331922BA18AA00591F45 /* ChangePasswordViewController.swift */; };
+		13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331B22BA64E900591F45 /* ResourceDetailViewController.swift */; };
 		ED24C510300B12DFA41B7A8A /* Pods_Unsub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75002B1FDA556FE0057CD87E /* Pods_Unsub.framework */; };
 /* End PBXBuildFile section */
 
@@ -113,6 +116,9 @@
 		13DC8A9622A9401B0018097C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		13DC8A9822A940D70018097C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		13DC8A9A22A948800018097C /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		13DD331922BA18AA00591F45 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		13DD331B22BA64E900591F45 /* ResourceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceDetailViewController.swift; sourceTree = "<group>"; };
 		75002B1FDA556FE0057CD87E /* Pods_Unsub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unsub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1BACB85FB8028F42613A6C0 /* Pods-Unsub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unsub.release.xcconfig"; path = "Pods/Target Support Files/Pods-Unsub/Pods-Unsub.release.xcconfig"; sourceTree = "<group>"; };
 		E33A8A4259F70051E81F855C /* Pods-Unsub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unsub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Unsub/Pods-Unsub.debug.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				1327061922B8E1B500DE0403 /* ResourceCenterViewController.swift */,
+				13DD331B22BA64E900591F45 /* ResourceDetailViewController.swift */,
 			);
 			path = ResourceCenter;
 			sourceTree = "<group>";
@@ -205,6 +212,8 @@
 		134B6EDE22A67FF500DD97C8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				13DD331822BA188300591F45 /* ChangePassword */,
+				13DD331522BA065A00591F45 /* ForgotPassword */,
 				1327061822B8E19300DE0403 /* ResourceCenter */,
 				13CE749022B8BB17006A51E0 /* Timeline */,
 				13D72C1122B39F49003F323A /* Profile */,
@@ -364,6 +373,22 @@
 				13DC8A9622A9401B0018097C /* NetworkManager.swift */,
 			);
 			path = ManagerClasses;
+			sourceTree = "<group>";
+		};
+		13DD331522BA065A00591F45 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */,
+			);
+			path = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		13DD331822BA188300591F45 /* ChangePassword */ = {
+			isa = PBXGroup;
+			children = (
+				13DD331922BA18AA00591F45 /* ChangePasswordViewController.swift */,
+			);
+			path = ChangePassword;
 			sourceTree = "<group>";
 		};
 		FD53DCA5A4E0B5565E578BC2 /* Pods */ = {
@@ -555,6 +580,7 @@
 				13DC8A8F22A91A3D0018097C /* AppSharedData.swift in Sources */,
 				137A50F622AE8617006F41BD /* Categories.swift in Sources */,
 				13DC8A9922A940D70018097C /* Constants.swift in Sources */,
+				13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */,
 				1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */,
 				13DC8A9B22A948800018097C /* Loader.swift in Sources */,
 				137A50F122AE30E8006F41BD /* FileComplaintsViewController.swift in Sources */,
@@ -563,6 +589,7 @@
 				13DB6F4D22B284090055BF77 /* Incidents.swift in Sources */,
 				13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */,
 				13CE749422B8BD9E006A51E0 /* Timeline.swift in Sources */,
+				13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */,
 				13DC8A9722A9401B0018097C /* NetworkManager.swift in Sources */,
 				134B6EE122A6802900DD97C8 /* BaseViewController.swift in Sources */,
 				1327061C22B8E58000DE0403 /* Resource.swift in Sources */,
@@ -579,6 +606,7 @@
 				1327061A22B8E1B500DE0403 /* ResourceCenterViewController.swift in Sources */,
 				13C2AD6C22AF942800822273 /* UIImageView.swift in Sources */,
 				1310793922B7997B0052D515 /* ImageViewController.swift in Sources */,
+				13DD331722BA069900591F45 /* ForgotPasswordViewController.swift in Sources */,
 				137A50F422AE3835006F41BD /* Contacts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

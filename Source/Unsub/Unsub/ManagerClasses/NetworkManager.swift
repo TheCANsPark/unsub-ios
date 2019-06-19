@@ -79,11 +79,18 @@ class NetworkManager {
         
         let urlString  = url as String
         var header = HTTPHeaders()
-        if url as String == WEB_URL.getProfile {
-            let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
-            header = ["Content-Type"   : "application/json",
-                      "Authorization"  : "Bearer \(token)"]
+        
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            let urlString  = url as String
+            if  urlString == WEB_URL.getProfile {
+                let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
+                header = ["Content-Type"   : "application/json",
+                          "Authorization"  : "Bearer \(token)"]
+            } else {
+                header = ["Content-Type" : "application/x-www-form-urlencoded"]
+            }
         }
+        
         
         Alamofire.request(urlString, method: .put, parameters: postParameters as? Parameters, headers: header).responseJSON {
             response in
@@ -135,7 +142,7 @@ class NetworkManager {
                           "Authorization"  : "Bearer any"]
             }
         }
-        if url as String == WEB_URL.commentQuery {
+        if url as String == WEB_URL.commentQuery || urlString == WEB_URL.changePassword  {
             if UserDefaults.standard.bool(forKey: kLogin) == true {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
                 header = ["Content-Type"   : "application/json",
@@ -225,7 +232,7 @@ class NetworkManager {
         
         var header = HTTPHeaders()
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails)   {
+            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory  {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
                 header = ["Authorization"  : "Bearer \(token)"]
             }
@@ -351,6 +358,60 @@ class NetworkManager {
             }
             return nil
         })
+    }
+    
+    //MARK:- PutWithJsonEncoding
+    func apiParsePutWithJsonEncoding(_ url:NSString, postParameters:NSDictionary?, completionHandler:@escaping ( _ response:NSDictionary?,_ statusCode: Int?)->()) {
+        
+        let urlString  = url as String
+        var header = HTTPHeaders()
+        
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            let urlString  = url as String
+            if urlString  == WEB_URL.changePassword  {
+                let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
+                header = ["Content-Type"   : "application/json",
+                          "Authorization"  : "Bearer \(token)"]
+            } else {
+                header = ["Content-Type" : "application/x-www-form-urlencoded"]
+            }
+        }
+        
+        Alamofire.request(urlString, method: .put, parameters: postParameters as? Parameters, encoding: JSONEncoding.default, headers: header).responseJSON {
+        
+      //  Alamofire.request(urlString, method: .put, parameters: postParameters as? Parameters, headers: header).responseJSON {
+            response in
+            
+            let  statusCode = response.response?.statusCode
+            print(statusCode ?? "")
+            print("url is: \(urlString)")
+            print("post parameters: \(String(describing: postParameters))")
+            print("header : \(header)")
+            print("response is: \(response)")
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(nil,statusCode)
+                return
+            }
+            // make sure we got some JSON since that's what we expect
+            guard let json = response.result.value as? [String: Any] else {
+                print("Response is not in JSON format")
+                //print("Error: \(response.result.error ?? "" as? String)")
+                completionHandler(nil,statusCode)
+                return
+            }
+            if statusCode == STATUS_CODE.tokenExpire {
+                self.getNewRefreshTokenAndAccessToken(completionHandler: {(status :Int?) in
+                    if status == STATUS_CODE.success {
+                        self.apiParsePost(urlString as NSString,postParameters: postParameters , completionHandler: {
+                            json , statusCode in
+                            completionHandler(json as NSDictionary?, statusCode)
+                        })
+                    }
+                })
+            }
+            completionHandler(json as NSDictionary?,statusCode)
+        }
     }
 }
 

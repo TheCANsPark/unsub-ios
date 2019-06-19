@@ -8,7 +8,7 @@
 
 import UIKit
 import SkyFloatingLabelTextField
-class LoginnViewController: UIViewController {
+class LoginnViewController: UIViewController, UIGestureRecognizerDelegate {
 
     
     @IBOutlet weak var txtMail: SkyFloatingLabelTextField!
@@ -17,7 +17,8 @@ class LoginnViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         // Do any additional setup after loading the view.
     }
 
@@ -74,6 +75,11 @@ class LoginnViewController: UIViewController {
     }
     
     @IBAction func forgotpassword(_ sender: Any) {
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ForgotPasswordViewController") as! ForgotPasswordViewController
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: true, completion: nil)
     }
     @IBAction func goToRegister(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
@@ -83,4 +89,6 @@ class LoginnViewController: UIViewController {
     @IBAction func dismiss(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+   
+    
 }
