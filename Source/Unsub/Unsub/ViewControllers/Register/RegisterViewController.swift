@@ -17,6 +17,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var txtPassword: SkyFloatingLabelTextField!
     @IBOutlet weak var txtName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAge: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
     
     @IBOutlet weak var imgAcceptTerms: UIImageView!
     
@@ -41,7 +42,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                      "email"    : txtMail.text!,
                      "password" : txtPassword.text!,
                      "mobile_number" : txtMobile.text!,
-                     "age"      : dateUTC]
+                     "age"      : dateUTC,
+                     "annonymous_name" : txtAnnonymousName.text!]
         
         
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in

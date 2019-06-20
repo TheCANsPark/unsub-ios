@@ -17,9 +17,12 @@ class ResourceDetailViewController:BaseViewController, UITableViewDelegate, UITa
     let documentInteractiveVC = UIDocumentInteractionController()
     var fileName = String()
     var fileManager = FileManager.default
+    var titleStr = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = titleStr
         getResourceCategory()
         // Do any additional setup after loading the view.
     }
@@ -100,6 +103,7 @@ class ResourceDetailViewController:BaseViewController, UITableViewDelegate, UITa
             self.documentInteractiveVC.url = filePath
             self.documentInteractiveVC.delegate = self
             self.documentInteractiveVC.presentPreview(animated: true)
+            Loader.shared.hide()
         }
         
     }
@@ -107,7 +111,6 @@ class ResourceDetailViewController:BaseViewController, UITableViewDelegate, UITa
         let progress =  Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
         print(progress)
     }
-    
     //MARK:- UIDocumentInteractionController Delegate
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         guard let navVC = self.navigationController else {

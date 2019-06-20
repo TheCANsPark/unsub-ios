@@ -8,7 +8,7 @@
 
 import UIKit
 import Gloss
-class ResourceCenterViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, URLSessionDownloadDelegate, UIDocumentBrowserViewControllerDelegate, UIDocumentInteractionControllerDelegate {
+class ResourceCenterViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
     
     @IBOutlet weak var tableView: UITableView!
@@ -65,85 +65,9 @@ class ResourceCenterViewController: BaseViewController, UITableViewDelegate, UIT
         
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ResourceDetailViewController") as? ResourceDetailViewController
         vc?.ID = resourceArr[indexPath.row]._id!
+        vc?.titleStr = resourceArr[indexPath.row].name!
         self.navigationController?.pushViewController(vc!, animated: true)
-        
-        
-       /* Loader.shared.show()
-        let url = URL.init(string: resourceArr[indexPath.row].media_url ?? "")
-        let sessionConfig = URLSessionConfiguration.default
-        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
-        let downloadTask = session.downloadTask(with: url!)
-        downloadTask.resume()
-        
-        let str = String(describing: resourceArr[indexPath.row].media_url!)
-        let fileArray = str.components(separatedBy: "/")
-        let finalFileName = fileArray.last
-        fileName = finalFileName!*/
     }
     
-    //MARK:- URLSESSION Delegate
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        print(location)
-        
-        let folderPath = AppSharedData.sharedInstance.getUnsubFolderPath()
-        print(folderPath)
-        do {
-            try fileManager.createDirectory(atPath: folderPath.path, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            NSLog("Unable to create directory!!!!")
-        }
-        
-        let filePath  = folderPath.appendingPathComponent("\(self.fileName)")
-        print(filePath)
-        //
-        do {
-            try fileManager.copyItem(at: location, to: filePath)
-            print("\(filePath)")
-         //   try? fileManager.removeItem(at: location)
-        } catch let error {
-            print("Could not copy file to disk: \(error.localizedDescription)")
-        }
-        Loader.shared.hide()
-        DispatchQueue.main.async {
-            self.documentInteractiveVC.url = filePath
-            self.documentInteractiveVC.delegate = self
-            self.documentInteractiveVC.presentPreview(animated: true)
-        }
-        
-    }
-    
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let progress =  Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-        print(progress)
-    }
-    
-    //MARK:- UIDocumentInteractionController Delegate
-    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
-        guard let navVC = self.navigationController else {
-            return self
-        }
-        return navVC
-    }
-    
-//       /// let str = String(describing: getUrl)
-//        let fileArray = imagestring.components(separatedBy: ".")
-//        let finalFileName = fileArray.last
-//        if finalFileName == "mp4" {
-//
-//
-//        } else if finalFileName == "jpeg" {
-//
-//        }
-//        else {
-//            if let url = URL(string: imagestring),
-//                let data = try? Data(contentsOf: url),
-//                let image = UIImage(data: data) {
-//                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-//            }
-//        }
    
-    
-    
-
-}
+ }

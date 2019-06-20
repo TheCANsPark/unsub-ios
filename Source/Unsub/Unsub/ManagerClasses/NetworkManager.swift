@@ -219,7 +219,7 @@ class NetworkManager {
             if statusCode == STATUS_CODE.success {
                 let response = json as NSDictionary?
                 let userResponse = response?.value(forKey: "data") as! NSDictionary
-                if let access_token = userResponse.value(forKey: "access_token") , let refresh_token = userResponse.value(forKey: "refresh_token"){
+                if let access_token = userResponse.value(forKey: "accessToken") , let refresh_token = userResponse.value(forKey: "refreshToken"){
                     AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: access_token as! String, refreshToken: refresh_token as! String)
                 }
             }

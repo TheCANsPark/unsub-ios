@@ -14,15 +14,15 @@ import SkyFloatingLabelTextField
 import AVFoundation
 import CoreLocation
 
-class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate {
+class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var lblType: UILabel!
     @IBOutlet weak var txtFirstName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastname: SkyFloatingLabelTextField!
     @IBOutlet weak var txtEmail: SkyFloatingLabelTextField!
     @IBOutlet weak var txtCategory: SkyFloatingLabelTextField!
     @IBOutlet weak var txtDatetime: SkyFloatingLabelTextField!
     @IBOutlet weak var txtMobVictim: SkyFloatingLabelTextField!
-    @IBOutlet weak var txtMobSubmitter: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAddressLocation: SkyFloatingLabelTextField!
    
     @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
@@ -31,12 +31,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var lblNameAttachment: UILabel!
     @IBOutlet weak var btnAddRemoveAttachment: UIButton!
     
-    @IBOutlet weak var lblVolunteer: UILabel!
-    @IBOutlet weak var lblSelf: UILabel!
     
-    @IBOutlet weak var imgVol: UIImageView!
-    @IBOutlet weak var imgSelf: UIImageView!
-    
+    @IBOutlet weak var tableView: UITableView!
     
     let picker = UIImagePickerController()
     var videoURL = NSURL()
@@ -66,9 +62,12 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var arrVideoName = [String]()
     var isAttachedFile : Int = 0
     var submittedBy = String()
-    
+    var arrType = [String]()
+    var isType : Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
+        arrType = ["Myself", "Someone else"]
+        submittedBy = "Myself"
         picker.delegate = self
         self.title = "File Incidence"
         getCategories()
@@ -77,6 +76,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         txtCrimeDetail.clipsToBounds = true
         txtCrimeDetail.layer.borderWidth = 1.0
         txtCrimeDetail.layer.borderColor = UIColor.lightGray.cgColor
+        tableView.isHidden = true
     }
     //MARK:- Server Requests
     func getCategories() {
@@ -84,9 +84,14 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.categories, completion: {(response: NSDictionary?,statusCode : Int?) in
             Loader.shared.hide()
             print(response!)
-            if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
-                self.categoriesArr = cat
+            if statusCode == STATUS_CODE.success {
+                if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
+                    self.categoriesArr = cat
+                }
+            } else if statusCode == STATUS_CODE.internalServerError {
+                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as! String)
             }
+            
         })
     }
     func createIncidents() {
@@ -94,8 +99,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         let param = ["first_name"                : txtFirstName.text!,
                      "last_name"                 : txtLastname.text!,
                      "email"                     : txtEmail.text!,
-                     "victims_contact_number"    : txtMobVictim.text!,
-                     "volunteers_contact_number"  : txtMobSubmitter.text!,
+                     "phone_number"              : txtMobVictim.text!,
                      "Category"                  : catID,
                      "crime_details"             : txtCrimeDetail.text!,
                      "images"                    : arrImagesName,
@@ -126,6 +130,26 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK:- UITableViewDataSource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrType.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeTableCell")
+        let lblType : UILabel = cell?.contentView.viewWithTag(100) as! UILabel
+        lblType.text = arrType[indexPath.row]
+        return cell!
+    }
+    //MARK:- UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        lblType.text = arrType[indexPath.row]
+        submittedBy = arrType[indexPath.row]
+        tableView.isHidden = true
+        isType = 0
+        
+    }
+    
     //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == txtCategory {
@@ -558,28 +582,28 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         
     }
     @IBAction func submit(_ sender: Any) {
-        if txtFirstName.text?.count == 0 || txtEmail.text?.count == 0 || txtMobSubmitter.text?.count == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {
+        if txtFirstName.text?.count == 0 || txtEmail.text?.count == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
-        } else if txtMobSubmitter.text?.count != 10 {
+        } /*else if txtMobSubmitter.text?.count != 10 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter 10 digit mobile number.")
-        } else {
+        } */else {
             createIncidents()
         }
     }
-   @IBAction func volunteer(_ sender: Any) {
-            imgVol.image = #imageLiteral(resourceName: "checked")
-            imgSelf.image = #imageLiteral(resourceName: "without-check")
-            lblVolunteer.textColor = UIColor.black
-            lblSelf.textColor = UIColor.lightGray
-            submittedBy = "volunteer"
+   
+    
+    
+    @IBAction func selectType(_ sender: Any) {
+        if isType == 0 {
+            tableView.isHidden = false
+            isType = 1
+        } else {
+            tableView.isHidden = true
+            isType = 0
+        }
+        
     }
-    @IBAction func selfComplaint(_ sender: Any) {
-            imgVol.image = #imageLiteral(resourceName: "without-check")
-            imgSelf.image = #imageLiteral(resourceName: "checked")
-            lblSelf.textColor = UIColor.black
-            lblVolunteer.textColor = UIColor.lightGray
-            submittedBy = "self"
-    }
+    
     
 }
