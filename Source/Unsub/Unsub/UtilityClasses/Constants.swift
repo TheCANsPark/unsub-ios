@@ -39,6 +39,7 @@ struct WEB_URL {
     static let changePassword            = BASE_URL + "user/change/password"
     static let getResourceCategory       = BASE_URL + "resource-category"
     static let getResourceDetail         = BASE_URL + "resource-center?"
+    static let getComments               = BASE_URL + "incident/comments/"
     
 }
 

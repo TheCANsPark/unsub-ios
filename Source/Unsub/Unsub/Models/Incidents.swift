@@ -110,10 +110,12 @@ struct Comments : JSONDecodable {
 }
 struct User : JSONDecodable {
     let fullName        : String?
+    let stackholder_name        : String?
     let _id             : String?
     
     init?(json: JSON) {
         self.fullName = "fullName" <~~ json
+        self.stackholder_name = "stackholder_name" <~~ json
         self._id = "_id" <~~ json
     }
 }

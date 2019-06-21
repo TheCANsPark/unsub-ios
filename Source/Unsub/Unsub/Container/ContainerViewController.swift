@@ -30,8 +30,9 @@ class ContainerViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil) 
 
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadIncidences(notification:)), name: Notification.Name("loadIncidentsViewController"), object: nil)
         
         homeView.isHidden = false
         profileView.isHidden = true
@@ -104,7 +105,9 @@ class ContainerViewController: BaseViewController {
         self.navigationController?.view.addGestureRecognizer((navigationController?.interactivePopGestureRecognizer)!)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+       // AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+        
   }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -144,9 +147,9 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
-    }
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
     @IBAction func chat(_ sender: Any) {
+        AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true
         profileView.isHidden = true
         chatView.isHidden = false
@@ -157,8 +160,7 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
-    }
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
     @IBAction func contact(_ sender: Any) {
         AppSharedData.sharedInstance.contactViewControllerRef.getContacts()
         
@@ -172,14 +174,16 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
-    }
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
     //MARK:- Helper
     func customizeNavigationBar() {
+    //      AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
+    //   self.navigationController?.navigationBar.layer.removeFromSuperlayer()
+       
     }
     @objc func openMenu() -> Void {
         //        let popVC:SideBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController") as! SideBarViewController
@@ -218,8 +222,19 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
-    }
-
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
+    @objc func loadIncidences(notification: Notification) {
+        AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
+        homeView.isHidden = true
+        profileView.isHidden = true
+        chatView.isHidden = false
+        contactView.isHidden = true
+        
+        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
+        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+        imgChat.image = #imageLiteral(resourceName: "footer-comment")
+        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+        
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
 
   }

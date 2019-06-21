@@ -85,15 +85,15 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     }
     //MARK:- UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 && (complaintDetailArr != nil) {
            return 1
-        } else if section == 1 && (complaintDetailArr != nil) {
-            return (complaintDetailArr!.incident_comments?.count)!
+        } else {
+            return 0
         }
-        return 0
+        
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let detail = complaintDetailArr!
@@ -179,6 +179,11 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
        // }
         
     }
+    @IBAction func chat(_ sender: Any) {
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
+       vc?.ID = complaintDetailArr._id!
+        self.navigationController?.pushViewController(vc!, animated: true)
+    }
     //MARK:- Helper
     func scrollToBottom(){
         DispatchQueue.main.async {
@@ -191,4 +196,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
         vc?.complaintID = complaintID
         self.navigationController?.pushViewController(vc!, animated: true)
     }
+    
+    
+    
 }

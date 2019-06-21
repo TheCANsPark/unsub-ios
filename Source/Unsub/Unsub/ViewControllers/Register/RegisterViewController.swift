@@ -114,8 +114,10 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             
         } else if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
+            
         } else if isAgreed == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please accept terms and conditions")
+            
         } else {
             register()
         }
@@ -125,7 +127,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             isAgreed = 1
             imgAcceptTerms.image = #imageLiteral(resourceName: "checked")
         } else {
-            imgAcceptTerms.image = #imageLiteral(resourceName: "unchecked")
+            imgAcceptTerms.image = #imageLiteral(resourceName: "without-check")
             isAgreed = 0
         }
     }

@@ -14,7 +14,7 @@ class AppSharedData {
     
     var contactViewControllerRef : ContactViewController!
     var profileViewControllerRef : ProfileViewController!
-    
+    var myComplaintsViewControllerRef : MyComplaintsViewController!
     func alert(vc: UIViewController,message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -35,7 +35,8 @@ class AppSharedData {
         let dict = UserDefaults.standard.value(forKey: kDictTokens) as! NSDictionary
         return dict
     }
-    func setGradientOnObject(_ object : AnyObject)  {
+   
+    func setGradientOnObject(_ object : AnyObject, colour1 : UIColor, colour2 : UIColor)  {
         let gradient = CAGradientLayer()
         let color2 = UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1).cgColor
         let color1 = UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1).cgColor
@@ -44,8 +45,12 @@ class AppSharedData {
         gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradient.endPoint = CGPoint(x: 0.5, y: 1.0)
         gradient.frame = CGRect(x: 0.0, y: 0.0, width: object.frame.size.width, height: object.frame.size.height)
-        let image = getImageFrom(gradientLayer: gradient)
-        object.setBackgroundImage(image, for: UIBarMetrics.default)
+        if object.tag == 500 {//view
+            object.layer.insertSublayer(gradient, at: 0)
+        } else {
+            let image = getImageFrom(gradientLayer: gradient)
+            object.setBackgroundImage(image, for: UIBarMetrics.default)
+        }
     }
     func getImageFrom(gradientLayer:CAGradientLayer) -> UIImage? {
         var gradientImage:UIImage?

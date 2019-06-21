@@ -18,14 +18,12 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        AppSharedData.sharedInstance.myComplaintsViewControllerRef = self
         self.title = "Incidence List"
         
         // Do any additional setup after loading the view.
     }
-    override func viewWillAppear(_ animated: Bool) {
-        getIncidents()
-    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

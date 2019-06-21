@@ -232,7 +232,7 @@ class NetworkManager {
         
         var header = HTTPHeaders()
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory  {
+            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory || url == WEB_URL.getComments {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
                 header = ["Authorization"  : "Bearer \(token)"]
             }

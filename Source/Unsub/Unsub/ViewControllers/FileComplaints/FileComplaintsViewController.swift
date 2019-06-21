@@ -32,6 +32,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var btnAddRemoveAttachment: UIButton!
     
     
+    @IBOutlet weak var imgAccept: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     
     let picker = UIImagePickerController()
@@ -64,6 +65,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var submittedBy = String()
     var arrType = [String]()
     var isType : Int = 0
+    var isAccept : Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         arrType = ["Myself", "Someone else"]
@@ -585,15 +588,15 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         if txtFirstName.text?.count == 0 || txtEmail.text?.count == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
-        } /*else if txtMobSubmitter.text?.count != 10 {
+        } else if isAccept == 0 {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Please accept all terms and conditions")
+        }
+            /*else if txtMobSubmitter.text?.count != 10 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter 10 digit mobile number.")
         } */else {
             createIncidents()
         }
     }
-   
-    
-    
     @IBAction func selectType(_ sender: Any) {
         if isType == 0 {
             tableView.isHidden = false
@@ -602,6 +605,17 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             tableView.isHidden = true
             isType = 0
         }
+    }
+    @IBAction func accept(_ sender: Any) {
+        if isAccept == 0 {
+            imgAccept.image = #imageLiteral(resourceName: "checked")
+            isAccept = 1
+        } else {
+            imgAccept.image = #imageLiteral(resourceName: "without-check")
+            isAccept = 0
+        }
+    }
+    @IBAction func goToTermsAndConditions(_ sender: Any) {
         
     }
     
