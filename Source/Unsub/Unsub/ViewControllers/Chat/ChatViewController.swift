@@ -90,7 +90,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let lblName : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
             let lblDate : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
             lblDate.text = getDateFromUTC(dateStr: incident.date!)
-            lblName.text = incident.user_id?.fullName!
+            lblName.text = "\(incident.name?.first)" + "\(incident.name?.last)"
             lblChat.text = incident.comment!
             return cell!
             
@@ -100,7 +100,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let lblName : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
             let lblDate : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
             lblDate.text = getDateFromUTC(dateStr: incident.date!)
-            lblName.text = incident.user_id?.stackholder_name!
+            lblName.text = "\(incident.name?.first)" + "\(incident.name?.last)"
             lblChat.text = incident.comment!
             return cell!
         }
@@ -125,9 +125,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 let indexPath = IndexPath(row: (self.incidentCommentsArr.count)-1, section: 0)
                 self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             } else {
-                
             }
-            
         }
     }
     func getDateFromUTC(dateStr : String)-> String {

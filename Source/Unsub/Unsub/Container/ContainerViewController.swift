@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AES256CBC
 class ContainerViewController: BaseViewController {
 
     
@@ -29,6 +29,9 @@ class ContainerViewController: BaseViewController {
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+       
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil) 
 
@@ -149,7 +152,15 @@ class ContainerViewController: BaseViewController {
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
     @IBAction func chat(_ sender: Any) {
-        AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
+        
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+           AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
+        } else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
+            self.present(vc, animated: true, completion: nil)
+        }
+        
+        
         homeView.isHidden = true
         profileView.isHidden = true
         chatView.isHidden = false
@@ -202,6 +213,7 @@ class ContainerViewController: BaseViewController {
             
             UserDefaults.standard.set(nil, forKey: kDictTokens)
             UserDefaults.standard.set(false, forKey: kLogin)
+            UserDefaults.standard.set(nil, forKey: kLoginResponse)
             self.viewWillAppear(true)
         }))
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -222,7 +234,9 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+        
+    }
     @objc func loadIncidences(notification: Notification) {
         AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true

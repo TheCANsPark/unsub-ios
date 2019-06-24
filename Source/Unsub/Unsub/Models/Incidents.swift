@@ -23,6 +23,7 @@ struct Incidents : JSONDecodable {
     let email        : String?
     
     let victims_contact_number              : String?
+    let phone_number              : String?
     let submitter_contact_number             : String?
     let Category   : Category?
     let crime_details        : String?
@@ -51,6 +52,7 @@ struct Incidents : JSONDecodable {
     
         self.victims_contact_number = "victims_contact_number" <~~ json
         self.submitter_contact_number = "submitter_contact_number" <~~ json
+         self.phone_number = "phone_number" <~~ json
         self.Category = "Category" <~~ json
         self.crime_details = "crime_details" <~~ json
         self.incident_date = "incident_date" <~~ json
@@ -99,6 +101,7 @@ struct Comments : JSONDecodable {
     let date             : String?
     let commented_by     : String?
     let user_id          : User?
+    let name             : Name?
     
     init?(json: JSON) {
         self._id = "_id" <~~ json
@@ -106,11 +109,12 @@ struct Comments : JSONDecodable {
         self.date = "date" <~~ json
         self.commented_by = "commented_by" <~~ json
         self.user_id = "user_id" <~~ json
+        self.name = "name" <~~ json
     }
 }
 struct User : JSONDecodable {
     let fullName        : String?
-    let stackholder_name        : String?
+    let stackholder_name   : String?
     let _id             : String?
     
     init?(json: JSON) {
@@ -119,3 +123,4 @@ struct User : JSONDecodable {
         self._id = "_id" <~~ json
     }
 }
+

@@ -105,11 +105,9 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
             let lblComplaintNumber : UILabel = cell?.contentView.viewWithTag(103) as! UILabel
             let lblAddress : UILabel = cell?.contentView.viewWithTag(104) as! UILabel
             let lblImage : UILabel = cell?.contentView.viewWithTag(105) as! UILabel
-            let lblSubmitterMobile : UILabel = cell?.contentView.viewWithTag(106) as! UILabel
             
             lblName.text = "\(detail.name?.first ?? "")" + " \(detail.name?.last ?? "")"
-            lblVictimMobile.text = "\(detail.victims_contact_number ?? "N/A")"
-            lblSubmitterMobile.text = "\(detail.submitter_contact_number ?? "N/A")"
+            lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
             lblAddress.text = "\(detail.address?.address ?? "")"
             lblMail.text = "\(detail.email ?? "")"
             lblComplaintNumber.text = "#\(detail.complaint_number!)"

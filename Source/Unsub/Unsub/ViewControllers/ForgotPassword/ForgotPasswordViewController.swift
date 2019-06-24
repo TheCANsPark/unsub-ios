@@ -43,6 +43,8 @@ class ForgotPasswordViewController: UIViewController, UIGestureRecognizerDelegat
                     self.dismiss(animated: true, completion: nil)
                 }))
                 self.present(refreshAlert, animated: true, completion: nil)
+            } else if statusCode == STATUS_CODE.internalServerError {
+                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "msg") as! String)
             }
         })
     }

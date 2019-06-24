@@ -17,9 +17,10 @@ class ComplaintImagesVideosVC: BaseViewController, UICollectionViewDelegate, UIC
     var imgVideoArr = [URL]()
 
     @IBOutlet var collectionView : UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Images/Videos"
+        self.title = "Images"
         self.imgVideoArr = self.imgArr
         // Do any additional setup after loading the view.
     }

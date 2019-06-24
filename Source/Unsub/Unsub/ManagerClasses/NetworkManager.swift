@@ -13,6 +13,10 @@ import AWSAuthCore
 import AWSMobileClient
 import AWSUserPoolsSignIn
 import AWSCognitoIdentityProviderASF
+import AES256CBC
+
+
+
 
 class NetworkManager {
     static let sharedInstance = NetworkManager()
@@ -413,6 +417,7 @@ class NetworkManager {
             completionHandler(json as NSDictionary?,statusCode)
         }
     }
+    
 }
 
 

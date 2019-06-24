@@ -43,6 +43,7 @@ class LoginnViewController: UIViewController, UIGestureRecognizerDelegate {
                     let data = response?.value(forKey: "data") as! NSDictionary
                     AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: data.value(forKey: kAccessToken) as! String, refreshToken: data.value(forKey: kRefreshToken) as! String)
                     UserDefaults.standard.set(true, forKey: kLogin)
+                    UserDefaults.standard.set(data, forKey: kLoginResponse)
                 }))
                 self.present(refreshAlert, animated: true, completion: nil)
                 

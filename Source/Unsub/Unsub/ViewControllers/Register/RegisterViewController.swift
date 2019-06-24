@@ -18,8 +18,11 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var txtName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAge: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
     
     @IBOutlet weak var imgAcceptTerms: UIImageView!
+    
+    @IBOutlet weak var txtConfirmPassword: SkyFloatingLabelTextField!
     
     var isAgreed : Int = 0
     let datePicker:UIDatePicker = UIDatePicker()
@@ -38,13 +41,13 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     //MARK:- ServerRequests
     func register() {
         Loader.shared.show()
-        let param = ["fullName" : txtName.text!,
+        let param = ["name.first" : txtName.text!,
                      "email"    : txtMail.text!,
                      "password" : txtPassword.text!,
                      "mobile_number" : txtMobile.text!,
                      "age"      : dateUTC,
-                     "annonymous_name" : txtAnnonymousName.text!]
-        
+                     "annonymous_name" : txtAnnonymousName.text!,
+                     "name.last" : txtLastName.text!]
         
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
@@ -115,6 +118,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         } else if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
             
+        } else if txtPassword.text != txtConfirmPassword.text! {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Password and confirm password does not match")
         } else if isAgreed == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please accept terms and conditions")
             

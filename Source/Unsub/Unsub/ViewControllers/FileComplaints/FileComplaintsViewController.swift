@@ -13,6 +13,7 @@ import Gloss
 import SkyFloatingLabelTextField
 import AVFoundation
 import CoreLocation
+import AES256CBC
 
 class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
     
@@ -88,6 +89,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             Loader.shared.hide()
             print(response!)
             if statusCode == STATUS_CODE.success {
+                
+                
                 if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                     self.categoriesArr = cat
                 }
@@ -151,8 +154,24 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         tableView.isHidden = true
         isType = 0
         
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            if arrType[indexPath.row] == "Myself" {
+                let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
+                let name = val.value(forKey: "name") as! NSDictionary
+                self.txtFirstName.text = name.value(forKey: "first") as? String
+                self.txtLastname.text = name.value(forKey: "last") as? String
+                self.txtMobVictim.text = val.value(forKey: "mobile_number") as? String
+                self.txtAnnonymousName.text = val.value(forKey: "annonymous_name") as? String
+                
+            } else {
+                self.txtFirstName.text = ""
+                self.txtLastname.text = ""
+                self.txtMobVictim.text = ""
+                self.txtAnnonymousName.text = ""
+            }
+        }
+        
     }
-    
     //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == txtCategory {
@@ -160,11 +179,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         } else if textField == txtDatetime {
           createDatePicker()
         }
-        
         return true
     }
-    
-    
     //MARK:- UIDocumentPickerDelegate
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let myURL = urls.first else {
@@ -585,7 +601,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         
     }
     @IBAction func submit(_ sender: Any) {
-        if txtFirstName.text?.count == 0 || txtEmail.text?.count == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {
+       if txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
         } else if isAccept == 0 {
