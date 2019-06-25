@@ -90,7 +90,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let lblName : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
             let lblDate : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
             lblDate.text = getDateFromUTC(dateStr: incident.date!)
-            lblName.text = "\(incident.name?.first)" + "\(incident.name?.last)"
+            lblName.text = incident.commented_by!
             lblChat.text = incident.comment!
             return cell!
             
@@ -100,7 +100,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let lblName : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
             let lblDate : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
             lblDate.text = getDateFromUTC(dateStr: incident.date!)
-            lblName.text = "\(incident.name?.first)" + "\(incident.name?.last)"
+            lblName.text = incident.commented_by!
             lblChat.text = incident.comment!
             return cell!
         }

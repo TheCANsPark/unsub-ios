@@ -65,12 +65,15 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var isAttachedFile : Int = 0
     var submittedBy = String()
     var arrType = [String]()
+    var arrTypeNonLogin = [String]()
     var isType : Int = 0
     var isAccept : Int = 0
+    var isVideoOrPic = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         arrType = ["Myself", "Someone else"]
+        arrTypeNonLogin = ["Someone else"]
         submittedBy = "Myself"
         picker.delegate = self
         self.title = "File Incidence"
@@ -139,7 +142,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     
     //MARK:- UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return arrType.count
+       
+            return arrType.count
+        
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TypeTableCell")
@@ -149,12 +154,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     }
     //MARK:- UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        lblType.text = arrType[indexPath.row]
-        submittedBy = arrType[indexPath.row]
+        
         tableView.isHidden = true
         isType = 0
         
         if UserDefaults.standard.bool(forKey: kLogin) == true {
+            lblType.text = arrType[indexPath.row]
+            submittedBy = arrType[indexPath.row]
             if arrType[indexPath.row] == "Myself" {
                 let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
                 let name = val.value(forKey: "name") as! NSDictionary
@@ -169,6 +175,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 self.txtMobVictim.text = ""
                 self.txtAnnonymousName.text = ""
             }
+        } else {
+             self.lblType.text = arrType[indexPath.row]
+             submittedBy = arrType[indexPath.row]
         }
         
     }
@@ -316,13 +325,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             let activityInd : UIActivityIndicatorView = cell.contentView.viewWithTag(200) as! UIActivityIndicatorView
             let videoImgView : UIImageView = cell.contentView.viewWithTag(300) as! UIImageView
             
-//            if indexPath.row == photoVideoImageArr.count{
-//                print("lastt")
-//                imgView.image = #imageLiteral(resourceName: "placeholder")  //placeholder
-//                activityInd.startAnimating()
-//                activityInd.isHidden = false
-//                videoImgView.isHidden = true
-//            }
             if isPicVideoSelected == 1 {
                 activityInd.startAnimating()
                 activityInd.isHidden = false
@@ -331,15 +333,15 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 activityInd.stopAnimating()
                 let image = photoVideoImageArr[indexPath.row]
                 imgView.image = image
-                if picVideoUrlArr.count != 0 {
-                    let isVideoUrl = picVideoUrlArr[indexPath.row]
-                    if isVideoUrl == onlyVideoURL as URL {
+                
+                if self.isVideoOrPic.count != 0 {
+                    let isVideoPic = isVideoOrPic[indexPath.row]
+                    if isVideoPic == "mov" {
                         videoImgView.isHidden = false
                     } else {
                         videoImgView.isHidden = true
                     }
                 }
-                
             }
             return cell
           
@@ -412,6 +414,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                     self.photoVideoImageArr.append(image)
                     self.isPicVideoSelected = 1
                     self.picVideoUrlArr.append(imageURL as URL)
+                    print(self.picVideoUrlArr)
+                    self.isVideoOrPic.append("jpg")
                     self.collectionView.reloadData()
                     NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                         let str = String(describing: urlImgVideo!)
@@ -435,8 +439,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.isPicVideoSelected = 1
                         self.onceVideoSelected = 2
                         self.picVideoUrlArr.append(videoURL as URL)
+                        print(self.picVideoUrlArr)
                         self.onlyVideoURL = videoURL as NSURL
-                        
+                        self.isVideoOrPic.append("mov")
                         self.collectionView.reloadData()
                         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                             let str = String(describing: urlImgVideo!)
@@ -463,7 +468,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                     self.photoVideoImageArr.append(image)
                     self.isPicVideoSelected = 1
                     self.picVideoUrlArr.append(imageURL as URL)
-                    
+                    print(self.picVideoUrlArr)
+                    self.isVideoOrPic.append("jpg")
                     self.collectionView.reloadData()
                     NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                         let str = String(describing: urlImgVideo!)
@@ -487,7 +493,11 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.isPicVideoSelected = 1
                         self.onceVideoSelected = 2
                         self.onlyVideoURL = videoURL as NSURL
+                        self.picVideoUrlArr.append(videoURL as URL)
+                        print(self.picVideoUrlArr)
+                        self.isVideoOrPic.append("mov")
                         self.collectionView.reloadData()
+                        
                         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                             let str = String(describing: urlImgVideo!)
                             let fileArray = str.components(separatedBy: "/")
@@ -581,7 +591,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     //MARK:- UIButtonActions
     @IBAction func getLocation(_ sender: Any) {
         locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
@@ -601,7 +610,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         
     }
     @IBAction func submit(_ sender: Any) {
-       if txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 {
+       if txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtEmail.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
         } else if isAccept == 0 {
@@ -632,7 +641,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         }
     }
     @IBAction func goToTermsAndConditions(_ sender: Any) {
-        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        self.present(vc, animated: true, completion: nil)
     }
     
     

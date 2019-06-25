@@ -25,7 +25,8 @@ class ForgotPasswordViewController: UIViewController, UIGestureRecognizerDelegat
         tapGesture.numberOfTapsRequired = 1
         tapGesture.numberOfTouchesRequired = 1
         self.view.addGestureRecognizer(tapGesture)
-        self.view.isUserInteractionEnabled = true
+        self.viewPassword.removeGestureRecognizer(tapGesture)
+       // self.view.isUserInteractionEnabled = true
         // Do any additional setup after loading the view.
     }
 
@@ -60,8 +61,19 @@ class ForgotPasswordViewController: UIViewController, UIGestureRecognizerDelegat
             forgotPass()
         }
     }
+    //MARK:- UIGestureRecognizerDelegate
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if (touch.view?.isDescendant(of: self.view.subviews[0]))!{
+            return false
+        }
+        return true
+    }
+
     //MARK:- Helper
     @objc func myviewTapped(_ sender: UITapGestureRecognizer) {
-        self.dismiss(animated: true, completion: nil)
+        if sender.state == .ended {
+            dismiss(animated: true, completion: nil)
+        }
+        //self.dismiss(animated: true, completion: nil)
     }
 }

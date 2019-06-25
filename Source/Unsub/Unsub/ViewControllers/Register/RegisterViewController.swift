@@ -20,11 +20,13 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
     
+    @IBOutlet weak var imgVolunteer: UIImageView!
     @IBOutlet weak var imgAcceptTerms: UIImageView!
     
     @IBOutlet weak var txtConfirmPassword: SkyFloatingLabelTextField!
     
     var isAgreed : Int = 0
+    var isVolunteer : Bool = false
     let datePicker:UIDatePicker = UIDatePicker()
     var dateUTC = String()
     
@@ -41,13 +43,14 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     //MARK:- ServerRequests
     func register() {
         Loader.shared.show()
-        let param = ["name.first" : txtName.text!,
-                     "email"    : txtMail.text!,
-                     "password" : txtPassword.text!,
-                     "mobile_number" : txtMobile.text!,
-                     "age"      : dateUTC,
-                     "annonymous_name" : txtAnnonymousName.text!,
-                     "name.last" : txtLastName.text!]
+        let param = ["name.first"   : txtName.text!,
+                     "email"        : txtMail.text!,
+                     "password"     : txtPassword.text!,
+                     "mobile_number": txtMobile.text!,
+                     "age"          : dateUTC,
+                     "annonymous_name": txtAnnonymousName.text!,
+                     "name.last"     : txtLastName.text!,
+                     "isVolunteer_intrested": isVolunteer] as [String : Any]
         
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
@@ -112,7 +115,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func register(_ sender: Any) {
-        if txtMail.text?.count == 0 || txtMobile.text?.count == 0 || txtPassword.text?.count == 0 || txtName.text?.count == 0 || txtAge.text?.count == 0 {
+        if txtMail.text?.count == 0 || txtMobile.text?.count == 0 || txtPassword.text?.count == 0 || txtAge.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
             
         } else if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
@@ -139,4 +142,18 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     @IBAction func login(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
+    @IBAction func termsAndConditions(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        self.present(vc, animated: true, completion: nil)
+    }
+    @IBAction func volunteer(_ sender: Any) {
+        if isVolunteer == false {
+            isVolunteer = true
+            imgVolunteer.image = #imageLiteral(resourceName: "checked")
+        } else {
+            imgVolunteer.image = #imageLiteral(resourceName: "without-check")
+            isVolunteer = false
+        }
+    }
+    
 }

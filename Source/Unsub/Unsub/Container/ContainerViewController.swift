@@ -31,9 +31,7 @@ class ContainerViewController: BaseViewController {
         super.viewDidLoad()
         
         
-       
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil) 
+        NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadIncidences(notification:)), name: Notification.Name("loadIncidentsViewController"), object: nil)
         
@@ -92,8 +90,6 @@ class ContainerViewController: BaseViewController {
         rightButtonTitle.tintColor = UIColor.white
         rightButtonTitle.setTitleTextAttributes([ NSAttributedStringKey.font: UIFont(name: "Montserrat-SemiBold", size: 13)!], for: UIControlState.normal)
         self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
-        self.navigationItem.leftBarButtonItem = nil
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -119,6 +115,7 @@ class ContainerViewController: BaseViewController {
     
     //MARK:-UIButtonActions
     @IBAction func home(_ sender: Any) {
+        self.title = ""
         homeView.isHidden = false
         profileView.isHidden = true
         chatView.isHidden = true
@@ -132,7 +129,7 @@ class ContainerViewController: BaseViewController {
         customizeNavigationBar()
     }
     @IBAction func profile(_ sender: Any) {
-        
+        self.title = ""
         if UserDefaults.standard.bool(forKey: kLogin) == true {
             AppSharedData.sharedInstance.profileViewControllerRef.getProfile()
         } else {
@@ -150,16 +147,19 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
-    @IBAction func chat(_ sender: Any) {
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         
+        self.navigationItem.leftBarButtonItem = nil
+        
+    }
+    @IBAction func chat(_ sender: Any) {
+        self.title = "My Incidences"
         if UserDefaults.standard.bool(forKey: kLogin) == true {
            AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
             self.present(vc, animated: true, completion: nil)
         }
-        
         
         homeView.isHidden = true
         profileView.isHidden = true
@@ -171,8 +171,13 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+        
+        self.navigationItem.leftBarButtonItem = nil
+        
+    }
     @IBAction func contact(_ sender: Any) {
+        self.title = ""
         AppSharedData.sharedInstance.contactViewControllerRef.getContacts()
         
         homeView.isHidden = true
@@ -185,7 +190,10 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+        self.navigationItem.leftBarButtonItem = nil
+        
+    }
     //MARK:- Helper
     func customizeNavigationBar() {
     //      AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
@@ -193,6 +201,19 @@ class ContainerViewController: BaseViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
+        
+        //back
+        let infoButton = UIButton(type: .custom)
+        infoButton.setImage(UIImage(named:"C"), for: .normal) // Image can be downloaded from here below link
+        infoButton.addTarget(self, action: #selector(ContainerViewController.info), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
+        
+        let menuBarItem = UIBarButtonItem(customView: infoButton)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 30)
+        currHeight?.isActive = true
+        
     //   self.navigationController?.navigationBar.layer.removeFromSuperlayer()
        
     }
@@ -238,6 +259,7 @@ class ContainerViewController: BaseViewController {
         
     }
     @objc func loadIncidences(notification: Notification) {
+        
         AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true
         profileView.isHidden = true
@@ -249,6 +271,15 @@ class ContainerViewController: BaseViewController {
         imgChat.image = #imageLiteral(resourceName: "footer-comment")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))    }
-
+        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+        
+        self.navigationItem.leftBarButtonItem = nil
+        
+    }
+    @objc func info() -> Void {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PopUpHomeViewController") as! PopUpHomeViewController
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: true, completion: nil)
+    }
   }

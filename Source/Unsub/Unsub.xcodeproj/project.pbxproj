@@ -44,6 +44,9 @@
 		137A50F422AE3835006F41BD /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A50F322AE3835006F41BD /* Contacts.swift */; };
 		137A50F622AE8617006F41BD /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137A50F522AE8617006F41BD /* Categories.swift */; };
 		13C2AD6C22AF942800822273 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C2AD6B22AF942800822273 /* UIImageView.swift */; };
+		13C5F13A22C215EE00F3F497 /* cccc.png in Resources */ = {isa = PBXBuildFile; fileRef = 13C5F13922C215ED00F3F497 /* cccc.png */; };
+		13C5F13D22C23C5500F3F497 /* PopUpHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C5F13C22C23C5400F3F497 /* PopUpHomeViewController.swift */; };
+		13C5F14022C24EC200F3F497 /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C5F13F22C24EC200F3F497 /* TermsViewController.swift */; };
 		13C8496022B1003500C909B2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C8495F22B1003500C909B2 /* MapViewController.swift */; };
 		13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE749122B8BB30006A51E0 /* TimelineViewController.swift */; };
 		13CE749422B8BD9E006A51E0 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE749322B8BD9E006A51E0 /* Timeline.swift */; };
@@ -104,6 +107,9 @@
 		137A50F322AE3835006F41BD /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		137A50F522AE8617006F41BD /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		13C2AD6B22AF942800822273 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		13C5F13922C215ED00F3F497 /* cccc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cccc.png; sourceTree = "<group>"; };
+		13C5F13C22C23C5400F3F497 /* PopUpHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpHomeViewController.swift; sourceTree = "<group>"; };
+		13C5F13F22C24EC200F3F497 /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		13C8495F22B1003500C909B2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		13CE749122B8BB30006A51E0 /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		13CE749322B8BD9E006A51E0 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 		134B6EC522A67D9900DD97C8 /* Unsub */ = {
 			isa = PBXGroup;
 			children = (
+				13C5F13922C215ED00F3F497 /* cccc.png */,
 				134B6EC622A67D9A00DD97C8 /* AppDelegate.swift */,
 				134B6EC822A67D9A00DD97C8 /* ViewController.swift */,
 				134B6ECA22A67D9A00DD97C8 /* Main.storyboard */,
@@ -214,6 +221,8 @@
 		134B6EDE22A67FF500DD97C8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				13C5F13E22C24E9C00F3F497 /* TermsAConditions */,
+				13C5F13B22C23C2A00F3F497 /* PopUp */,
 				13FDBCDE22BBB7FC002C5ABE /* Chat */,
 				13DD331822BA188300591F45 /* ChangePassword */,
 				13DD331522BA065A00591F45 /* ForgotPassword */,
@@ -307,6 +316,22 @@
 				13C2AD6B22AF942800822273 /* UIImageView.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		13C5F13B22C23C2A00F3F497 /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				13C5F13C22C23C5400F3F497 /* PopUpHomeViewController.swift */,
+			);
+			path = PopUp;
+			sourceTree = "<group>";
+		};
+		13C5F13E22C24E9C00F3F497 /* TermsAConditions */ = {
+			isa = PBXGroup;
+			children = (
+				13C5F13F22C24EC200F3F497 /* TermsViewController.swift */,
+			);
+			path = TermsAConditions;
 			sourceTree = "<group>";
 		};
 		13C8495E22B1001400C909B2 /* Map */ = {
@@ -495,6 +520,7 @@
 				134B6ECC22A67D9A00DD97C8 /* Main.storyboard in Resources */,
 				134B6F2822A68D2900DD97C8 /* Montserrat-ExtraLight.ttf in Resources */,
 				134B6F2B22A68D2900DD97C8 /* Montserrat-Light.ttf in Resources */,
+				13C5F13A22C215EE00F3F497 /* cccc.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +624,7 @@
 				13DC8A9B22A948800018097C /* Loader.swift in Sources */,
 				137A50F122AE30E8006F41BD /* FileComplaintsViewController.swift in Sources */,
 				13DC8A8C22A8F96B0018097C /* RegisterViewController.swift in Sources */,
+				13C5F13D22C23C5500F3F497 /* PopUpHomeViewController.swift in Sources */,
 				1310793722B775780052D515 /* ComplaintImagesVideosVC.swift in Sources */,
 				13DB6F4D22B284090055BF77 /* Incidents.swift in Sources */,
 				13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */,
@@ -619,6 +646,7 @@
 				13D72C1322B39F93003F323A /* ProfileViewController.swift in Sources */,
 				1327061A22B8E1B500DE0403 /* ResourceCenterViewController.swift in Sources */,
 				13C2AD6C22AF942800822273 /* UIImageView.swift in Sources */,
+				13C5F14022C24EC200F3F497 /* TermsViewController.swift in Sources */,
 				1310793922B7997B0052D515 /* ImageViewController.swift in Sources */,
 				13DD331722BA069900591F45 /* ForgotPasswordViewController.swift in Sources */,
 				137A50F422AE3835006F41BD /* Contacts.swift in Sources */,

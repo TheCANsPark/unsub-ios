@@ -45,15 +45,21 @@ class ProfileViewController: BaseViewController {
     //MARK:- Server Request
     func getProfile() {
         Loader.shared.show()
+        viewContents.isHidden = true
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getProfile, completion: {(response : NSDictionary?, statusCode :Int?) in
             Loader.shared.hide()
             if statusCode == STATUS_CODE.success {
                 self.viewContents.isHidden = false
                 let res = response?.value(forKey: "data") as! NSDictionary
                 self.txtMail.text = res.value(forKey: "email") as? String
-                self.lblName.text = res.value(forKey: "fullName") as? String
+                if res.value(forKey: "annonymous_name") as? String == "" {
+                    let name = res.value(forKey: "name") as! NSDictionary
+                    self.lblName.text = "\(name.value(forKey: "first") as! String)" + " \(name.value(forKey: "last") as! String)"
+                } else {
+                   self.lblName.text = res.value(forKey: "annonymous_name") as? String
+                }
                 self.txtPhone.text = res.value(forKey: "mobile_number") as? String
-                
+                self.txtMail.text = res.value(forKey: "email") as? String
                 let inputFormatter = DateFormatter()
                 inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 let showDate = inputFormatter.date(from: res.value(forKey: "age") as! String)

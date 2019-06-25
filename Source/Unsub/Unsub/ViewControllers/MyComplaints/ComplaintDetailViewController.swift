@@ -105,6 +105,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
             let lblComplaintNumber : UILabel = cell?.contentView.viewWithTag(103) as! UILabel
             let lblAddress : UILabel = cell?.contentView.viewWithTag(104) as! UILabel
             let lblImage : UILabel = cell?.contentView.viewWithTag(105) as! UILabel
+            let lblStatus : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
             
             lblName.text = "\(detail.name?.first ?? "")" + " \(detail.name?.last ?? "")"
             lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
@@ -112,7 +113,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
             lblMail.text = "\(detail.email ?? "")"
             lblComplaintNumber.text = "#\(detail.complaint_number!)"
             lblImage.text = ""
-            
+            lblStatus.text = detail.status!
             return cell!
             
         } else if indexPath.section == 1 {

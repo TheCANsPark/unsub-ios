@@ -72,6 +72,10 @@ class NetworkManager {
                             json , statusCode in
                             completionHandler(json as NSDictionary?, statusCode)
                         })
+                    }else if status == STATUS_CODE.internalServerError {
+                        UserDefaults.standard.set(nil, forKey: kDictTokens)
+                        UserDefaults.standard.set(false, forKey: kLogin)
+                        UserDefaults.standard.set(nil, forKey: kLoginResponse)
                     }
                 })
             }
@@ -124,6 +128,10 @@ class NetworkManager {
                             json , statusCode in
                             completionHandler(json as NSDictionary?, statusCode)
                         })
+                    }else if status == STATUS_CODE.internalServerError {
+                        UserDefaults.standard.set(nil, forKey: kDictTokens)
+                        UserDefaults.standard.set(false, forKey: kLogin)
+                        UserDefaults.standard.set(nil, forKey: kLoginResponse)
                     }
                 })
             }
@@ -181,6 +189,10 @@ class NetworkManager {
                             json , statusCode in
                             completionHandler(json as NSDictionary?, statusCode)
                         })
+                    }else if status == STATUS_CODE.internalServerError {
+                        UserDefaults.standard.set(nil, forKey: kDictTokens)
+                        UserDefaults.standard.set(false, forKey: kLogin)
+                        UserDefaults.standard.set(nil, forKey: kLoginResponse)
                     }
                 })
              }
@@ -265,6 +277,10 @@ class NetworkManager {
                                         
                                         completion(json as NSDictionary?, statusCode)
                                     })
+                                }else if status == STATUS_CODE.internalServerError {
+                                    UserDefaults.standard.set(nil, forKey: kDictTokens)
+                                    UserDefaults.standard.set(false, forKey: kLogin)
+                                    UserDefaults.standard.set(nil, forKey: kLoginResponse)
                                 }
                             })
                         }
@@ -411,6 +427,10 @@ class NetworkManager {
                             json , statusCode in
                             completionHandler(json as NSDictionary?, statusCode)
                         })
+                    } else if status == STATUS_CODE.internalServerError {
+                        UserDefaults.standard.set(nil, forKey: kDictTokens)
+                        UserDefaults.standard.set(false, forKey: kLogin)
+                        UserDefaults.standard.set(nil, forKey: kLoginResponse)
                     }
                 })
             }
