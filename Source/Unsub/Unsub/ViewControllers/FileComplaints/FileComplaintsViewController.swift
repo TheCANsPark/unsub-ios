@@ -15,9 +15,8 @@ import AVFoundation
 import CoreLocation
 import AES256CBC
 
-class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
+class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate{
     
-    @IBOutlet weak var lblType: UILabel!
     @IBOutlet weak var txtFirstName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastname: SkyFloatingLabelTextField!
     @IBOutlet weak var txtEmail: SkyFloatingLabelTextField!
@@ -34,7 +33,10 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     
     
     @IBOutlet weak var imgAccept: UIImageView!
-    @IBOutlet weak var tableView: UITableView!
+    
+    
+    @IBOutlet weak var imgSomeOne: UIImageView!
+    @IBOutlet weak var imgMyself: UIImageView!
     
     let picker = UIImagePickerController()
     var videoURL = NSURL()
@@ -70,11 +72,27 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var isAccept : Int = 0
     var isVideoOrPic = [String]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        arrType = ["Myself", "Someone else"]
-        arrTypeNonLogin = ["Someone else"]
-        submittedBy = "Myself"
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
+            let name = val.value(forKey: "name") as! NSDictionary
+            self.txtFirstName.text = name.value(forKey: "first") as? String
+            self.txtFirstName.isUserInteractionEnabled = false
+            self.txtLastname.text = name.value(forKey: "last") as? String
+            self.txtLastname.isUserInteractionEnabled = false
+            self.txtMobVictim.text = val.value(forKey: "mobile_number") as? String
+            self.txtMobVictim.isUserInteractionEnabled = false
+            self.txtAnnonymousName.text = val.value(forKey: "annonymous_name") as? String
+            self.txtAnnonymousName.isUserInteractionEnabled = false
+            self.txtEmail.text = val.value(forKey: "email") as? String
+            self.txtEmail.isUserInteractionEnabled = false
+            self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
+            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
+            submittedBy = "Myself"
+        }
+       
         picker.delegate = self
         self.title = "File Incidence"
         getCategories()
@@ -83,7 +101,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         txtCrimeDetail.clipsToBounds = true
         txtCrimeDetail.layer.borderWidth = 1.0
         txtCrimeDetail.layer.borderColor = UIColor.lightGray.cgColor
-        tableView.isHidden = true
     }
     //MARK:- Server Requests
     func getCategories() {
@@ -140,47 +157,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK:- UITableViewDataSource
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
-            return arrType.count
-        
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TypeTableCell")
-        let lblType : UILabel = cell?.contentView.viewWithTag(100) as! UILabel
-        lblType.text = arrType[indexPath.row]
-        return cell!
-    }
-    //MARK:- UITableViewDelegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.isHidden = true
-        isType = 0
-        
-        if UserDefaults.standard.bool(forKey: kLogin) == true {
-            lblType.text = arrType[indexPath.row]
-            submittedBy = arrType[indexPath.row]
-            if arrType[indexPath.row] == "Myself" {
-                let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
-                let name = val.value(forKey: "name") as! NSDictionary
-                self.txtFirstName.text = name.value(forKey: "first") as? String
-                self.txtLastname.text = name.value(forKey: "last") as? String
-                self.txtMobVictim.text = val.value(forKey: "mobile_number") as? String
-                self.txtAnnonymousName.text = val.value(forKey: "annonymous_name") as? String
-                
-            } else {
-                self.txtFirstName.text = ""
-                self.txtLastname.text = ""
-                self.txtMobVictim.text = ""
-                self.txtAnnonymousName.text = ""
-            }
-        } else {
-             self.lblType.text = arrType[indexPath.row]
-             submittedBy = arrType[indexPath.row]
-        }
-        
-    }
     //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == txtCategory {
@@ -435,7 +411,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.isPicVideoSelected = 0
                         self.collectionView.reloadData()
                         videoURL = (info["UIImagePickerControllerMediaURL"] as? NSURL)!
-                        self.photoVideoImageArr.append(self.thumbnailForVideoAtURL(url: self.videoURL)!)
+                        let img = self.thumbnailForVideoAtURL(url: self.videoURL)!
+                        self.photoVideoImageArr.append(img)
                         self.isPicVideoSelected = 1
                         self.onceVideoSelected = 2
                         self.picVideoUrlArr.append(videoURL as URL)
@@ -489,7 +466,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.isPicVideoSelected = 0
                         self.collectionView.reloadData()
                         videoURL = (info["UIImagePickerControllerMediaURL"] as? NSURL)!
-                        self.photoVideoImageArr.append(self.thumbnailForVideoAtURL(url: self.videoURL)!)
+                        let img = self.thumbnailForVideoAtURL(url: self.videoURL)!
+                        self.photoVideoImageArr.append(img)
                         self.isPicVideoSelected = 1
                         self.onceVideoSelected = 2
                         self.onlyVideoURL = videoURL as NSURL
@@ -515,12 +493,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
      func thumbnailForVideoAtURL(url: NSURL) -> UIImage? {
         let asset = AVAsset(url: url as URL)
         let assetImageGenerator = AVAssetImageGenerator(asset: asset)
-        
+        assetImageGenerator.appliesPreferredTrackTransform = true
         var time = asset.duration
         time.value = min(time.value, 2)
         
         do {
             let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+            
             return UIImage(cgImage: imageRef)
         } catch {
             print("error")
@@ -622,15 +601,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             createIncidents()
         }
     }
-    @IBAction func selectType(_ sender: Any) {
-        if isType == 0 {
-            tableView.isHidden = false
-            isType = 1
-        } else {
-            tableView.isHidden = true
-            isType = 0
-        }
-    }
+    
     @IBAction func accept(_ sender: Any) {
         if isAccept == 0 {
             imgAccept.image = #imageLiteral(resourceName: "checked")
@@ -644,6 +615,55 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         self.present(vc, animated: true, completion: nil)
     }
+   @IBAction func myself(_ sender: Any) {
     
-    
+    if UserDefaults.standard.bool(forKey: kLogin) == true {
+        let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
+        let name = val.value(forKey: "name") as! NSDictionary
+        self.txtFirstName.text = name.value(forKey: "first") as? String
+        self.txtFirstName.isUserInteractionEnabled = false
+        self.txtLastname.text = name.value(forKey: "last") as? String
+        self.txtLastname.isUserInteractionEnabled = false
+        self.txtMobVictim.text = val.value(forKey: "mobile_number") as? String
+        self.txtMobVictim.isUserInteractionEnabled = false
+        self.txtAnnonymousName.text = val.value(forKey: "annonymous_name") as? String
+        self.txtAnnonymousName.isUserInteractionEnabled = false
+        self.txtEmail.text = val.value(forKey: "email") as? String
+        self.txtEmail.isUserInteractionEnabled = false
+        self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
+        self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
+        submittedBy = "Myself"
+        
+        
+    } else {
+        self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
+        self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
+        submittedBy = "Someone else"
+    }
 }
+    
+    @IBAction func someoneElse(_ sender: Any) {
+        self.txtFirstName.isUserInteractionEnabled = true
+        self.txtLastname.isUserInteractionEnabled = true
+        self.txtMobVictim.isUserInteractionEnabled = true
+        self.txtAnnonymousName.isUserInteractionEnabled = true
+        self.txtEmail.isUserInteractionEnabled = true
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+        
+            self.txtFirstName.text = ""
+            self.txtLastname.text = ""
+            self.txtMobVictim.text = ""
+            self.txtAnnonymousName.text = ""
+            self.txtEmail.text = ""
+            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_filled")
+            self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
+            submittedBy = "Someone else"
+        } else {
+            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_filled")
+            self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
+            submittedBy = "Someone else"
+        }
+    }
+    
+ }
+

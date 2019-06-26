@@ -31,16 +31,7 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
         tableView.isHidden = true
         getTimeline()
         
-        //timeline image
-        let rightImage = UIButton(type: .custom)
-        rightImage.setImage(UIImage(named:"top"), for: .normal) // Image can be downloaded from here below link
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightImage)
-        
-        let menuBarItem = UIBarButtonItem(customView: rightImage)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
-        currHeight?.isActive = true
+     
         // Do any additional setup after loading the view.
     }
 

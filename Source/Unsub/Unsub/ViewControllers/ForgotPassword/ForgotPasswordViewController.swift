@@ -11,9 +11,12 @@ import UIKit
 class ForgotPasswordViewController: UIViewController, UIGestureRecognizerDelegate {
 
     
+    @IBOutlet weak var viewBg: UIView!
     @IBOutlet weak var txtMail: UITextField!
     
     @IBOutlet weak var viewPassword: UIView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,8 +27,8 @@ class ForgotPasswordViewController: UIViewController, UIGestureRecognizerDelegat
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(ForgotPasswordViewController.myviewTapped(_:)))
         tapGesture.numberOfTapsRequired = 1
         tapGesture.numberOfTouchesRequired = 1
-        self.view.addGestureRecognizer(tapGesture)
-        self.viewPassword.removeGestureRecognizer(tapGesture)
+        self.viewBg.addGestureRecognizer(tapGesture)
+        //self.viewPassword.removeGestureRecognizer(tapGesture)
        // self.view.isUserInteractionEnabled = true
         // Do any additional setup after loading the view.
     }

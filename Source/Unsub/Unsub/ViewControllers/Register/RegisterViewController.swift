@@ -67,7 +67,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             }
         })
     }
-    
+    //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == txtAge {
             createDatePicker()
@@ -78,7 +78,14 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     //MARK:- Date Picker
     func createDatePicker(){
         datePicker.datePickerMode = .date
-        datePicker.maximumDate = Date()
+        let calendar = Calendar(identifier: .gregorian)
+        let currentDate = Date()
+        var components = DateComponents()
+        components.calendar = calendar
+        components.year = -12
+        let minDate = calendar.date(byAdding: components, to: currentDate)!
+        datePicker.date = minDate
+        
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         //done button & cancel button
@@ -155,5 +162,4 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             isVolunteer = false
         }
     }
-    
 }

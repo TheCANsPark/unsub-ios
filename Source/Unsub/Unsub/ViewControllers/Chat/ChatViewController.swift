@@ -8,24 +8,33 @@
 
 import UIKit
 import Gloss
+import IQKeyboardManagerSwift
 
-class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     
     @IBOutlet weak var tableView: UITableView!
+     @IBOutlet weak var cnsViewbottom: NSLayoutConstraint!
+    
     var ID = String()
     var incidentCommentsArr = [Comments]()
     
     @IBOutlet weak var txtQuery: UITextField!
     
-    
-    
-    override func viewDidLoad() {
+     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        IQKeyboardManager.shared.enable = false
+        IQKeyboardManager.shared.enableAutoToolbar = false
         self.title = "Chat"
         tableView.rowHeight = 300.0
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
         getComments()
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         
         // Do any additional setup after loading the view.
     }
@@ -64,15 +73,17 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         })
     }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     //MARK:- UITableViewDataSource
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if incidentCommentsArr.count != 0 {
           return incidentCommentsArr.count
         } else {
             return 0
         }
-        
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let incident = incidentCommentsArr[indexPath.row]
@@ -136,4 +147,13 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let resultString = inputFormatter.string(from: showDate!)
         return resultString
     }
-}
+    @objc func keyboardWillShow(notification: NSNotification) {
+        let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.size
+        
+        print(keyboardSize)
+        self.cnsViewbottom.constant = keyboardSize.height - self.view.safeAreaInsets.bottom + 50
+    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.cnsViewbottom.constant = 0
+    }
+ }

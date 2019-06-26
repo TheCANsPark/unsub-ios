@@ -116,6 +116,8 @@ class ResourceDetailViewController:BaseViewController, UITableViewDelegate, UITa
         guard let navVC = self.navigationController else {
             return self
         }
+        navVC.navigationBar.tintColor = .white
+        navVC.navigationBar.backIndicatorImage = #imageLiteral(resourceName: "back-arrow")
         return navVC
     }
 }

@@ -214,6 +214,7 @@ class ContainerViewController: BaseViewController {
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 30)
         currHeight?.isActive = true
         
+        self.title = ""
     //   self.navigationController?.navigationBar.layer.removeFromSuperlayer()
        
     }
