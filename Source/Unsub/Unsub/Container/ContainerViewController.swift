@@ -42,54 +42,61 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-active")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
         customizeNavigationBar()
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        
-        homeView.isHidden = false
-        profileView.isHidden = true
-        chatView.isHidden = true
-        contactView.isHidden = true
-        
-        imgHome.image = #imageLiteral(resourceName: "footer-home-active")
-        imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
-        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
-        
-        customizeNavigationBar()
-        //loginImage
-        let loginImg = UIButton(type: .custom)
-        loginImg.setImage(UIImage(named:"login"), for: .normal) // Image can be downloaded from here below link
-        let loginBar = UIBarButtonItem(customView: loginImg)
-        let currWidth1 = loginBar.customView?.widthAnchor.constraint(equalToConstant: 13)
-        currWidth1?.isActive = true
-        let currHeight1 = loginBar.customView?.heightAnchor.constraint(equalToConstant: 13)
-        currHeight1?.isActive = true
-        
-        if UserDefaults.standard.bool(forKey: kLogin) == true {
-            rightButtonTitle = UIBarButtonItem.init(
-                title: "LOGOUT",
-                style: .done,
-                target: self,
-                action: #selector(ContainerViewController.logout)
-            )
+        if AppSharedData.sharedInstance.isBackIncident == 1 {
+            AppSharedData.sharedInstance.isBackIncident = 0 
             
         } else {
-            rightButtonTitle = UIBarButtonItem.init(
-                title: "LOGIN",
-                style: .done,
-                target: self,
-                action: #selector(ContainerViewController.login)
-            )
+            homeView.isHidden = false
+            profileView.isHidden = true
+            chatView.isHidden = true
+            contactView.isHidden = true
+            
+            imgHome.image = #imageLiteral(resourceName: "footer-home-active")
+            imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
+            imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
+            imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+            
+            customizeNavigationBar()
+            //loginImage
+            let loginImg = UIButton(type: .custom)
+            loginImg.setImage(UIImage(named:"login"), for: .normal) // Image can be downloaded from here below link
+            let loginBar = UIBarButtonItem(customView: loginImg)
+            let currWidth1 = loginBar.customView?.widthAnchor.constraint(equalToConstant: 13)
+            currWidth1?.isActive = true
+            let currHeight1 = loginBar.customView?.heightAnchor.constraint(equalToConstant: 13)
+            currHeight1?.isActive = true
+            
+            if UserDefaults.standard.bool(forKey: kLogin) == true {
+                rightButtonTitle = UIBarButtonItem.init(
+                    title: "LOGOUT",
+                    style: .done,
+                    target: self,
+                    action: #selector(ContainerViewController.logout)
+                )
+                
+            } else {
+                rightButtonTitle = UIBarButtonItem.init(
+                    title: "LOGIN",
+                    style: .done,
+                    target: self,
+                    action: #selector(ContainerViewController.login)
+                )
+            }
+            //loginTitle
+            rightButtonTitle.tintColor = UIColor.white
+            rightButtonTitle.setTitleTextAttributes([ NSAttributedStringKey.font: UIFont(name: "Montserrat-SemiBold", size: 13)!], for: UIControlState.normal)
+            self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
         }
-        //loginTitle
-        rightButtonTitle.tintColor = UIColor.white
-        rightButtonTitle.setTitleTextAttributes([ NSAttributedStringKey.font: UIFont(name: "Montserrat-SemiBold", size: 13)!], for: UIControlState.normal)
-        self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
+        
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,7 +130,7 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-active")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
         customizeNavigationBar()
@@ -144,7 +151,7 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-black")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-active")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
@@ -168,7 +175,7 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-black")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-active")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
@@ -187,7 +194,7 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-black")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
@@ -253,13 +260,16 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-black")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment-black")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         
+        self.navigationItem.leftBarButtonItem = nil
+        
     }
     @objc func loadIncidences(notification: Notification) {
+        self.title = "My incidences"
         
         AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true
@@ -269,7 +279,7 @@ class ContainerViewController: BaseViewController {
         
         imgHome.image = #imageLiteral(resourceName: "footer-home-black")
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
-        imgChat.image = #imageLiteral(resourceName: "footer-comment")
+        imgChat.image = #imageLiteral(resourceName: "my-complaints-active")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))

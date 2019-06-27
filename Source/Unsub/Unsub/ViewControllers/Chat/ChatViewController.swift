@@ -14,7 +14,11 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
 
     
     @IBOutlet weak var tableView: UITableView!
-     @IBOutlet weak var cnsViewbottom: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var viewTextField: UIView!
     
     var ID = String()
     var incidentCommentsArr = [Comments]()
@@ -24,8 +28,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
      override func viewDidLoad() {
         super.viewDidLoad()
         
-        IQKeyboardManager.shared.enable = false
-        IQKeyboardManager.shared.enableAutoToolbar = false
+        
         self.title = "Chat"
         tableView.rowHeight = 300.0
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
@@ -43,6 +46,18 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        IQKeyboardManager.shared.enable = false
+        IQKeyboardManager.shared.enableAutoToolbar = false
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.enableAutoToolbar = true
+    }
+    
     //MARK:- Server Request
     func getComments() {
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getComments + ID, completion: {(response : NSDictionary?, statusCode : Int?) in
@@ -77,6 +92,12 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         textField.resignFirstResponder()
         return true
     }
+    
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        tableView.reloadData()
+//        scrollToBottom()
+//        return true
+//    }
     //MARK:- UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if incidentCommentsArr.count != 0 {
@@ -148,12 +169,15 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         return resultString
     }
     @objc func keyboardWillShow(notification: NSNotification) {
-        let keyboardSize = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue.size
-        
-        print(keyboardSize)
-        self.cnsViewbottom.constant = keyboardSize.height - self.view.safeAreaInsets.bottom + 50
-    }
+        if let userInfo = notification.userInfo {
+            let keyBoardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let keyBoardHeight = keyBoardFrame!.height
+            self.bottomConstraint.constant = -(keyBoardHeight - UIApplication.shared.keyWindow!.safeAreaInsets.bottom)
+            getComments()
+      }
+   }
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.cnsViewbottom.constant = 0
+        
+        self.bottomConstraint.constant = 0
     }
  }

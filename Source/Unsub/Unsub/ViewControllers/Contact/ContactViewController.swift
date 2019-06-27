@@ -39,6 +39,10 @@ class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerVi
             
         } else {
             AppSharedData.sharedInstance.contactViewControllerRef = self
+            
+            
+            
+            
         }
         // Do any additional setup after loading the view.
     }
@@ -55,6 +59,7 @@ class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerVi
             Loader.shared.hide()
             if let con = [Contacts].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                 self.contactArr = con
+                self.txtDepartment.text = ""
             }
         })
     }

@@ -21,7 +21,7 @@ class HomeViewController: BaseViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {  
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -36,9 +36,6 @@ class HomeViewController: BaseViewController {
     @IBAction func myComplaintsActio(_ sender: Any) {
         if UserDefaults.standard.bool(forKey: kLogin) == true  {
             NotificationCenter.default.post(name: Notification.Name("loadIncidentsViewController"), object: nil)
-            
-//            let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "MyComplaintsViewController") as? MyComplaintsViewController
-//            self.navigationController?.pushViewController(vc!, animated: true)
             
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController

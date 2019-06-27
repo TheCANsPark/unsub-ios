@@ -576,7 +576,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     }
     @IBAction func addAttachment(_ sender: Any) {
         if isAttachedFile == 1 {
-            btnAddRemoveAttachment.setTitle("Add attachment", for: .normal)
+            btnAddRemoveAttachment.setTitle("Add Attachment", for: .normal)
             lblNameAttachment.isHidden = true
             lblNameAttachment.text = ""
             self.isAttachedFile = 0
@@ -641,7 +641,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         submittedBy = "Someone else"
     }
 }
-    
     @IBAction func someoneElse(_ sender: Any) {
         self.txtFirstName.isUserInteractionEnabled = true
         self.txtLastname.isUserInteractionEnabled = true
@@ -664,6 +663,11 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             submittedBy = "Someone else"
         }
     }
-    
+    @IBAction func deleteGallery(_ sender: Any) {
+        let button = sender as? UIButton
+        let cell = button?.superview?.superview as? UICollectionViewCell
+        let indexPath = collectionView.indexPath(for: cell!)
+        photoVideoImageArr.remove(at: (indexPath?.row)!)
+        collectionView.reloadData()
+    }
  }
-

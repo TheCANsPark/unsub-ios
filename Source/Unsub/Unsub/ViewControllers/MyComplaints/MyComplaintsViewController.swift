@@ -77,7 +77,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let showDate = inputFormatter.date(from: incident.incident_date!)
-        inputFormatter.dateFormat = "MMM dd,yyyy"
+        inputFormatter.dateFormat = "MMM dd,yyyy HH:mm a"
         let resultString = inputFormatter.string(from: showDate!)
         
         lblCrimeDetail.text = incident.crime_details!
@@ -92,6 +92,8 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintDetailViewController") as? ComplaintDetailViewController
         vc?.complaintID = incidentArr[indexPath.row]._id!
+        vc?.categoryName = (incidentArr[indexPath.row].Category?.name!)!
+        vc?.incidentString = incidentArr[indexPath.row].crime_details!
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
