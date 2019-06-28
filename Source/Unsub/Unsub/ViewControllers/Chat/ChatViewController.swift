@@ -16,32 +16,24 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
-    
     @IBOutlet weak var viewTextField: UIView!
+    @IBOutlet weak var txtQuery: UITextField!
     
     var ID = String()
     var incidentCommentsArr = [Comments]()
     
-    @IBOutlet weak var txtQuery: UITextField!
-    
      override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        AppSharedData.sharedInstance.chatViewControllerRef = self
         self.title = "Chat"
         tableView.rowHeight = 300.0
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
         getComments()
         
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        
-        // Do any additional setup after loading the view.
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -50,14 +42,10 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         IQKeyboardManager.shared.enable = false
         IQKeyboardManager.shared.enableAutoToolbar = false
     }
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
     override func viewDidDisappear(_ animated: Bool) {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
     }
-    
     //MARK:- Server Request
     func getComments() {
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getComments + ID, completion: {(response : NSDictionary?, statusCode : Int?) in
@@ -70,7 +58,6 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                     self.scrollToBottom()
                 }
             }
-            
         })
     }
     func commentQuery() {
@@ -79,7 +66,6 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                      "incident_id"   : ID]
         NetworkManager.sharedInstance.apiParsePostWithJsonEncoding(WEB_URL.commentQuery as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode :Int?) in
             if statusCode == STATUS_CODE.success {
-              //  self.isComment = 1
                 self.txtQuery.text = ""
                 self.getComments()
                 
@@ -88,16 +74,11 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
         })
     }
+    //MARK:- UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        tableView.reloadData()
-//        scrollToBottom()
-//        return true
-//    }
     //MARK:- UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if incidentCommentsArr.count != 0 {
@@ -136,13 +117,12 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             lblChat.text = incident.comment!
             return cell!
         }
-        
     }
     //MARK:- UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-  //MARK:- UIButtonActions
+    //MARK:- UIButtonActions
     @IBAction func askQuery(_ sender: Any) {
         if txtQuery.text == "" {
             
@@ -177,7 +157,6 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
       }
    }
     @objc func keyboardWillHide(notification: NSNotification) {
-        
         self.bottomConstraint.constant = 0
     }
  }

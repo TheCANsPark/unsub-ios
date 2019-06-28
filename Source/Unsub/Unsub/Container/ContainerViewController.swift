@@ -269,7 +269,7 @@ class ContainerViewController: BaseViewController {
         
     }
     @objc func loadIncidences(notification: Notification) {
-        self.title = "My incidences"
+        self.title = "My Incidences List"
         
         AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true

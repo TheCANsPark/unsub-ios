@@ -126,8 +126,9 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     }
     //MARK:- Helper
     @objc func timeline() -> Void {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TimelineViewController") as? TimelineViewController
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ContainerChatTimeVC") as? ContainerChatTimeVC
         vc?.complaintID = complaintID
+        vc?.ID = complaintDetailArr._id!
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     @objc func chatAction() -> Void {

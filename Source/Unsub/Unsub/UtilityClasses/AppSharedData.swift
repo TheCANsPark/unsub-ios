@@ -12,11 +12,15 @@ import UIKit
 class AppSharedData {
     static var sharedInstance = AppSharedData()
     
-    var contactViewControllerRef : ContactViewController!
-    var profileViewControllerRef : ProfileViewController!
-    var myComplaintsViewControllerRef : MyComplaintsViewController!
+    var contactViewControllerRef         : ContactViewController!
+    var profileViewControllerRef         : ProfileViewController!
+    var myComplaintsViewControllerRef    : MyComplaintsViewController!
+    var timelineViewControllerRef        : TimelineViewController!
+    var chatViewControllerRef            : ChatViewController!
+    
     var isBackIncident : Int = 0
-    var keyboardHeight : CGFloat = 0 
+    var keyboardHeight : CGFloat = 0
+    
     func alert(vc: UIViewController,message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))

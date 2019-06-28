@@ -63,6 +63,7 @@
 		13DD331722BA069900591F45 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */; };
 		13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331922BA18AA00591F45 /* ChangePasswordViewController.swift */; };
 		13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331B22BA64E900591F45 /* ResourceDetailViewController.swift */; };
+		13E61C0F22C61D3400FAF015 /* ContainerChatTimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E61C0E22C61D3400FAF015 /* ContainerChatTimeVC.swift */; };
 		13FDBCE022BBB870002C5ABE /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FDBCDF22BBB870002C5ABE /* ChatViewController.swift */; };
 		ED24C510300B12DFA41B7A8A /* Pods_Unsub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75002B1FDA556FE0057CD87E /* Pods_Unsub.framework */; };
 /* End PBXBuildFile section */
@@ -126,6 +127,7 @@
 		13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		13DD331922BA18AA00591F45 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		13DD331B22BA64E900591F45 /* ResourceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceDetailViewController.swift; sourceTree = "<group>"; };
+		13E61C0E22C61D3400FAF015 /* ContainerChatTimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerChatTimeVC.swift; sourceTree = "<group>"; };
 		13FDBCDF22BBB870002C5ABE /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		75002B1FDA556FE0057CD87E /* Pods_Unsub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unsub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1BACB85FB8028F42613A6C0 /* Pods-Unsub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unsub.release.xcconfig"; path = "Pods/Target Support Files/Pods-Unsub/Pods-Unsub.release.xcconfig"; sourceTree = "<group>"; };
@@ -221,13 +223,14 @@
 		134B6EDE22A67FF500DD97C8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				13E61C0D22C61CFA00FAF015 /* ContainerTimeChat */,
+				13FDBCDE22BBB7FC002C5ABE /* Chat */,
+				13CE749022B8BB17006A51E0 /* Timeline */,
 				13C5F13E22C24E9C00F3F497 /* TermsAConditions */,
 				13C5F13B22C23C2A00F3F497 /* PopUp */,
-				13FDBCDE22BBB7FC002C5ABE /* Chat */,
 				13DD331822BA188300591F45 /* ChangePassword */,
 				13DD331522BA065A00591F45 /* ForgotPassword */,
 				1327061822B8E19300DE0403 /* ResourceCenter */,
-				13CE749022B8BB17006A51E0 /* Timeline */,
 				13D72C1122B39F49003F323A /* Profile */,
 				13DB6F4922B26E630055BF77 /* MyComplaints */,
 				13C8495E22B1001400C909B2 /* Map */,
@@ -417,6 +420,14 @@
 				13DD331922BA18AA00591F45 /* ChangePasswordViewController.swift */,
 			);
 			path = ChangePassword;
+			sourceTree = "<group>";
+		};
+		13E61C0D22C61CFA00FAF015 /* ContainerTimeChat */ = {
+			isa = PBXGroup;
+			children = (
+				13E61C0E22C61D3400FAF015 /* ContainerChatTimeVC.swift */,
+			);
+			path = ContainerTimeChat;
 			sourceTree = "<group>";
 		};
 		13FDBCDE22BBB7FC002C5ABE /* Chat */ = {
@@ -635,6 +646,7 @@
 				1327061C22B8E58000DE0403 /* Resource.swift in Sources */,
 				134B6EC922A67D9A00DD97C8 /* ViewController.swift in Sources */,
 				13DB6F4B22B26EA50055BF77 /* MyComplaintsViewController.swift in Sources */,
+				13E61C0F22C61D3400FAF015 /* ContainerChatTimeVC.swift in Sources */,
 				13FDBCE022BBB870002C5ABE /* ChatViewController.swift in Sources */,
 				134B6EC722A67D9A00DD97C8 /* AppDelegate.swift in Sources */,
 				13DC8A9422A936740018097C /* LoginnViewController.swift in Sources */,

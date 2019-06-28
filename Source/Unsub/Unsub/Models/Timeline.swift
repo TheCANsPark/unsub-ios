@@ -13,11 +13,13 @@ struct TimelineData : JSONDecodable {
     let user_name              : String?
     let action             : String?
     let createdAt        : String?
+    let subject        : String?
     
     init?(json: JSON) {
         self.user_name = "user_name" <~~ json
         self.action = "action" <~~ json
         self.createdAt = "createdAt" <~~ json
+        self.subject = "subject" <~~ json
     }
 }
 

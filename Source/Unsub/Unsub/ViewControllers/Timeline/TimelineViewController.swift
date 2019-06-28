@@ -26,13 +26,12 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        AppSharedData.sharedInstance.timelineViewControllerRef = self
         self.title = "Timeline"
         viewData.isHidden = true
         tableView.isHidden = true
         getTimeline()
-        
-     
-        // Do any additional setup after loading the view.
+      // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,6 +84,8 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "TimelineTableCell")
         let lblDateTimeLine : UILabel = cell?.contentView.viewWithTag(100) as! UILabel
         let lblAction : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
+        let lblStatus : UILabel = cell?.contentView.viewWithTag(102) as! UILabel
+        let lblUserName : UILabel = cell?.contentView.viewWithTag(103) as! UILabel
         let timeline = timelineArr[indexPath.row]
         
         let inputFormatter = DateFormatter()
@@ -95,6 +96,8 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
         
         lblDateTimeLine.text = resultString
         lblAction.text = timeline.action!
+        lblStatus.text = timeline.subject!
+        lblUserName.text = "by \(timeline.user_name!)"
         
         return cell!
     }
