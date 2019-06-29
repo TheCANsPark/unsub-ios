@@ -65,9 +65,15 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let param = ["comment"       : txtQuery.text!,
                      "incident_id"   : ID]
         NetworkManager.sharedInstance.apiParsePostWithJsonEncoding(WEB_URL.commentQuery as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode :Int?) in
+            Loader.shared.hide()
             if statusCode == STATUS_CODE.success {
-                self.txtQuery.text = ""
-                self.getComments()
+                let data = response?.value(forKey: "data") as! NSDictionary
+                if let com = [Comments].from(jsonArray: data.value(forKey: "incident_comments") as! [JSON]) {
+                    self.incidentCommentsArr = com
+                    self.txtQuery.text = ""
+                    self.tableView.reloadData()
+                    self.scrollToBottom()
+                }
                 
             }else {
                 AppSharedData.sharedInstance.alert(vc: self, message: "Could not load")
@@ -144,7 +150,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let showDate = inputFormatter.date(from: dateStr)
-        inputFormatter.dateFormat = "MMM dd,yyyy EEEE HH:mm a"
+        inputFormatter.dateFormat = "MMM dd HH:mm a"
         let resultString = inputFormatter.string(from: showDate!)
         return resultString
     }

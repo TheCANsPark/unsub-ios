@@ -11,7 +11,6 @@ import Gloss
 
 class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
 
-    
     @IBOutlet weak var tableView: UITableView!
     
     var incidentArr = [Incidents]()
@@ -81,7 +80,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         let resultString = inputFormatter.string(from: showDate!)
         
         lblCrimeDetail.text = incident.crime_details!
-        lblComplaintID.text = "Complaint ID: #\(incident.complaint_number!)"
+        lblComplaintID.text = "Incidence ID: #\(incident.complaint_number!)"
         lblCrimeDate.text = "Date: \(resultString)"
         lblCategoryName.text = incident.Category?.name!
         lblTimeline.text = "\(incident.timeline_actions_count!)"

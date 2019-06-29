@@ -58,9 +58,7 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
                     self.lblIncidenceDetail.text = incident.incident_details!
                     self.lblComplaintID.text = "Incidence ID: #\(incident.complaint_number!)"
                     
-                    self.heightConstraintView.constant = self.heightForView(text: incident.incident_details!) + 70
-
-                    
+                   // self.heightConstraintView.constant = self.heightForView(text: incident.incident_details!) + 70
                 }
                 if let time = [TimelineData].from(jsonArray: response?.value(forKey: "timeline_data") as! [JSON]) {
                     self.timelineArr = time
@@ -78,7 +76,6 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
         } else {
             return 0
         }
-        
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TimelineTableCell")

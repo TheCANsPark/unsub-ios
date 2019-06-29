@@ -216,22 +216,14 @@ class ContainerViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
         
         let menuBarItem = UIBarButtonItem(customView: infoButton)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 30)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
         currHeight?.isActive = true
         
         self.title = ""
-    //   self.navigationController?.navigationBar.layer.removeFromSuperlayer()
-       
     }
-    @objc func openMenu() -> Void {
-        //        let popVC:SideBarViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController") as! SideBarViewController
-        //        popVC.modalTransitionStyle = .crossDissolve
-        //        popVC.modalPresentationStyle = .overFullScreen
-        //        popVC.delegate = self
-        //        self.present(popVC, animated: true, completion: nil)
-    }
+    
     @objc func login() -> Void {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
         self.present(vc, animated: true, completion: nil)

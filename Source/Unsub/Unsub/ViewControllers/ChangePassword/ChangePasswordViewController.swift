@@ -18,6 +18,8 @@ class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegat
     @IBOutlet weak var viewBg: UIView!
     
     @IBOutlet weak var viewChangePassword: UIView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewChangePassword.layer.cornerRadius = 20
@@ -45,7 +47,7 @@ class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegat
         NetworkManager.sharedInstance.apiParsePutWithJsonEncoding(WEB_URL.changePassword as NSString , postParameters: param as NSDictionary, completionHandler: {(response :  NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
             if statusCode == STATUS_CODE.success {
-                let refreshAlert = UIAlertController(title: "Alert", message: response?.value(forKey: "msg") as? String, preferredStyle: UIAlertControllerStyle.alert)
+                let refreshAlert = UIAlertController(title: "Alert", message: response?.value(forKey: "message") as? String, preferredStyle: UIAlertControllerStyle.alert)
                 refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                     self.dismiss(animated: true, completion: nil)
                 }))
@@ -53,7 +55,6 @@ class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegat
             } else if statusCode == STATUS_CODE.badRequest {
                 AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "msg") as! String)
             }
-            
         })
     }
     //MARK:- UIButtonActions
@@ -72,9 +73,7 @@ class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegat
             return false
         }
         return true
-    }
-
-    //MARK:- Helper
+    }    //MARK:- Helper
     @objc func myviewTapped(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             dismiss(animated: true, completion: nil)

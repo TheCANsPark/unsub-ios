@@ -34,7 +34,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
         
         //timeline image
         let rightImage = UIButton(type: .custom)
-        rightImage.setImage(UIImage(named:"top"), for: .normal) // Image can be downloaded from here below link
+        rightImage.setImage(UIImage(named:"chat"), for: .normal) // Image can be downloaded from here below link
         rightImage.addTarget(self, action: #selector(ComplaintDetailViewController.timeline), for: .touchUpInside)
      //   self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightImage)
         let time = UIBarButtonItem(customView: rightImage)
@@ -43,20 +43,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
         currWidth?.isActive = true
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
         currHeight?.isActive = true
-        
-        //chat image
-        let chatImg = UIButton(type: .custom)
-        chatImg.setImage(UIImage(named:"footer-profile-black"), for: .normal) // Image can be downloaded from here below link
-        chatImg.addTarget(self, action: #selector(ComplaintDetailViewController.chatAction), for: .touchUpInside)
-      //  self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: chatImg)
-        let cha = UIBarButtonItem(customView: chatImg)
-        let chatImgItem = UIBarButtonItem(customView: rightImage)
-        let currWidth1 = chatImgItem.customView?.widthAnchor.constraint(equalToConstant: 20)
-        currWidth1?.isActive = true
-        let currHeight1 = chatImgItem.customView?.heightAnchor.constraint(equalToConstant: 20)
-        currHeight1?.isActive = true
-        
-        self.navigationItem.rightBarButtonItems = [time, cha]
+        self.navigationItem.rightBarButtonItems = [time]
     }
     //MARK:- Server Request
     func getComplaintDetail() {
@@ -97,20 +84,27 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
             let lblMail : UILabel = cell?.contentView.viewWithTag(102) as! UILabel
             let lblComplaintNumber : UILabel = cell?.contentView.viewWithTag(103) as! UILabel
             let lblAddress : UILabel = cell?.contentView.viewWithTag(104) as! UILabel
-            let lblImage : UILabel = cell?.contentView.viewWithTag(105) as! UILabel
             let lblCategoryName : UILabel = cell?.contentView.viewWithTag(106) as! UILabel
             let lblDetail : UILabel = cell?.contentView.viewWithTag(107) as! UILabel
             let lblStatus : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
+            let lblDate : UILabel = cell?.contentView.viewWithTag(108) as! UILabel
             
             lblName.text = "\(detail.name?.first ?? "")" + " \(detail.name?.last ?? "")"
             lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
             lblAddress.text = "\(detail.address?.address ?? "")"
             lblMail.text = "\(detail.email ?? "")"
             lblComplaintNumber.text = "#\(detail.complaint_number!)"
-            lblImage.text = ""
             lblStatus.text = detail.status!
             lblCategoryName.text = categoryName
             lblDetail.text = incidentString
+            
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            let showDate = inputFormatter.date(from: detail.incident_date!)
+            inputFormatter.dateFormat = "MMM dd,yyyy hh:mm a"
+            let resultString = inputFormatter.string(from: showDate!)
+            
+            lblDate.text = resultString
             return cell!
         }
         return UITableViewCell()
