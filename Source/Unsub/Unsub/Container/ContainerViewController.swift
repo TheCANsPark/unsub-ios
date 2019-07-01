@@ -94,9 +94,6 @@ class ContainerViewController: BaseViewController {
             rightButtonTitle.setTitleTextAttributes([ NSAttributedStringKey.font: UIFont(name: "Montserrat-SemiBold", size: 13)!], for: UIControlState.normal)
             self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
         }
-        
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

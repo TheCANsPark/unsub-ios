@@ -99,7 +99,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let cell = tableView.dequeueReusableCell(withIdentifier: "VictimTableCell")
             let lblChat : UILabel = cell?.contentView.viewWithTag(100) as! UILabel
             let lblDate : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
-            lblDate.text = getDateFromUTC(dateStr: incident.date!)
+            lblDate.text = getDateFromUTC(dateStr: "\(incident.date ?? "")")
             lblChat.text = incident.comment!
             return cell!
             

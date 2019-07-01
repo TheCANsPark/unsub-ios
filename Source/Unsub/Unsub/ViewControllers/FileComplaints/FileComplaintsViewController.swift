@@ -589,7 +589,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         
     }
     @IBAction func submit(_ sender: Any) {
-       if txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtEmail.text?.count == 0 {
+       if txtFirstName.text?.count  == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtEmail.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
         } else if isAccept == 0 {

@@ -237,6 +237,7 @@ class NetworkManager {
                 let userResponse = response?.value(forKey: "data") as! NSDictionary
                 if let access_token = userResponse.value(forKey: "accessToken") , let refresh_token = userResponse.value(forKey: "refreshToken"){
                     AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: access_token as! String, refreshToken: refresh_token as! String)
+              
                 }
             }
             completionHandler(statusCode)
@@ -248,7 +249,7 @@ class NetworkManager {
         
         var header = HTTPHeaders()
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory || url == WEB_URL.getComments {
+            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory || url == WEB_URL.getComments || url.contains(WEB_URL.getTimeline)   {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
                 header = ["Authorization"  : "Bearer \(token)"]
             }

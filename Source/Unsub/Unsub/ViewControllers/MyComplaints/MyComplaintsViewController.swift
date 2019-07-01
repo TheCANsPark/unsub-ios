@@ -27,6 +27,11 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            getIncidents()
+        }
+    }
     func getIncidents() {
         Loader.shared.show()
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getIncidents, completion: {(response : NSDictionary?, statusCode : Int?) in

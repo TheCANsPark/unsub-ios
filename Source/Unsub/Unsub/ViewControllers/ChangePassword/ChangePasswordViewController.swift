@@ -53,7 +53,7 @@ class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegat
                 }))
                 self.present(refreshAlert, animated: true, completion: nil)
             } else if statusCode == STATUS_CODE.badRequest {
-                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "msg") as! String)
+                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as! String)
             }
         })
     }

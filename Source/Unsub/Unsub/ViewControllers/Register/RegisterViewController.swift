@@ -122,7 +122,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func register(_ sender: Any) {
-        if txtMail.text?.count == 0 || txtMobile.text?.count == 0 || txtPassword.text?.count == 0 || txtAge.text?.count == 0 {
+        if txtName.text?.count == 0 || txtMail.text?.count == 0 || txtMobile.text?.count == 0 || txtPassword.text?.count == 0 || txtAge.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
             
         } else if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
