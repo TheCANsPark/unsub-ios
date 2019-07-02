@@ -20,7 +20,9 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.title = "Incidence Details"
+        
         getComplaintDetail()
         // Do any additional setup after loading the view.
     }
@@ -47,16 +49,13 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     }
     //MARK:- Server Request
     func getComplaintDetail() {
-        //tableView.isHidden = true
         Loader.shared.show()
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getIncidentDetails + "\(complaintID)", completion: {(response : NSDictionary?, statusCode :Int?) in
             Loader.shared.hide()
             
             if statusCode == STATUS_CODE.success {
-             //  self.tableView.isHidden = false
                 if let com = Incidents.init(json: response?.value(forKey: "data") as! JSON) {
                     self.complaintDetailArr = com
-                    print(self.complaintDetailArr)
                     self.tableView.reloadData()
                 }
             } else {
@@ -117,7 +116,6 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     @IBAction func showImgVideo(_ sender: Any) {
             let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintImagesVideosVC") as? ComplaintImagesVideosVC
             vc?.imgArr = self.complaintDetailArr.images!
-            print(self.complaintDetailArr.images!)
             self.navigationController?.pushViewController(vc!, animated: true)
     }
     //MARK:- Helper

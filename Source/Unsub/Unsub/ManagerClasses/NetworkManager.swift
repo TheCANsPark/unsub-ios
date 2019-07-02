@@ -363,6 +363,9 @@ class NetworkManager {
         }
         //url to be send on server
         var s3URL = NSURL(string: "\(newKey)")!
+      //  completionHandler(s3URL as URL)
+        
+        //Export to server
         let transferManager = AWSS3TransferManager.default()
         transferManager.upload(uploadRequest!).continueWith(executor: AWSExecutor.mainThread(), block: { (task) in
             if task.error != nil {
@@ -438,18 +441,9 @@ class NetworkManager {
             completionHandler(json as NSDictionary?,statusCode)
         }
     }
-    
 }
-
-
 extension Date {
     var ticks: UInt64 {
         return UInt64((self.timeIntervalSince1970 + 62_135_596_800) * 10_000_000)
     }
 }
-
-    
-    
-    
-    
-

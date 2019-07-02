@@ -76,7 +76,6 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         } else {
             imgRedDot.isHidden = true
         }
-        
   
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"

@@ -94,7 +94,7 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
         lblDateTimeLine.text = resultString
         lblAction.text = timeline.action!
         lblStatus.text = timeline.subject!
-        lblUserName.text = "by \(timeline.user_name!)"
+        lblUserName.text = "by \(timeline.user_name ?? "")"
         
         return cell!
     }

@@ -135,26 +135,27 @@ class ContainerViewController: BaseViewController {
     @IBAction func profile(_ sender: Any) {
         self.title = ""
         if UserDefaults.standard.bool(forKey: kLogin) == true {
+            homeView.isHidden = true
+            profileView.isHidden = false
+            chatView.isHidden = true
+            contactView.isHidden = true
+            
+            imgHome.image = #imageLiteral(resourceName: "footer-home-black")
+            imgProfile.image = #imageLiteral(resourceName: "footer-profile-active")
+            imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
+            imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
+            
+            AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+            
+            self.navigationItem.leftBarButtonItem = nil
+            
             AppSharedData.sharedInstance.profileViewControllerRef.getProfile()
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
             self.present(vc, animated: true, completion: nil)
         }
         
-        homeView.isHidden = true
-        profileView.isHidden = false
-        chatView.isHidden = true
-        contactView.isHidden = true
-        
-        imgHome.image = #imageLiteral(resourceName: "footer-home-black")
-        imgProfile.image = #imageLiteral(resourceName: "footer-profile-active")
-        imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
-        imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
-        
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
-        
-        self.navigationItem.leftBarButtonItem = nil
-        
+       
     }
     @IBAction func chat(_ sender: Any) {
         self.title = "My Incidences"

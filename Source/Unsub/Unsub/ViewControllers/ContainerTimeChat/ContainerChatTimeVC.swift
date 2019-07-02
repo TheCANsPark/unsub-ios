@@ -51,6 +51,7 @@ class ContainerChatTimeVC: BaseViewController {
     }
     //MARK:- UIButtonActions
     @IBAction func chat(_ sender: Any) {
+        AppSharedData.sharedInstance.chatViewControllerRef.getComments()
         chatingView.isHidden = false
         timelineView.isHidden = true
         

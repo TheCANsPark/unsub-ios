@@ -29,7 +29,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.title = "Chat"
         tableView.rowHeight = 300.0
         tableView.estimatedRowHeight = UITableViewAutomaticDimension
-        getComments()
+    //    getComments()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -119,7 +119,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let lblName : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
             let lblDate : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
             lblDate.text = getDateFromUTC(dateStr: incident.date!)
-            lblName.text = incident.commented_by!
+            lblName.text = incident.user_id?.stackholder_name!
             lblChat.text = incident.comment!
             return cell!
         }
@@ -159,7 +159,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             let keyBoardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             let keyBoardHeight = keyBoardFrame!.height
             self.bottomConstraint.constant = -(keyBoardHeight - UIApplication.shared.keyWindow!.safeAreaInsets.bottom)
-            getComments()
+            //getComments()
       }
    }
     @objc func keyboardWillHide(notification: NSNotification) {

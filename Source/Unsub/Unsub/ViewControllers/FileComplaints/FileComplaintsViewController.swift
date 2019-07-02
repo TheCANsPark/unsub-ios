@@ -31,12 +31,12 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var lblNameAttachment: UILabel!
     @IBOutlet weak var btnAddRemoveAttachment: UIButton!
     
-    
     @IBOutlet weak var imgAccept: UIImageView!
-    
-    
     @IBOutlet weak var imgSomeOne: UIImageView!
     @IBOutlet weak var imgMyself: UIImageView!
+    
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let picker = UIImagePickerController()
     var videoURL = NSURL()
@@ -71,10 +71,12 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var isType : Int = 0
     var isAccept : Int = 0
     var isVideoOrPic = [String]()
-    
+    var vidImgCount = [String]()
+    var vidImgCountUpload = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.isHidden = true
         if UserDefaults.standard.bool(forKey: kLogin) == true {
             let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
             let name = val.value(forKey: "name") as! NSDictionary
@@ -148,7 +150,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 self.present(refreshAlert, animated: true, completion: nil)
                 
             } else if statusCode == STATUS_CODE.internalServerError {
-                AppSharedData.sharedInstance.alert(vc: self, message: "Server error")
+                AppSharedData.sharedInstance.alert(vc: self, message: "Please wait while the image is being uploaded")
             }
         })
     }
@@ -272,8 +274,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @objc func pickerCancel(){
         self.view.endEditing(true)
     }
-
-  
     //MARK:- UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -378,7 +378,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         print(info)
        
         if picker.sourceType == .photoLibrary {
-            
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
             if let mediaType = info[UIImagePickerControllerMediaType] as? String {
                 if mediaType  == "public.image" {
                     self.isPicVideoSelected = 0
@@ -390,24 +391,30 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                     self.photoVideoImageArr.append(image)
                     self.isPicVideoSelected = 1
                     self.picVideoUrlArr.append(imageURL as URL)
-                    print(self.picVideoUrlArr)
                     self.isVideoOrPic.append("jpg")
+                    self.vidImgCount.append("jpg")
                     self.collectionView.reloadData()
                     NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                         let str = String(describing: urlImgVideo!)
                         let fileArray = str.components(separatedBy: "/")
                         let finalFileName = fileArray.last
                         self.arrImagesName.append(finalFileName!)
+                        self.activityIndicator.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                        self.vidImgCountUpload.append("jpg")
                        // self.picVideoUrlArr.append(urlImgVideo!)
                       //  self.collectionView.reloadData()
                     })
                 }
                 if mediaType == "public.movie" {
                     print("Video Selected")
+                    
                     if self.onlyVideoURL.absoluteString?.isEmpty == false && onceVideoSelected == 2 {
                         dismiss(animated: true,completion: nil)
                         AppSharedData.sharedInstance.alert(vc: self, message: "Only one video can be attached.")
                     } else {
+                        activityIndicator.isHidden = false
+                        activityIndicator.startAnimating()
                         self.isPicVideoSelected = 0
                         self.collectionView.reloadData()
                         videoURL = (info["UIImagePickerControllerMediaURL"] as? NSURL)!
@@ -419,14 +426,17 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         print(self.picVideoUrlArr)
                         self.onlyVideoURL = videoURL as NSURL
                         self.isVideoOrPic.append("mov")
+                        self.vidImgCount.append("jpg")
                         self.collectionView.reloadData()
                         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                             let str = String(describing: urlImgVideo!)
                             let fileArray = str.components(separatedBy: "/")
                             let finalFileName = fileArray.last
                             self.arrVideoName.append(finalFileName!)
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            self.vidImgCountUpload.append("jpg")
                           //  self.picVideoUrlArr.append(urlImgVideo!)
-                            
                            // self.collectionView.reloadData()
                         })
                     }
@@ -435,7 +445,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             
         } else if picker.sourceType == .camera {
             print("Image Selected")
-            
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
             if let mediaType = info[UIImagePickerControllerMediaType] as? String {
                 if mediaType  == "public.image" {
                     self.isPicVideoSelected = 0
@@ -447,12 +458,16 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                     self.picVideoUrlArr.append(imageURL as URL)
                     print(self.picVideoUrlArr)
                     self.isVideoOrPic.append("jpg")
+                    self.vidImgCount.append("jpg")
                     self.collectionView.reloadData()
                     NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                         let str = String(describing: urlImgVideo!)
                         let fileArray = str.components(separatedBy: "/")
                         let finalFileName = fileArray.last
                         self.arrImagesName.append(finalFileName!)
+                        self.activityIndicator.isHidden = true
+                        self.activityIndicator.stopAnimating()
+                        self.vidImgCountUpload.append("jpg")
                        // self.picVideoUrlArr.append(urlImgVideo!)
                         //self.collectionView.reloadData()
                     })
@@ -463,6 +478,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         dismiss(animated: true,completion: nil)
                         AppSharedData.sharedInstance.alert(vc: self, message: "Only one video can be attached.")
                     } else {
+                        activityIndicator.isHidden = false
+                        activityIndicator.startAnimating()
                         self.isPicVideoSelected = 0
                         self.collectionView.reloadData()
                         videoURL = (info["UIImagePickerControllerMediaURL"] as? NSURL)!
@@ -474,16 +491,18 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.picVideoUrlArr.append(videoURL as URL)
                         print(self.picVideoUrlArr)
                         self.isVideoOrPic.append("mov")
+                        self.vidImgCount.append("jpg")
                         self.collectionView.reloadData()
-                        
                         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: true, imageUrl: imageURL as URL, isCamera: true, imageData: imgData as NSData, filePath: fileURL as URL, isFile: false, completionHandler: {(urlImgVideo : URL?) in
                             let str = String(describing: urlImgVideo!)
                             let fileArray = str.components(separatedBy: "/")
                             let finalFileName = fileArray.last
                             self.arrVideoName.append(finalFileName!)
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            self.vidImgCountUpload.append("jpg")
                         })
                     }
-                    
                 }
             }
         }
@@ -594,7 +613,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             
         } else if isAccept == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please accept all terms and conditions")
-        }
+       } else if vidImgCount != vidImgCountUpload {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Please wait while the image is being uploaded")
+       }
             /*else if txtMobSubmitter.text?.count != 10 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter 10 digit mobile number.")
         } */else {
