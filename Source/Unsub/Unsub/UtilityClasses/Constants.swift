@@ -44,7 +44,6 @@ struct WEB_URL {
     
 }
 
-
 struct STATUS_CODE {
     static let badRequest          = 400
     static let pendingAction       = 404

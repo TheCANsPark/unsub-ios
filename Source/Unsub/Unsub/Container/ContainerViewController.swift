@@ -30,9 +30,7 @@ class ContainerViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadIncidences(notification:)), name: Notification.Name("loadIncidentsViewController"), object: nil)
         
         homeView.isHidden = false

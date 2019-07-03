@@ -45,7 +45,6 @@ class ContainerChatTimeVC: BaseViewController {
         }
         if let vc1 = segue.destination as? TimelineViewController,
             segue.identifier == "timelineSegue" {
-            print(complaintID)
             vc1.complaintID = complaintID
         }
     }
@@ -54,19 +53,20 @@ class ContainerChatTimeVC: BaseViewController {
         AppSharedData.sharedInstance.chatViewControllerRef.getComments()
         chatingView.isHidden = false
         timelineView.isHidden = true
-        
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
             let width = self.lblSlide.frame.size.width
             self.leadingConstraintLblSlider.constant = width
-        })
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     @IBAction func timeline(_ sender: Any) {
+        AppSharedData.sharedInstance.chatViewControllerRef.txtQuery.resignFirstResponder()
         AppSharedData.sharedInstance.timelineViewControllerRef.getTimeline()
         timelineView.isHidden = false
         chatingView.isHidden = true
-        UIView.animate(withDuration: 1.0, animations: {
-            
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut], animations: {
             self.leadingConstraintLblSlider.constant = 0
-        })
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 }

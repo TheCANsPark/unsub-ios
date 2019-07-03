@@ -567,11 +567,11 @@
             <objects>
                 <viewController storyboardIdentifier="FileComplaintsViewController" id="tse-CM-Z4K" customClass="FileComplaintsViewController" customModule="Unsub" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C01-EO-4VQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F6W-O6-Ybj">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="1500"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVg-Dh-Rn2">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1200"/>
@@ -1243,7 +1243,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="G4R-nO-KCO"/>
                     </view>
-                    <size key="freeformSize" width="375" height="1500"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="activityIndicator" destination="hkN-qb-KTl" id="Xtr-BN-vML"/>
                         <outlet property="btnAddRemoveAttachment" destination="6pr-IN-crT" id="Xuf-XB-bcV"/>

@@ -8,7 +8,7 @@
 
 import UIKit
 import Gloss
-class TimelineViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -26,11 +26,13 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         AppSharedData.sharedInstance.timelineViewControllerRef = self
         self.title = "Timeline"
         viewData.isHidden = true
         tableView.isHidden = true
         getTimeline()
+        
       // Do any additional setup after loading the view.
     }
 
@@ -38,6 +40,7 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+   
     //MARK:- Server Request
     func getTimeline() {
         Loader.shared.show()

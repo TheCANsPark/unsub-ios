@@ -612,7 +612,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
         } else if isAccept == 0 {
-            AppSharedData.sharedInstance.alert(vc: self, message: "Please accept all terms and conditions")
+            AppSharedData.sharedInstance.alert(vc: self, message: "Agree with Terms & Conditions to proceed")
        } else if vidImgCount != vidImgCountUpload {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please wait while the image is being uploaded")
        }

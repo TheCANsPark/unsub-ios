@@ -131,7 +131,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         } else if txtPassword.text != txtConfirmPassword.text! {
             AppSharedData.sharedInstance.alert(vc: self, message: "Password and confirm password does not match")
         } else if isAgreed == 0 {
-            AppSharedData.sharedInstance.alert(vc: self, message: "Please accept terms and conditions")
+            AppSharedData.sharedInstance.alert(vc: self, message: "Agree with Terms & Conditions to proceed")
             
         } else {
             register()

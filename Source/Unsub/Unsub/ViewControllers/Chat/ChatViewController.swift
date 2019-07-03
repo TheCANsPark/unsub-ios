@@ -46,6 +46,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = true
     }
+    
     //MARK:- Server Request
     func getComments() {
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getComments + ID, completion: {(response : NSDictionary?, statusCode : Int?) in
