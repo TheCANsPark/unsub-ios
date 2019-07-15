@@ -15,6 +15,8 @@ import AVFoundation
 import CoreLocation
 import AES256CBC
 
+import RNCryptor
+
 class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate{
     
     @IBOutlet weak var txtFirstName: SkyFloatingLabelTextField!
@@ -97,30 +99,156 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
        
         picker.delegate = self
         self.title = "File Incidence"
-        getCategories()
+        
         lblNameAttachment.isHidden = true
         txtCrimeDetail.layer.cornerRadius = 10.0
         txtCrimeDetail.clipsToBounds = true
         txtCrimeDetail.layer.borderWidth = 1.0
         txtCrimeDetail.layer.borderColor = UIColor.lightGray.cgColor
+        
+        getCategories()
     }
+    
+//    func decryptMessage(encryptedMessage: String, encryptionKey: String) throws -> String {
+//
+//        let encryptedData = Data.init(base64Encoded: encryptedMessage)!
+//        let decryptedData = try RNCryptor.decrypt(data: encryptedData, withPassword: encryptionKey)
+//        let decryptedString = String(data: decryptedData, encoding: .utf8)!
+//
+//        return decryptedString
+//    }
+//
+//    func encrypt(plainText : String, password: String) -> String {
+//        let data: Data = plainText.data(using: .utf8)!
+//        let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
+//        let encryptedString : String = encryptedData.base64EncodedString() // getting base64encoded string of encrypted data.
+//        return encryptedString
+//    }
+//
+//    func decrypt(encryptedText : String, password: String) -> String {
+//        do  {
+//            let data: Data = Data(base64Encoded: encryptedText)! // Just get data from encrypted base64Encoded string.
+//            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
+//            let decryptedString = String(data: decryptedData, encoding: .utf8) // Getting original string, using same .utf8 encoding option,which we used for encryption.
+//            return decryptedString ?? ""
+//        }
+//        catch {
+//            return "FAILED"
+//        }
+//    }
     //MARK:- Server Requests
     func getCategories() {
         Loader.shared.show()
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.categories, completion: {(response: NSDictionary?,statusCode : Int?) in
             Loader.shared.hide()
-            print(response!)
+           
             if statusCode == STATUS_CODE.success {
                 
                 
-                if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
+                
+//                let message     = "oshin"/*response?.value(forKey: "data") as! String*/
+//                let messageData = message.data(using:String.Encoding.utf8)!
+//                let keyData     = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7".data(using:String.Encoding.utf8)!
+//                let ivData      = "abcdefghijklmnop".data(using:String.Encoding.utf8)!
+//
+//                //let encryptedData = self.testCrypt(data:messageData,   keyData:keyData, ivData:ivData, operation:kCCEncrypt)
+//               // print(encryptedData)
+//                let decryptedData = self.self.testCrypt(data:messageData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
+//                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
+//                print(decrypted)
+                
+
+//
+//                let decryptedData = self.testCrypt(data:encryptedData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
+//                print(decryptedData)
+//                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
+//                print(decrypted)
+
+               
+                // Encryption
+//                let data = response?.value(forKey: "data") as! String // Some data you want to encrypt
+//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+//                let encr = self.encrypt(plainText: data, password: password)
+//                print(encr)
+//           //     let ciphertext = RNCryptor.encrypt(data: data, withPassword: password)
+                
+//                let decr = self.decrypt(encryptedText: encr, password: password)
+//                print(decr)
+                
+//                // Decryption
+//                do {
+//                    let originalData = try RNCryptor.decryptData(ciphertext, password: password)
+//
+//                } catch let error {
+//                    print("Can not Decrypt With Error: \n\(error)\n")
+//                }
+//
+                
+                
+//                do {
+//                    let a = try self.decryptMessage(encryptedMessage: response?.value(forKey: "data") as! String, encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7")
+//
+//                    print(a)
+//
+//
+//                }catch{
+//                    print("caTCH")
+//                }
+//
+//
+//                let data = Data("\(String(describing: response?.value(forKey: "data")))".utf8)
+//
+//                let decryptor = RNCryptor.DecryptorV3(encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7", hmacKey: data)
+
+//                let str = response?.value(forKey: "data")
+//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"//32
+//                let decrypted = AES256CBC.decryptString(str as! String, password: password)
+//                print(decrypted)
+               /* if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                     self.categoriesArr = cat
-                }
+                 
+                }*/
             } else if statusCode == STATUS_CODE.internalServerError {
                 AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as! String)
             }
-            
         })
+    }
+    
+    func testCrypt(data:Data, keyData:Data, ivData:Data, operation:Int) -> Data {
+        let cryptLength  = size_t(data.count + kCCBlockSizeAES128)
+        var cryptData = Data(count:cryptLength)
+        
+        let keyLength             = size_t(kCCKeySizeAES128)
+        let options   = CCOptions(kCCOptionPKCS7Padding)
+        
+        
+        var numBytesEncrypted :size_t = 0
+        
+        let cryptStatus = cryptData.withUnsafeMutableBytes {cryptBytes in
+            data.withUnsafeBytes {dataBytes in
+                ivData.withUnsafeBytes {ivBytes in
+                    keyData.withUnsafeBytes {keyBytes in
+                        CCCrypt(CCOperation(operation),
+                                CCAlgorithm(kCCAlgorithmAES128),
+                                options,
+                                keyBytes, keyLength,
+                                ivBytes,
+                                dataBytes, data.count,
+                                cryptBytes, cryptLength,
+                                &numBytesEncrypted)
+                    }
+                }
+            }
+        }
+        
+        if UInt32(cryptStatus) == UInt32(kCCSuccess) {
+            cryptData.removeSubrange(numBytesEncrypted..<cryptData.count)
+            
+        } else {
+            print("Error: \(cryptStatus)")
+        }
+        
+        return cryptData;
     }
     func createIncidents() {
         Loader.shared.show()

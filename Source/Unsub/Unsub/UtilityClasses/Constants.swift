@@ -15,13 +15,14 @@ let kAccessToken      = "accessToken"
 let kRefreshToken     = "refreshToken"
 let kLogin            = "isLogin"
 let kLoginResponse    = "loginResponse"
+
 //Variables
 var isLogin : Bool = false
 
 //URL
-//let BASE_URL = "http://192.168.1.109:4000/"   //Local
+let BASE_URL = "http://192.168.1.109:4000/"   //Local
 
-let BASE_URL = "http://104.154.76.106:4000/" //Live
+//let BASE_URL = "http://104.154.76.106:4000/" //Live
 
 
 struct WEB_URL {
