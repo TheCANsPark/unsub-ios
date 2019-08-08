@@ -20,9 +20,9 @@ let kLoginResponse    = "loginResponse"
 var isLogin : Bool = false
 
 //URL
-let BASE_URL = "http://192.168.1.109:4000/"   //Local
+//let BASE_URL = "http://192.168.1.109:4000/"   //Local
 
-//let BASE_URL = "http://104.154.76.106:4000/" //Live
+let BASE_URL = "http://104.154.76.106:4000/" //Live
 
 
 struct WEB_URL {
@@ -42,6 +42,7 @@ struct WEB_URL {
     static let getResourceCategory       = BASE_URL + "resource-category"
     static let getResourceDetail         = BASE_URL + "resource-center?"
     static let getComments               = BASE_URL + "incident/comments/"
+    static let getStates                 = BASE_URL + "state"
     
 }
 

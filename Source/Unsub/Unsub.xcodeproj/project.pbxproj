@@ -48,8 +48,11 @@
 		13C5F13D22C23C5500F3F497 /* PopUpHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C5F13C22C23C5400F3F497 /* PopUpHomeViewController.swift */; };
 		13C5F14022C24EC200F3F497 /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C5F13F22C24EC200F3F497 /* TermsViewController.swift */; };
 		13C8496022B1003500C909B2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C8495F22B1003500C909B2 /* MapViewController.swift */; };
+		13CDEC2422DDB94F0036BE97 /* WebCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CDEC2222DDB94F0036BE97 /* WebCrypto.swift */; };
+		13CDEC2522DDB94F0036BE97 /* WebCrypto.js in Resources */ = {isa = PBXBuildFile; fileRef = 13CDEC2322DDB94F0036BE97 /* WebCrypto.js */; };
 		13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE749122B8BB30006A51E0 /* TimelineViewController.swift */; };
 		13CE749422B8BD9E006A51E0 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE749322B8BD9E006A51E0 /* Timeline.swift */; };
+		13D1065622FBFFD5003AE0F7 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D1065522FBFFD5003AE0F7 /* State.swift */; };
 		13D72C1322B39F93003F323A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D72C1222B39F93003F323A /* ProfileViewController.swift */; };
 		13D9ADD922B4C5C60032AD36 /* ComplaintDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D9ADD822B4C5C60032AD36 /* ComplaintDetailViewController.swift */; };
 		13DB6F4B22B26EA50055BF77 /* MyComplaintsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DB6F4A22B26EA50055BF77 /* MyComplaintsViewController.swift */; };
@@ -112,8 +115,11 @@
 		13C5F13C22C23C5400F3F497 /* PopUpHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpHomeViewController.swift; sourceTree = "<group>"; };
 		13C5F13F22C24EC200F3F497 /* TermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		13C8495F22B1003500C909B2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		13CDEC2222DDB94F0036BE97 /* WebCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebCrypto.swift; sourceTree = "<group>"; };
+		13CDEC2322DDB94F0036BE97 /* WebCrypto.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebCrypto.js; sourceTree = "<group>"; };
 		13CE749122B8BB30006A51E0 /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		13CE749322B8BD9E006A51E0 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		13D1065522FBFFD5003AE0F7 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		13D72C1222B39F93003F323A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		13D9ADD822B4C5C60032AD36 /* ComplaintDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintDetailViewController.swift; sourceTree = "<group>"; };
 		13DB6F4A22B26EA50055BF77 /* MyComplaintsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyComplaintsViewController.swift; sourceTree = "<group>"; };
@@ -200,6 +206,7 @@
 				134B6ED222A67D9B00DD97C8 /* LaunchScreen.storyboard */,
 				134B6ED522A67D9B00DD97C8 /* Info.plist */,
 				134B6ECD22A67D9A00DD97C8 /* Unsub.xcdatamodeld */,
+				13CDEC2122DDB92F0036BE97 /* Decryption */,
 				134B6EDE22A67FF500DD97C8 /* ViewControllers */,
 				13C2AD6A22AF92D600822273 /* Extensions */,
 				137A50F222AE381E006F41BD /* Models */,
@@ -309,6 +316,7 @@
 				13DB6F4C22B284090055BF77 /* Incidents.swift */,
 				13CE749322B8BD9E006A51E0 /* Timeline.swift */,
 				1327061B22B8E58000DE0403 /* Resource.swift */,
+				13D1065522FBFFD5003AE0F7 /* State.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -343,6 +351,15 @@
 				13C8495F22B1003500C909B2 /* MapViewController.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		13CDEC2122DDB92F0036BE97 /* Decryption */ = {
+			isa = PBXGroup;
+			children = (
+				13CDEC2322DDB94F0036BE97 /* WebCrypto.js */,
+				13CDEC2222DDB94F0036BE97 /* WebCrypto.swift */,
+			);
+			path = Decryption;
 			sourceTree = "<group>";
 		};
 		13CE749022B8BB17006A51E0 /* Timeline */ = {
@@ -523,6 +540,7 @@
 				134B6F3222A68D2900DD97C8 /* Montserrat-Thin.ttf in Resources */,
 				134B6F3422A68D2900DD97C8 /* OFL.txt in Resources */,
 				134B6F2422A68D2900DD97C8 /* Montserrat-Bold.ttf in Resources */,
+				13CDEC2522DDB94F0036BE97 /* WebCrypto.js in Resources */,
 				134B6ED122A67D9A00DD97C8 /* Assets.xcassets in Resources */,
 				134B6F2C22A68D2900DD97C8 /* Montserrat-LightItalic.ttf in Resources */,
 				134B6F2E22A68D2900DD97C8 /* Montserrat-MediumItalic.ttf in Resources */,
@@ -635,6 +653,7 @@
 				13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */,
 				1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */,
 				13DC8A9B22A948800018097C /* Loader.swift in Sources */,
+				13D1065622FBFFD5003AE0F7 /* State.swift in Sources */,
 				137A50F122AE30E8006F41BD /* FileComplaintsViewController.swift in Sources */,
 				13DC8A8C22A8F96B0018097C /* RegisterViewController.swift in Sources */,
 				13C5F13D22C23C5500F3F497 /* PopUpHomeViewController.swift in Sources */,
@@ -662,6 +681,7 @@
 				13C2AD6C22AF942800822273 /* UIImageView.swift in Sources */,
 				13C5F14022C24EC200F3F497 /* TermsViewController.swift in Sources */,
 				1310793922B7997B0052D515 /* ImageViewController.swift in Sources */,
+				13CDEC2422DDB94F0036BE97 /* WebCrypto.swift in Sources */,
 				13DD331722BA069900591F45 /* ForgotPasswordViewController.swift in Sources */,
 				137A50F422AE3835006F41BD /* Contacts.swift in Sources */,
 			);
@@ -802,13 +822,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VLL96L5U37;
+				DEVELOPMENT_TEAM = 4BRNMG8VZH;
 				INFOPLIST_FILE = Unsub/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Unsub.iosapp.123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.unsubapp.iosapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -818,13 +839,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VLL96L5U37;
+				DEVELOPMENT_TEAM = 4BRNMG8VZH;
 				INFOPLIST_FILE = Unsub/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Unsub.iosapp.123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.unsubapp.iosapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

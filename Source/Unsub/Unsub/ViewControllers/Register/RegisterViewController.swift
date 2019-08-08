@@ -8,8 +8,8 @@
 
 import UIKit
 import SkyFloatingLabelTextField
-
-class RegisterViewController: UIViewController,UITextFieldDelegate {
+import Gloss
+class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewDataSource, UIPickerViewDelegate {
 
     
     @IBOutlet weak var txtMail: SkyFloatingLabelTextField!
@@ -19,6 +19,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var txtAge: SkyFloatingLabelTextField!
     @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtState: SkyFloatingLabelTextField!
     
     @IBOutlet weak var imgVolunteer: UIImageView!
     @IBOutlet weak var imgAcceptTerms: UIImageView!
@@ -29,10 +30,16 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
     var isVolunteer : Bool = false
     let datePicker:UIDatePicker = UIDatePicker()
     var dateUTC = String()
+    let pickerStates:UIPickerView = UIPickerView()
+    var selectedTextField:UITextField!
+    var arrStates = [State]()
+    var stateID = String()
+    var stateName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getStates()
+        pickerStates.delegate = self
         // Do any additional setup after loading the view.
     }
 
@@ -50,7 +57,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                      "age"          : dateUTC,
                      "annonymous_name": txtAnnonymousName.text!,
                      "name.last"     : txtLastName.text!,
-                     "isVolunteer_intrested": isVolunteer] as [String : Any]
+                     "isVolunteer_intrested": isVolunteer,
+                     "state"    : stateID] as [String : Any]
         
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.signUp as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
@@ -67,14 +75,62 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             }
         })
     }
+    func getStates() {
+        NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getStates , completion: {(response: NSDictionary?, statusCode: Int?) in
+            if statusCode == STATUS_CODE.success {
+                if let sta = [State].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
+                    self.arrStates = sta
+                }
+            }
+            
+        })
+    }
+    //MARK:- UIPickerViewDataSource
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return arrStates.count
+    }
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
+        
+        return "\(arrStates[row].name!)"
+        
+    }
+    //MARK:- UIPickerViewDelegate
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        stateName = "\(arrStates[row].name!)"
+        stateID = arrStates[row]._id!
+    }
+    //MARK:- UIPickerView
+    func createStockPicker(_ textField: UITextField){
+        pickerStates.delegate = self
+        pickerStates.dataSource = self
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        
+        //done button & cancel button
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerDoneStock))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerCancelStock))
+        
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+        textField.inputAccessoryView = toolbar
+        textField.tintColor = .clear
+        textField.inputView = pickerStates
+        selectedTextField = textField
+    }
+    
     //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == txtAge {
             createDatePicker()
         }
+        if textField == txtState {
+            createStockPicker(txtState)
+        }
         return true
     }
-    
     //MARK:- Date Picker
     func createDatePicker(){
         datePicker.datePickerMode = .date
@@ -130,10 +186,12 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             
         } else if txtPassword.text != txtConfirmPassword.text! {
             AppSharedData.sharedInstance.alert(vc: self, message: "Password and confirm password does not match")
+        } else if txtState.text?.count == 0 {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Please enter state")
         } else if isAgreed == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Agree with Terms & Conditions to proceed")
             
-        } else {
+        }else {
             register()
         }
     }
@@ -161,5 +219,13 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
             imgVolunteer.image = #imageLiteral(resourceName: "without-check")
             isVolunteer = false
         }
+    }
+    //MARK:- Helper
+    @objc func pickerDoneStock(){
+        txtState.text = stateName
+        self.view.endEditing(true)
+    }
+    @objc func pickerCancelStock() {
+        self.view.endEditing(true)
     }
 }

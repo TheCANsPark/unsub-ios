@@ -13,7 +13,7 @@ import Gloss
 struct Categories : JSONDecodable {
     let _id              : String?
     let name             : String?
-    let description   : String?
+    let description      : String?
     let updatedAt        : String?
     let createdAt        : String?
     let __v              : Int?
@@ -25,5 +25,5 @@ struct Categories : JSONDecodable {
         self.updatedAt = "updatedAt" <~~ json
         self.createdAt = "createdAt" <~~ json
         self.__v = "__v" <~~ json
-    }
+    }   
 }

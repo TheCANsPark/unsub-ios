@@ -159,8 +159,18 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if let userInfo = notification.userInfo {
             let keyBoardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             let keyBoardHeight = keyBoardFrame!.height
-            self.bottomConstraint.constant = -(keyBoardHeight - UIApplication.shared.keyWindow!.safeAreaInsets.bottom)
-            //getComments()
+            if #available(iOS 11.0, *) {
+                self.bottomConstraint.constant = -(keyBoardHeight - UIApplication.shared.keyWindow!.safeAreaInsets.bottom)
+            } else {
+                self.bottomConstraint.constant = -(keyBoardHeight)
+            }
+            
+            /* if #available(iOS 11.0, *) {
+            keyboardHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
+        } else {
+            keyboardHeight = keyboardFrame.cgRectValue.height
+        }*/
+
       }
    }
     @objc func keyboardWillHide(notification: NSNotification) {

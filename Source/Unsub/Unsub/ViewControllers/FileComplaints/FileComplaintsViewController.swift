@@ -75,6 +75,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var isVideoOrPic = [String]()
     var vidImgCount = [String]()
     var vidImgCountUpload = [String]()
+    let crypto = WebCrypto()
+    let plaintext = NSMutableData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,8 +146,51 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
            
             if statusCode == STATUS_CODE.success {
                 
+//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+//                let decryptor = RNCryptor.Decryptor(password: password)
+//
+//                let da = response?.value(forKey: "data") as! String
+//                let data = Data(da.utf8)
+//
+//                // ... Each time data comes in, update the decryptor and accumulate some plaintext ...
+//                do {
+//                    try print(self.plaintext.append(decryptor.update(withData: data)))
+//
+//                } catch {
+//
+//                }
+//                // ... When data is done, finish up ...
+//                do {
+//                    try self.plaintext.append(decryptor.finalData())
+//
+//                }catch {
+//
+//                }
+//                print(self.plaintext)
+//                let input = Data("\(response?.value(forKey: "data") as! String)".utf8)
+//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+//                self.crypto.encrypt(data: input, password: password, callback: {(encrypted: Data?, error: Error?) in
+//                    print(encrypted!)
+//                    let res = response?.value(forKey: "data") as! String
+//                    let encrypt = Data(encrypted!)
+//
+//                    //  let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+//                    self.crypto.decrypt(data: input, password: password, callback: {(decrypted: Data?, error: Error?) in
+//                       // print(String(data: decrypted!, encoding: .utf8)!)
+//                        print(decrypted!)
+//                    })
+//                })
                 
-                
+//                let str = "7D16C7F70E2825C227176BED307684B3"
+//                let password = /*"CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"*/"iiiiihhhhhhggggguuuuioioplkuhytf"  // returns random 32 char string
+//
+//                // get AES-256 CBC encrypted string
+//               // let encrypted = AES256CBC.encryptString(str, password: password)
+//
+//                // decrypt AES-256 CBC encrypted string
+//                let decrypted = AES256CBC.decryptString(str, password: password)
+//                print(decrypted)
+//
 //                let message     = "oshin"/*response?.value(forKey: "data") as! String*/
 //                let messageData = message.data(using:String.Encoding.utf8)!
 //                let keyData     = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7".data(using:String.Encoding.utf8)!
@@ -204,10 +249,10 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
 //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"//32
 //                let decrypted = AES256CBC.decryptString(str as! String, password: password)
 //                print(decrypted)
-               /* if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
+                if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                     self.categoriesArr = cat
                  
-                }*/
+                }
             } else if statusCode == STATUS_CODE.internalServerError {
                 AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as! String)
             }

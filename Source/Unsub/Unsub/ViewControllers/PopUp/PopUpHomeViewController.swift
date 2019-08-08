@@ -22,7 +22,7 @@ class PopUpHomeViewController: UIViewController,UIGestureRecognizerDelegate {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(PopUpHomeViewController.myviewTapped(_:)))
         tapGesture.numberOfTapsRequired = 1
         tapGesture.numberOfTouchesRequired = 1
-    self.view.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(tapGesture)
         // Do any additional setup after loading the view.
     }
 
