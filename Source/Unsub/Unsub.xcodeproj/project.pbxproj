@@ -52,6 +52,7 @@
 		13CDEC2522DDB94F0036BE97 /* WebCrypto.js in Resources */ = {isa = PBXBuildFile; fileRef = 13CDEC2322DDB94F0036BE97 /* WebCrypto.js */; };
 		13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE749122B8BB30006A51E0 /* TimelineViewController.swift */; };
 		13CE749422B8BD9E006A51E0 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CE749322B8BD9E006A51E0 /* Timeline.swift */; };
+		13CF50292336077D006283A0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CF50282336077D006283A0 /* NetworkManager.swift */; };
 		13D1065622FBFFD5003AE0F7 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D1065522FBFFD5003AE0F7 /* State.swift */; };
 		13D72C1322B39F93003F323A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D72C1222B39F93003F323A /* ProfileViewController.swift */; };
 		13D9ADD922B4C5C60032AD36 /* ComplaintDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D9ADD822B4C5C60032AD36 /* ComplaintDetailViewController.swift */; };
@@ -60,7 +61,6 @@
 		13DC8A8C22A8F96B0018097C /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A8B22A8F96B0018097C /* RegisterViewController.swift */; };
 		13DC8A8F22A91A3D0018097C /* AppSharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A8E22A91A3D0018097C /* AppSharedData.swift */; };
 		13DC8A9422A936740018097C /* LoginnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9322A936740018097C /* LoginnViewController.swift */; };
-		13DC8A9722A9401B0018097C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9622A9401B0018097C /* NetworkManager.swift */; };
 		13DC8A9922A940D70018097C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9822A940D70018097C /* Constants.swift */; };
 		13DC8A9B22A948800018097C /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DC8A9A22A948800018097C /* Loader.swift */; };
 		13DD331722BA069900591F45 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */; };
@@ -119,6 +119,7 @@
 		13CDEC2322DDB94F0036BE97 /* WebCrypto.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebCrypto.js; sourceTree = "<group>"; };
 		13CE749122B8BB30006A51E0 /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		13CE749322B8BD9E006A51E0 /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		13CF50282336077D006283A0 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		13D1065522FBFFD5003AE0F7 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		13D72C1222B39F93003F323A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		13D9ADD822B4C5C60032AD36 /* ComplaintDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintDetailViewController.swift; sourceTree = "<group>"; };
@@ -127,7 +128,6 @@
 		13DC8A8B22A8F96B0018097C /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		13DC8A8E22A91A3D0018097C /* AppSharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSharedData.swift; sourceTree = "<group>"; };
 		13DC8A9322A936740018097C /* LoginnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginnViewController.swift; sourceTree = "<group>"; };
-		13DC8A9622A9401B0018097C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		13DC8A9822A940D70018097C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		13DC8A9A22A948800018097C /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		13DD331622BA069900591F45 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
@@ -418,7 +418,7 @@
 		13DC8A9522A93FDC0018097C /* ManagerClasses */ = {
 			isa = PBXGroup;
 			children = (
-				13DC8A9622A9401B0018097C /* NetworkManager.swift */,
+				13CF50282336077D006283A0 /* NetworkManager.swift */,
 			);
 			path = ManagerClasses;
 			sourceTree = "<group>";
@@ -616,6 +616,7 @@
 				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/StatusBarOverlay/StatusBarOverlay.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -634,6 +635,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StatusBarOverlay.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -649,6 +651,7 @@
 			files = (
 				13DC8A8F22A91A3D0018097C /* AppSharedData.swift in Sources */,
 				137A50F622AE8617006F41BD /* Categories.swift in Sources */,
+				13CF50292336077D006283A0 /* NetworkManager.swift in Sources */,
 				13DC8A9922A940D70018097C /* Constants.swift in Sources */,
 				13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */,
 				1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */,
@@ -662,7 +665,6 @@
 				13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */,
 				13CE749422B8BD9E006A51E0 /* Timeline.swift in Sources */,
 				13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */,
-				13DC8A9722A9401B0018097C /* NetworkManager.swift in Sources */,
 				134B6EE122A6802900DD97C8 /* BaseViewController.swift in Sources */,
 				1327061C22B8E58000DE0403 /* Resource.swift in Sources */,
 				134B6EC922A67D9A00DD97C8 /* ViewController.swift in Sources */,

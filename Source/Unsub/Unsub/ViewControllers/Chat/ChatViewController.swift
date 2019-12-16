@@ -143,7 +143,7 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             if self.incidentCommentsArr.count != 0 {
                 let indexPath = IndexPath(row: (self.incidentCommentsArr.count)-1, section: 0)
                 self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            } else {
+            } else { 
             }
         }
     }

@@ -4,13 +4,15 @@
 //
 //  Created by codezilla-mac1 on 04/06/19.
 //  Copyright © 2019 codezilla-mac1. All rights reserved.
-//
+// hdjhahjkadhjdfhjkdfs
+
 
 import UIKit
 import CoreData
 import IQKeyboardManagerSwift
 import AWSCognitoIdentityProviderASF
 import AWSMobileClient
+import StatusBarOverlay
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
             statusBar.backgroundColor = UIColor.clear
         }
+        StatusBarOverlay.host = "example.com"
         // Override point for customization after application launch.
         return true
     }
