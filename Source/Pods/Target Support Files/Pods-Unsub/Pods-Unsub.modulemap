@@ -1,0 +1,6 @@
+framework module Pods_Unsub {
+  umbrella header "Pods-Unsub-umbrella.h"
+
+  export *
+  module * { export * }
+}

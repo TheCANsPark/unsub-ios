@@ -1,0 +1,38 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Unsub' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Unsub
+pod 'SkyFloatingLabelTextField', '~> 3.0'
+pod 'Alamofire', '~> 4.6’
+pod 'PKHUD', '~> 5.0'
+pod 'Gloss', '~> 2.0'
+pod 'IQKeyboardManagerSwift'
+pod 'AWSS3', '~> 2.6.13'   
+pod 'AWSMobileClient', '~> 2.6.13'
+pod 'AWSUserPoolsSignIn', '~> 2.6.13'
+pod 'Kingfisher', '~> 4.8.0'
+pod 'GoogleMaps'
+pod 'GooglePlaces'
+#pod 'CryptoSwift', '~> 0.9.0’
+pod 'AES256CBC'
+#pod 'CryptoSwift'
+#pod 'RNCryptor', '~> 5.0'
+pod 'RNCryptor', '~> 5.0'
+pod 'StatusBarOverlay', '~> 1.0’
+
+
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings.delete('CODE_SIGNING_ALLOWED')
+    config.build_settings.delete('CODE_SIGNING_REQUIRED')
+  end
+end
+
+
+
+
+end

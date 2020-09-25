@@ -1,0 +1,93 @@
+PODS:
+  - AES256CBC (1.3.1)
+  - Alamofire (4.7.3)
+  - AWSAuthCore (2.6.35):
+    - AWSCore (= 2.6.35)
+  - AWSCognitoIdentityProvider (2.6.35):
+    - AWSCognitoIdentityProviderASF (= 1.0.1)
+    - AWSCore (= 2.6.35)
+  - AWSCognitoIdentityProviderASF (1.0.1)
+  - AWSCore (2.6.35)
+  - AWSMobileClient (2.6.35):
+    - AWSAuthCore (= 2.6.35)
+  - AWSS3 (2.6.35):
+    - AWSCore (= 2.6.35)
+  - AWSUserPoolsSignIn (2.6.35):
+    - AWSAuthCore (= 2.6.35)
+    - AWSCognitoIdentityProvider (= 2.6.35)
+  - Gloss (2.0.1)
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
+    - GoogleMaps/Base
+  - GooglePlaces (2.7.0):
+    - GoogleMaps/Base (= 2.7.0)
+  - IQKeyboardManagerSwift (6.2.0)
+  - Kingfisher (4.8.1)
+  - PKHUD (5.2.0)
+  - RNCryptor (5.0.3)
+  - SkyFloatingLabelTextField (3.6.0)
+  - StatusBarOverlay (1.9):
+    - Alamofire (~> 4.1)
+
+DEPENDENCIES:
+  - AES256CBC
+  - Alamofire (~> 4.6)
+  - AWSMobileClient (~> 2.6.13)
+  - AWSS3 (~> 2.6.13)
+  - AWSUserPoolsSignIn (~> 2.6.13)
+  - Gloss (~> 2.0)
+  - GoogleMaps
+  - GooglePlaces
+  - IQKeyboardManagerSwift
+  - Kingfisher (~> 4.8.0)
+  - PKHUD (~> 5.0)
+  - RNCryptor (~> 5.0)
+  - SkyFloatingLabelTextField (~> 3.0)
+  - StatusBarOverlay (~> 1.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AES256CBC
+    - Alamofire
+    - AWSAuthCore
+    - AWSCognitoIdentityProvider
+    - AWSCognitoIdentityProviderASF
+    - AWSCore
+    - AWSMobileClient
+    - AWSS3
+    - AWSUserPoolsSignIn
+    - Gloss
+    - GoogleMaps
+    - GooglePlaces
+    - IQKeyboardManagerSwift
+    - Kingfisher
+    - PKHUD
+    - RNCryptor
+    - SkyFloatingLabelTextField
+    - StatusBarOverlay
+
+SPEC CHECKSUMS:
+  AES256CBC: 7f3e30635f22539de6388afa0579fae1a4db6f05
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  AWSAuthCore: 386e045a341acebf2409425467e907ae1a45ed63
+  AWSCognitoIdentityProvider: 0a041bd229a105d73f3a4d7eb90f696f1b5bd422
+  AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
+  AWSCore: 2dab62ef2e5ca5d8c72c6cbdb3a6ea1532c27c2b
+  AWSMobileClient: f89a36e0d95fc354a9d3b50d347371788c542449
+  AWSS3: 282a590bb47e9cd88de24979fb28954399c41c52
+  AWSUserPoolsSignIn: cf3293cf2c423922e628082a9b09e77473afc8b0
+  Gloss: 1e8743f8de1fbe14a97f220ff901cba91ae5f8f8
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
+  GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  Kingfisher: 868c1149679a7ab6869be118faa9b5aed154aaf0
+  PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
+  RNCryptor: c93d19029dcf7ff160aca0f24d6c9e7b0d82f664
+  SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
+  StatusBarOverlay: ce2193d14935dce0c7097ac8f79a7145e87e0c07
+
+PODFILE CHECKSUM: e43d7f76c0b77c4d3728bdca1a04c704da2259b7
+
+COCOAPODS: 1.5.3
