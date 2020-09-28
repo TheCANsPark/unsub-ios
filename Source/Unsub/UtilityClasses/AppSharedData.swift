@@ -81,6 +81,16 @@ class AppSharedData {
         let folderPath = documentsPath.appendingPathComponent("Unsub")
         return folderPath!
     }
+    
+    func getCaseStatus(status: String) -> String {
+        if status == "pending" {
+            return "Pending"
+        }else if status == "approved" {
+            return "Accepted"
+        }else {
+            return ""
+        }
+    }
 //    func customizeNavigationBar(_ object : AnyObject) {
 //        object.navigationController??.navigationBar.setBackgroundImage(UIImage(), for: .default)
 //        object.navigationController??.navigationBar.shadowImage = UIImage()

@@ -16,6 +16,8 @@ let kRefreshToken     = "refreshToken"
 let kLogin            = "isLogin"
 let kLoginResponse    = "loginResponse"
 
+let appShared = AppSharedData.sharedInstance
+
 //Variables
 var isLogin : Bool = false
 

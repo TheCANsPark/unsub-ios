@@ -21,10 +21,8 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Incidence Details"
-        
+        self.title = "Incidence Details"     //Incidence
         getComplaintDetail()
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,6 +55,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
                 if let com = Incidents.init(json: response?.value(forKey: "data") as! JSON) {
                     self.complaintDetailArr = com
                     self.tableView.reloadData()
+                    
                 }
             } else {
                 AppSharedData.sharedInstance.alert(vc: self, message: "Could not load")
@@ -64,54 +63,120 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
         })
     }
     
+    //MARK: Helper
+    func setTableViewHeight(tblHeightConstraint: NSLayoutConstraint, tableView: UITableView) {
+        
+        UIView.animate(withDuration: 0, animations: {
+            tableView.layoutIfNeeded()
+        }) { (complete) in
+            var heightOfTableView: CGFloat = 0.0
+            
+            let cells = tableView.visibleCells
+            for cell in cells {
+                heightOfTableView += cell.frame.height
+            }
+            
+            tblHeightConstraint.constant = heightOfTableView + 1   //The point here is to let it draw the next cell so that it will be counted in visibleCells as well by setting constraint constant to height + 1
+        }
+        
+    }
+    
     //MARK:- UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 && (complaintDetailArr != nil) {
-           return 1
-        } else {
+        if complaintDetailArr == nil {
             return 0
+        } else {
+            if tableView.tag == 999 {
+                return complaintDetailArr.assignedstkHolders!.count
+            }else {
+               return 1
+            }
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let detail = complaintDetailArr!
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoTableCell")
-            let lblName : UILabel = cell?.contentView.viewWithTag(100) as! UILabel
-            let lblVictimMobile : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
-            let lblMail : UILabel = cell?.contentView.viewWithTag(102) as! UILabel
-            let lblComplaintNumber : UILabel = cell?.contentView.viewWithTag(103) as! UILabel
-            let lblAddress : UILabel = cell?.contentView.viewWithTag(104) as! UILabel
-            let lblCategoryName : UILabel = cell?.contentView.viewWithTag(106) as! UILabel
-            let lblDetail : UILabel = cell?.contentView.viewWithTag(107) as! UILabel
-            let lblStatus : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
-            let lblDate : UILabel = cell?.contentView.viewWithTag(108) as! UILabel
+        
+        if tableView.tag == 999 { // AssigneStkholder Table
             
-            lblName.text = "\(detail.name?.first ?? "")" + " \(detail.name?.last ?? "")"
-            lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
-            lblAddress.text = "\(detail.address?.address ?? "")"
-            lblMail.text = "\(detail.email ?? "")"
-            lblComplaintNumber.text = "#\(detail.complaint_number!)"
-            lblStatus.text = detail.status!
-            lblCategoryName.text = categoryName
-            lblDetail.text = incidentString
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StackholdersCell")
+            let contentView:UIView = (cell?.contentView.viewWithTag(1000))!
+            let lblName : UILabel = cell?.contentView.viewWithTag(11) as! UILabel
+            let lblStatus : UILabel = cell?.contentView.viewWithTag(12) as! UILabel
             
-            let inputFormatter = DateFormatter()
-            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            let showDate = inputFormatter.date(from: detail.incident_date!)
-            inputFormatter.dateFormat = "MMM dd,yyyy hh:mm a"
-            let resultString = inputFormatter.string(from: showDate!)
+            cell?.selectionStyle = .none
             
-            lblDate.text = resultString
+            contentView.layer.shadowColor = UIColor.darkGray.cgColor
+            contentView.layer.shadowOffset = CGSize(width: 0, height: 1)
+            contentView.layer.shadowRadius = 2
+            contentView.layer.shadowOpacity = 0.5
+            contentView.layer.cornerRadius = 5
+            
+            let stkHolder = self.complaintDetailArr.assignedstkHolders![indexPath.row]
+            
+            lblName.text =  stkHolder.stackholderDetail?.stackholder_name
+            lblStatus.text = appShared.getCaseStatus(status: stkHolder.status ?? "")
+            
             return cell!
+            
+        }else {
+            
+            let detail = complaintDetailArr!
+            if indexPath.section == 0 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "UserInfoTableCell")
+                let lblName : UILabel = cell?.contentView.viewWithTag(100) as! UILabel
+                let lblVictimMobile : UILabel = cell?.contentView.viewWithTag(101) as! UILabel
+                let lblMail : UILabel = cell?.contentView.viewWithTag(102) as! UILabel
+                let lblComplaintNumber : UILabel = cell?.contentView.viewWithTag(103) as! UILabel
+                let lblAddress : UILabel = cell?.contentView.viewWithTag(104) as! UILabel
+                let lblCategoryName : UILabel = cell?.contentView.viewWithTag(106) as! UILabel
+                let lblDetail : UILabel = cell?.contentView.viewWithTag(107) as! UILabel
+                let lblStatus : UILabel = cell?.contentView.viewWithTag(200) as! UILabel
+                let lblDate : UILabel = cell?.contentView.viewWithTag(108) as! UILabel
+                let lblAssignedStackholder : UILabel = cell?.contentView.viewWithTag(199) as! UILabel
+                let tblAssigneStkholder = cell?.viewWithTag(999) as! UITableView
+                
+                for constraints in tblAssigneStkholder.constraints{
+                    if constraints.identifier == "cnsTableHeight"{
+                        //constraints.constant = 0
+                        self.setTableViewHeight(tblHeightConstraint: constraints, tableView: tblAssigneStkholder )
+                    }
+                }
+                
+                if self.complaintDetailArr.assignedstkHolders!.count == 0 {
+                    lblAssignedStackholder.isHidden = true
+                }
+                
+                lblName.text = "\(detail.name?.first ?? "")" + " \(detail.name?.last ?? "")"
+                lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
+                lblAddress.text = "\(detail.address?.address ?? "")"
+                lblMail.text = "\(detail.email ?? "")"
+                lblComplaintNumber.text = "#\(detail.complaint_number!)"
+                lblStatus.text = appShared.getCaseStatus(status: detail.status ?? "")
+                lblCategoryName.text = categoryName
+                lblDetail.text = incidentString
+                
+                let inputFormatter = DateFormatter()
+                inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                let showDate = inputFormatter.date(from: detail.incident_date!)
+                inputFormatter.dateFormat = "MMM dd,yyyy hh:mm a"
+                let resultString = inputFormatter.string(from: showDate!)
+                
+                lblDate.text = resultString
+                return cell!
+            }
         }
+        
         return UITableViewCell()
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
+    
     //MARK:- UIButtonActions
     @IBAction func showImgVideo(_ sender: Any) {
             let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintImagesVideosVC") as? ComplaintImagesVideosVC

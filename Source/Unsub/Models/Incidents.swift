@@ -9,6 +9,17 @@
 import Foundation
 import Gloss
 
+/*"stake_holder_assigned" =         (
+                {
+        "_id" = 5f69e147c937741306464b6e;
+        "stake_holder_id" =                 {
+            "_id" = 5f659c401838e20818738524;
+            "mobile_number" = 123456789;
+            "stackholder_name" = Murtuaz;
+        };
+        status = pending;
+    }
+);*/
 struct Incidents : JSONDecodable {
     let address              : Address?
     let name             : Name?
@@ -32,6 +43,7 @@ struct Incidents : JSONDecodable {
     let user_id              : String?
     let attachment             : String?
     let incident_comments   : [Comments]?
+    let assignedstkHolders   : [StackholderAssigned]?
     let updatedAt        : String?
     let createdAt        : String?
     let complaint_number        : String?
@@ -64,6 +76,7 @@ struct Incidents : JSONDecodable {
         self.createdAt = "createdAt" <~~ json
         self.complaint_number = "complaint_number" <~~ json
         self.updated_on = "updated_on" <~~ json
+        self.assignedstkHolders = "stake_holder_assigned" <~~ json
     }
 }
 struct Name : JSONDecodable {
@@ -75,6 +88,29 @@ struct Name : JSONDecodable {
         self.last = "last" <~~ json
     }
 }
+
+struct StackholderAssigned : JSONDecodable {
+    let status              : String?
+    let stackholderDetail   : StackholderDetail?
+   
+    init?(json: JSON) {
+        self.status = "status" <~~ json
+        self.stackholderDetail = "stake_holder_id" <~~ json
+    }
+}
+
+struct StackholderDetail : JSONDecodable {
+    let id              : String?
+    let mobile_number   : String?
+    let stackholder_name   : String?
+    
+    init?(json: JSON) {
+        self.id = "_id" <~~ json
+        self.mobile_number = "mobile_number" <~~ json
+        self.stackholder_name = "stackholder_name" <~~ json
+    }
+}
+
 struct Address : JSONDecodable {
     let lat              : String?
     let long             : String?
