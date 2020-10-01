@@ -351,7 +351,7 @@ class NetworkManager {
         
         //uploadRequest?.body = videoFileUrl as URL
         uploadRequest?.key = newKey
-        uploadRequest?.bucket = "unsub-test-media-bucket"
+        uploadRequest?.bucket = "unsub-prod"  //"unsub-test-media-bucket"
         uploadRequest?.acl = AWSS3ObjectCannedACL.publicRead
         //  uploadRequest?.contentType = "movie/mov"
         

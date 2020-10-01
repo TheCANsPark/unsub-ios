@@ -105,12 +105,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             self.txtEmail.text = val.value(forKey: "email") as? String
             self.txtEmail.isUserInteractionEnabled = false
             
-            self.txtSchoolName.text = val.value(forKey: "tertiary") as? String
+            /*self.txtSchoolName.text = val.value(forKey: "tertiary") as? String
             self.txtSchoolName.isUserInteractionEnabled = false
             self.txtVictimNo.text = val.value(forKey: "victims_count") as? String
             self.txtVictimNo.isUserInteractionEnabled = false
             self.txtViolatorNo.text = val.value(forKey: "violators") as? String
             self.txtViolatorNo.isUserInteractionEnabled = false
+            */
             
             /*self.txtState.text = val.value(forKey: "state") as? String
             self.txtState.isUserInteractionEnabled = false
