@@ -30,7 +30,6 @@ class ContainerChatTimeVC: BaseViewController {
         timelineView.isHidden = false
         chatingView.isHidden = true
         
-       // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

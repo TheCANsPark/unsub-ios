@@ -209,8 +209,16 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
     }
     @IBAction func termsAndConditions(_ sender: Any) {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        vc.isToOpenPolicy = false
         self.present(vc, animated: true, completion: nil)
     }
+    
+    @IBAction func privacyPolicyAction(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
+        vc.isToOpenPolicy = true
+        self.present(vc, animated: true, completion: nil)
+    }
+    
     @IBAction func volunteer(_ sender: Any) {
         if isVolunteer == false {
             isVolunteer = true
