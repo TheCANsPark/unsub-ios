@@ -17,17 +17,21 @@ class TermsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var url: URL?
+        var strUrl: String?
         if isToOpenPolicy {
-            url = URL(string: "https://unsub-prod.s3-eu-west-1.amazonaws.com/tnc/unsub_privacy.html")
+            strUrl = "https://unsub-prod.s3-eu-west-1.amazonaws.com/tnc/unsub_privacy.html"
         }else {
-            url = URL(string: "https://unsub-prod.s3-eu-west-1.amazonaws.com/tnc/unsub_tnc.html")
+            strUrl = "https://unsub-prod.s3-eu-west-1.amazonaws.com/tnc/unsub_tnc.html"
         }
         
         //"https://engag-terms-privacy.s3-eu-west-1.amazonaws.com/terms_and_conditions.html"
         
-        webViews.loadRequest(URLRequest(url: url!))
-        
+        if let url = strUrl{
+            if let myURL = URL(string:url) {
+                let myRequest = URLRequest(url: myURL)
+                webViews.loadRequest(myRequest)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

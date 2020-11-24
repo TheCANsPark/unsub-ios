@@ -22,6 +22,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @IBOutlet weak var txtFirstName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastname: SkyFloatingLabelTextField!
     @IBOutlet weak var txtEmail: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtAge: SkyFloatingLabelTextField!
     @IBOutlet weak var txtCategory: SkyFloatingLabelTextField!
     @IBOutlet weak var txtDatetime: SkyFloatingLabelTextField!
     @IBOutlet weak var txtMobVictim: SkyFloatingLabelTextField!
@@ -99,7 +100,10 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewReportTertiary.isHidden = true
         activityIndicator.isHidden = true
+        
         if UserDefaults.standard.bool(forKey: kLogin) == true {
             
             let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
@@ -213,109 +217,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             
             if statusCode == STATUS_CODE.success {
                 
-                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-                //                let decryptor = RNCryptor.Decryptor(password: password)
-                //
-                //                let da = response?.value(forKey: "data") as! String
-                //                let data = Data(da.utf8)
-                //
-                //                // ... Each time data comes in, update the decryptor and accumulate some plaintext ...
-                //                do {
-                //                    try print(self.plaintext.append(decryptor.update(withData: data)))
-                //
-                //                } catch {
-                //
-                //                }
-                //                // ... When data is done, finish up ...
-                //                do {
-                //                    try self.plaintext.append(decryptor.finalData())
-                //
-                //                }catch {
-                //
-                //                }
-                //                print(self.plaintext)
-                //                let input = Data("\(response?.value(forKey: "data") as! String)".utf8)
-                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-                //                self.crypto.encrypt(data: input, password: password, callback: {(encrypted: Data?, error: Error?) in
-                //                    print(encrypted!)
-                //                    let res = response?.value(forKey: "data") as! String
-                //                    let encrypt = Data(encrypted!)
-                //
-                //                    //  let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-                //                    self.crypto.decrypt(data: input, password: password, callback: {(decrypted: Data?, error: Error?) in
-                //                       // print(String(data: decrypted!, encoding: .utf8)!)
-                //                        print(decrypted!)
-                //                    })
-                //                })
-                
-                //                let str = "7D16C7F70E2825C227176BED307684B3"
-                //                let password = /*"CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"*/"iiiiihhhhhhggggguuuuioioplkuhytf"  // returns random 32 char string
-                //
-                //                // get AES-256 CBC encrypted string
-                //               // let encrypted = AES256CBC.encryptString(str, password: password)
-                //
-                //                // decrypt AES-256 CBC encrypted string
-                //                let decrypted = AES256CBC.decryptString(str, password: password)
-                //                print(decrypted)
-                //
-                //                let message     = "oshin"/*response?.value(forKey: "data") as! String*/
-                //                let messageData = message.data(using:String.Encoding.utf8)!
-                //                let keyData     = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7".data(using:String.Encoding.utf8)!
-                //                let ivData      = "abcdefghijklmnop".data(using:String.Encoding.utf8)!
-                //
-                //                //let encryptedData = self.testCrypt(data:messageData,   keyData:keyData, ivData:ivData, operation:kCCEncrypt)
-                //               // print(encryptedData)
-                //                let decryptedData = self.self.testCrypt(data:messageData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
-                //                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
-                //                print(decrypted)
-                
-                
-                //
-                //                let decryptedData = self.testCrypt(data:encryptedData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
-                //                print(decryptedData)
-                //                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
-                //                print(decrypted)
-                
-                
-                // Encryption
-                //                let data = response?.value(forKey: "data") as! String // Some data you want to encrypt
-                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-                //                let encr = self.encrypt(plainText: data, password: password)
-                //                print(encr)
-                //           //     let ciphertext = RNCryptor.encrypt(data: data, withPassword: password)
-                
-                //                let decr = self.decrypt(encryptedText: encr, password: password)
-                //                print(decr)
-                
-                //                // Decryption
-                //                do {
-                //                    let originalData = try RNCryptor.decryptData(ciphertext, password: password)
-                //
-                //                } catch let error {
-                //                    print("Can not Decrypt With Error: \n\(error)\n")
-                //                }
-                //
-                
-                
-                //                do {
-                //                    let a = try self.decryptMessage(encryptedMessage: response?.value(forKey: "data") as! String, encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7")
-                //
-                //                    print(a)
-                //
-                //
-                //                }catch{
-                //                    print("caTCH")
-                //                }
-                //
-                //
-                //                let data = Data("\(String(describing: response?.value(forKey: "data")))".utf8)
-                //
-                //                let decryptor = RNCryptor.DecryptorV3(encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7", hmacKey: data)
-                
-                //                let str = response?.value(forKey: "data")
-                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"//32
-                //                let decrypted = AES256CBC.decryptString(str as! String, password: password)
-                //                print(decrypted)
                 if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                     self.categoriesArr = cat
                     
@@ -362,11 +263,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         
         return cryptData;
     }
+    
     func createIncidents() {
         Loader.shared.show()
         let param = ["first_name"                : txtFirstName.text!,
                      "last_name"                 : txtLastname.text!,
                      "email"                     : txtEmail.text!,
+                     "age"                       : txtAge.text!,
                      "phone_number"              : txtMobVictim.text!,
                      "Category"                  : catID,
                      "crime_details"             : txtCrimeDetail.text!,
@@ -980,9 +883,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             submittedBy = "Myself"
             
         } else {
-            self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
+            self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
             self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
-            submittedBy = ""
+            submittedBy = "Myself"
         }
     }
     
@@ -1012,10 +915,10 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             self.imgSomeOne.image = #imageLiteral(resourceName: "radio_filled")
             self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
             submittedBy = "Someone else"
-        } else {
-            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
+        }else {
+            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_filled")
             self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
-            submittedBy = ""
+            submittedBy = "Someone else"
         }
     }
     

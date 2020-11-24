@@ -40,7 +40,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
         super.viewDidLoad()
         getStates()
         pickerStates.delegate = self
-        // Do any additional setup after loading the view.
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -134,13 +135,14 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
     //MARK:- Date Picker
     func createDatePicker(){
         datePicker.datePickerMode = .date
-        let calendar = Calendar(identifier: .gregorian)
-        let currentDate = Date()
-        var components = DateComponents()
-        components.calendar = calendar
-        components.year = -12
-        let minDate = calendar.date(byAdding: components, to: currentDate)!
-        datePicker.date = minDate
+//        let calendar = Calendar(identifier: .gregorian)
+//        let currentDate = Date()
+//        var components = DateComponents()
+//        components.calendar = calendar
+//        components.year = -12
+//        let minDate = calendar.date(byAdding: components, to: currentDate)!
+//        datePicker.minimumDate = minDate
+        datePicker.maximumDate = Date()
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()

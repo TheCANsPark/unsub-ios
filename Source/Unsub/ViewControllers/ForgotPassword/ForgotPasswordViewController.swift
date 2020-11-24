@@ -42,13 +42,13 @@ class ForgotPasswordViewController: UIViewController, UIGestureRecognizerDelegat
         let param = ["email" : txtMail.text!]
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.forgotPassword as NSString, postParameters: param as NSDictionary, completionHandler: {(response :NSDictionary?, statusCode :Int?) in
             if statusCode == STATUS_CODE.success {
-                let refreshAlert = UIAlertController(title: "Alert", message: response?.value(forKey: "msg") as? String, preferredStyle: UIAlertControllerStyle.alert)
+                let refreshAlert = UIAlertController(title: "Alert", message: response?.value(forKey: "message") as? String, preferredStyle: UIAlertControllerStyle.alert)
                 refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                     self.dismiss(animated: true, completion: nil)
                 }))
                 self.present(refreshAlert, animated: true, completion: nil)
             } else if statusCode == STATUS_CODE.internalServerError {
-                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "msg") as! String)
+                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as! String)
             }
         })
     }
