@@ -20,7 +20,6 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         AppSharedData.sharedInstance.myComplaintsViewControllerRef = self
         self.title = "Incidence List"
         
-        // Do any additional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,6 +52,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
             return 0
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ComplaintTableCell")

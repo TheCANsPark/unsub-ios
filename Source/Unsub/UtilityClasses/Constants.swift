@@ -45,6 +45,7 @@ struct WEB_URL {
     static let getResourceDetail         = BASE_URL + "resource-center?"
     static let getComments               = BASE_URL + "incident/comments/"
     static let getStates                 = BASE_URL + "state"
+    static let getLGA                    = BASE_URL + "/lga?state_id="
     
 }
 

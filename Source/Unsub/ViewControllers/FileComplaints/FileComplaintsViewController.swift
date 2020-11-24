@@ -55,11 +55,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var imgData = Data()
     var categoriesArr = [Categories]()
     let pickerCategories:UIPickerView = UIPickerView()
+    let pickerStates:UIPickerView = UIPickerView()
+    let pickerLGA:UIPickerView = UIPickerView()
     var selectedTextField:UITextField!
     var catName = String()
     var catID = String()
     var fileURL = NSURL()
-   
+    
     var photoVideoImageArr = [UIImage]()
     var isPicVideoSelected : Int = 2
     var picVideoUrlArr = [URL]()
@@ -68,7 +70,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var pdfName = String()
     let documentInteractionController = UIDocumentInteractionController()
     let locationManager = CLLocationManager()
-
+    
     let datePicker:UIDatePicker = UIDatePicker()
     var dateUTC = String()
     var latitute : Double = 0.0
@@ -86,12 +88,20 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     var vidImgCountUpload = [String]()
     let crypto = WebCrypto()
     let plaintext = NSMutableData()
+    var arrStates = [State]()
+    var arrLGA = [LGA]()
+    var stateID = String()
+    var stateName = String()
+    var lgaID = String()
+    var lgaName = String()
+    
     //var schoolName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden = true
         if UserDefaults.standard.bool(forKey: kLogin) == true {
+            
             let val = UserDefaults.standard.value(forKey: kLoginResponse) as! NSDictionary
             let name = val.value(forKey: "name") as! NSDictionary
             self.txtFirstName.text = name.value(forKey: "first") as? String
@@ -106,25 +116,31 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             self.txtEmail.isUserInteractionEnabled = false
             
             /*self.txtSchoolName.text = val.value(forKey: "tertiary") as? String
-            self.txtSchoolName.isUserInteractionEnabled = false
-            self.txtVictimNo.text = val.value(forKey: "victims_count") as? String
-            self.txtVictimNo.isUserInteractionEnabled = false
-            self.txtViolatorNo.text = val.value(forKey: "violators") as? String
-            self.txtViolatorNo.isUserInteractionEnabled = false
-            */
+             self.txtSchoolName.isUserInteractionEnabled = false
+             self.txtVictimNo.text = val.value(forKey: "victims_count") as? String
+             self.txtVictimNo.isUserInteractionEnabled = false
+             self.txtViolatorNo.text = val.value(forKey: "violators") as? String
+             self.txtViolatorNo.isUserInteractionEnabled = false
+             */
             
             /*self.txtState.text = val.value(forKey: "state") as? String
-            self.txtState.isUserInteractionEnabled = false
-            self.txtLGA.text = val.value(forKey: "lga") as? String
-            self.txtLGA.isUserInteractionEnabled = false
-            */
+             self.txtState.isUserInteractionEnabled = false
+             self.txtLGA.text = val.value(forKey: "lga") as? String
+             self.txtLGA.isUserInteractionEnabled = false
+             */
             
             self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
             self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
             submittedBy = "Myself"
+            
+        }else {
+            self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
+            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
+            submittedBy = ""
         }
-       
+        
         picker.delegate = self
+        
         self.title = "Report a Case"  //"File Incidence"
         
         lblNameAttachment.isHidden = true
@@ -136,147 +152,173 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         getCategories()
     }
     
-//    func decryptMessage(encryptedMessage: String, encryptionKey: String) throws -> String {
-//
-//        let encryptedData = Data.init(base64Encoded: encryptedMessage)!
-//        let decryptedData = try RNCryptor.decrypt(data: encryptedData, withPassword: encryptionKey)
-//        let decryptedString = String(data: decryptedData, encoding: .utf8)!
-//
-//        return decryptedString
-//    }
-//
-//    func encrypt(plainText : String, password: String) -> String {
-//        let data: Data = plainText.data(using: .utf8)!
-//        let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
-//        let encryptedString : String = encryptedData.base64EncodedString() // getting base64encoded string of encrypted data.
-//        return encryptedString
-//    }
-//
-//    func decrypt(encryptedText : String, password: String) -> String {
-//        do  {
-//            let data: Data = Data(base64Encoded: encryptedText)! // Just get data from encrypted base64Encoded string.
-//            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
-//            let decryptedString = String(data: decryptedData, encoding: .utf8) // Getting original string, using same .utf8 encoding option,which we used for encryption.
-//            return decryptedString ?? ""
-//        }
-//        catch {
-//            return "FAILED"
-//        }
-//    }
+    //    func decryptMessage(encryptedMessage: String, encryptionKey: String) throws -> String {
+    //
+    //        let encryptedData = Data.init(base64Encoded: encryptedMessage)!
+    //        let decryptedData = try RNCryptor.decrypt(data: encryptedData, withPassword: encryptionKey)
+    //        let decryptedString = String(data: decryptedData, encoding: .utf8)!
+    //
+    //        return decryptedString
+    //    }
+    //
+    //    func encrypt(plainText : String, password: String) -> String {
+    //        let data: Data = plainText.data(using: .utf8)!
+    //        let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
+    //        let encryptedString : String = encryptedData.base64EncodedString() // getting base64encoded string of encrypted data.
+    //        return encryptedString
+    //    }
+    //
+    //    func decrypt(encryptedText : String, password: String) -> String {
+    //        do  {
+    //            let data: Data = Data(base64Encoded: encryptedText)! // Just get data from encrypted base64Encoded string.
+    //            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
+    //            let decryptedString = String(data: decryptedData, encoding: .utf8) // Getting original string, using same .utf8 encoding option,which we used for encryption.
+    //            return decryptedString ?? ""
+    //        }
+    //        catch {
+    //            return "FAILED"
+    //        }
+    //    }
     //MARK:- Server Requests
+    func getStates() {
+        NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getStates , completion: {(response: NSDictionary?, statusCode: Int?) in
+            if statusCode == STATUS_CODE.success {
+                if let sta = [State].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
+                    self.arrStates = sta
+                    self.getLGA(stateId: "")
+                }
+            }
+            
+        })
+    }
+    
+    func getLGA(stateId: String) {
+        let url = WEB_URL.getLGA + stateId //"/lga?state_id=\(stateId)"
+        NetworkManager.sharedInstance.apiParseGet(url: url , completion: {(response: NSDictionary?, statusCode: Int?) in
+            if statusCode == STATUS_CODE.success {
+                if let lga = [LGA].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
+                    self.arrLGA = lga
+                }
+            }
+            
+        })
+    }
+    
     func getCategories() {
         Loader.shared.show()
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.categories, completion: {(response: NSDictionary?,statusCode : Int?) in
             Loader.shared.hide()
-           
+            
+            self.getStates()
+            
             if statusCode == STATUS_CODE.success {
                 
-//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-//                let decryptor = RNCryptor.Decryptor(password: password)
-//
-//                let da = response?.value(forKey: "data") as! String
-//                let data = Data(da.utf8)
-//
-//                // ... Each time data comes in, update the decryptor and accumulate some plaintext ...
-//                do {
-//                    try print(self.plaintext.append(decryptor.update(withData: data)))
-//
-//                } catch {
-//
-//                }
-//                // ... When data is done, finish up ...
-//                do {
-//                    try self.plaintext.append(decryptor.finalData())
-//
-//                }catch {
-//
-//                }
-//                print(self.plaintext)
-//                let input = Data("\(response?.value(forKey: "data") as! String)".utf8)
-//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-//                self.crypto.encrypt(data: input, password: password, callback: {(encrypted: Data?, error: Error?) in
-//                    print(encrypted!)
-//                    let res = response?.value(forKey: "data") as! String
-//                    let encrypt = Data(encrypted!)
-//
-//                    //  let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-//                    self.crypto.decrypt(data: input, password: password, callback: {(decrypted: Data?, error: Error?) in
-//                       // print(String(data: decrypted!, encoding: .utf8)!)
-//                        print(decrypted!)
-//                    })
-//                })
+                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+                //                let decryptor = RNCryptor.Decryptor(password: password)
+                //
+                //                let da = response?.value(forKey: "data") as! String
+                //                let data = Data(da.utf8)
+                //
+                //                // ... Each time data comes in, update the decryptor and accumulate some plaintext ...
+                //                do {
+                //                    try print(self.plaintext.append(decryptor.update(withData: data)))
+                //
+                //                } catch {
+                //
+                //                }
+                //                // ... When data is done, finish up ...
+                //                do {
+                //                    try self.plaintext.append(decryptor.finalData())
+                //
+                //                }catch {
+                //
+                //                }
+                //                print(self.plaintext)
+                //                let input = Data("\(response?.value(forKey: "data") as! String)".utf8)
+                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+                //                self.crypto.encrypt(data: input, password: password, callback: {(encrypted: Data?, error: Error?) in
+                //                    print(encrypted!)
+                //                    let res = response?.value(forKey: "data") as! String
+                //                    let encrypt = Data(encrypted!)
+                //
+                //                    //  let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+                //                    self.crypto.decrypt(data: input, password: password, callback: {(decrypted: Data?, error: Error?) in
+                //                       // print(String(data: decrypted!, encoding: .utf8)!)
+                //                        print(decrypted!)
+                //                    })
+                //                })
                 
-//                let str = "7D16C7F70E2825C227176BED307684B3"
-//                let password = /*"CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"*/"iiiiihhhhhhggggguuuuioioplkuhytf"  // returns random 32 char string
-//
-//                // get AES-256 CBC encrypted string
-//               // let encrypted = AES256CBC.encryptString(str, password: password)
-//
-//                // decrypt AES-256 CBC encrypted string
-//                let decrypted = AES256CBC.decryptString(str, password: password)
-//                print(decrypted)
-//
-//                let message     = "oshin"/*response?.value(forKey: "data") as! String*/
-//                let messageData = message.data(using:String.Encoding.utf8)!
-//                let keyData     = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7".data(using:String.Encoding.utf8)!
-//                let ivData      = "abcdefghijklmnop".data(using:String.Encoding.utf8)!
-//
-//                //let encryptedData = self.testCrypt(data:messageData,   keyData:keyData, ivData:ivData, operation:kCCEncrypt)
-//               // print(encryptedData)
-//                let decryptedData = self.self.testCrypt(data:messageData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
-//                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
-//                print(decrypted)
+                //                let str = "7D16C7F70E2825C227176BED307684B3"
+                //                let password = /*"CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"*/"iiiiihhhhhhggggguuuuioioplkuhytf"  // returns random 32 char string
+                //
+                //                // get AES-256 CBC encrypted string
+                //               // let encrypted = AES256CBC.encryptString(str, password: password)
+                //
+                //                // decrypt AES-256 CBC encrypted string
+                //                let decrypted = AES256CBC.decryptString(str, password: password)
+                //                print(decrypted)
+                //
+                //                let message     = "oshin"/*response?.value(forKey: "data") as! String*/
+                //                let messageData = message.data(using:String.Encoding.utf8)!
+                //                let keyData     = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7".data(using:String.Encoding.utf8)!
+                //                let ivData      = "abcdefghijklmnop".data(using:String.Encoding.utf8)!
+                //
+                //                //let encryptedData = self.testCrypt(data:messageData,   keyData:keyData, ivData:ivData, operation:kCCEncrypt)
+                //               // print(encryptedData)
+                //                let decryptedData = self.self.testCrypt(data:messageData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
+                //                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
+                //                print(decrypted)
                 
-
-//
-//                let decryptedData = self.testCrypt(data:encryptedData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
-//                print(decryptedData)
-//                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
-//                print(decrypted)
-
-               
+                
+                //
+                //                let decryptedData = self.testCrypt(data:encryptedData, keyData:keyData, ivData:ivData, operation:kCCDecrypt)
+                //                print(decryptedData)
+                //                var decrypted     = String(bytes:decryptedData, encoding:String.Encoding.utf8)!
+                //                print(decrypted)
+                
+                
                 // Encryption
-//                let data = response?.value(forKey: "data") as! String // Some data you want to encrypt
-//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
-//                let encr = self.encrypt(plainText: data, password: password)
-//                print(encr)
-//           //     let ciphertext = RNCryptor.encrypt(data: data, withPassword: password)
+                //                let data = response?.value(forKey: "data") as! String // Some data you want to encrypt
+                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"
+                //                let encr = self.encrypt(plainText: data, password: password)
+                //                print(encr)
+                //           //     let ciphertext = RNCryptor.encrypt(data: data, withPassword: password)
                 
-//                let decr = self.decrypt(encryptedText: encr, password: password)
-//                print(decr)
+                //                let decr = self.decrypt(encryptedText: encr, password: password)
+                //                print(decr)
                 
-//                // Decryption
-//                do {
-//                    let originalData = try RNCryptor.decryptData(ciphertext, password: password)
-//
-//                } catch let error {
-//                    print("Can not Decrypt With Error: \n\(error)\n")
-//                }
-//
+                //                // Decryption
+                //                do {
+                //                    let originalData = try RNCryptor.decryptData(ciphertext, password: password)
+                //
+                //                } catch let error {
+                //                    print("Can not Decrypt With Error: \n\(error)\n")
+                //                }
+                //
                 
                 
-//                do {
-//                    let a = try self.decryptMessage(encryptedMessage: response?.value(forKey: "data") as! String, encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7")
-//
-//                    print(a)
-//
-//
-//                }catch{
-//                    print("caTCH")
-//                }
-//
-//
-//                let data = Data("\(String(describing: response?.value(forKey: "data")))".utf8)
-//
-//                let decryptor = RNCryptor.DecryptorV3(encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7", hmacKey: data)
-
-//                let str = response?.value(forKey: "data")
-//                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"//32
-//                let decrypted = AES256CBC.decryptString(str as! String, password: password)
-//                print(decrypted)
+                //                do {
+                //                    let a = try self.decryptMessage(encryptedMessage: response?.value(forKey: "data") as! String, encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7")
+                //
+                //                    print(a)
+                //
+                //
+                //                }catch{
+                //                    print("caTCH")
+                //                }
+                //
+                //
+                //                let data = Data("\(String(describing: response?.value(forKey: "data")))".utf8)
+                //
+                //                let decryptor = RNCryptor.DecryptorV3(encryptionKey: "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7", hmacKey: data)
+                
+                //                let str = response?.value(forKey: "data")
+                //                let password = "CXXD5qtFvXdq1o49w7l8iEHsLywmQOH7"//32
+                //                let decrypted = AES256CBC.decryptString(str as! String, password: password)
+                //                print(decrypted)
                 if let cat = [Categories].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                     self.categoriesArr = cat
-                 
+                    
                 }
             } else if statusCode == STATUS_CODE.internalServerError {
                 AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as! String)
@@ -339,10 +381,11 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                      "annonymous_name"           : txtAnnonymousName.text!,
                      "tertiary"                  : txtSchoolName.text ?? "",
                      "victims_count"             : txtVictimNo.text!,
-                     "violators"                 : txtViolatorNo.text!
-            /*"address"                   : txtState.text!,
-            "attachment"                : txtLGA.text!,*/
-                    ] as [String : Any]
+                     "violators"                 : txtViolatorNo.text!,
+                     "lga"                       : lgaID,
+                     "state"                     : stateID
+            ] as [String : Any]
+        
         NetworkManager.sharedInstance.apiParsePostWithJsonEncoding(WEB_URL.createIncidents as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
             if statusCode == STATUS_CODE.success {
@@ -357,7 +400,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             }
         })
     }
-     override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -365,12 +408,21 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     //MARK:- UITextFieldDelegate
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField == txtCategory {
-          createStockPicker(txtCategory)
-        } else if textField == txtDatetime {
-          createDatePicker()
+            createStockPicker(txtCategory, picker: pickerCategories)
+        }else if textField == txtState {
+            createStockPicker(txtState, picker: pickerStates)
+        }else if textField == txtLGA {
+            if txtState.text?.count  == 0 {
+                AppSharedData.sharedInstance.alert(vc: self, message: "Please select state.")
+            }else {
+                createStockPicker(txtLGA, picker: pickerLGA)
+            }
+        }else if textField == txtDatetime {
+            createDatePicker()
         }
         return true
     }
+    
     //MARK:- UIDocumentPickerDelegate
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let myURL = urls.first else {
@@ -396,7 +448,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         documentPicker.delegate = self
         present(documentPicker, animated: true, completion: nil)
     }
-   func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         print("view was cancelled")
         dismiss(animated: true, completion: nil)
     }
@@ -434,10 +486,13 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     @objc func fromTimePickerCancel(){
         self.view.endEditing(true)
     }
+    
     //MARK:- UIPickerView
-    func createStockPicker(_ textField: UITextField){
-        pickerCategories.delegate = self
-        pickerCategories.dataSource = self
+    func createStockPicker(_ textField: UITextField, picker: UIPickerView){
+        
+        picker.delegate = self
+        picker.dataSource = self
+        
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         
@@ -449,31 +504,66 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
         textField.inputAccessoryView = toolbar
         textField.tintColor = .clear
-        textField.inputView = pickerCategories
+        textField.inputView = picker
         selectedTextField = textField
     }
+    
+    
     //MARK:- UIPickerViewDataSource
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return categoriesArr.count
+        
+        if pickerView == pickerStates {
+            return arrStates.count
+        }else if pickerView == pickerLGA {
+            return arrLGA.count
+        }else {
+            return categoriesArr.count
+        }
+        
     }
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
-        
-        return "\(categoriesArr[row].name!)"
-        
+        if pickerView == pickerStates {
+            return "\(arrStates[row].name!)"
+        }else if pickerView == pickerLGA {
+            return "\(arrLGA[row].name!)"
+        }else {
+            return "\(categoriesArr[row].name!)"
+        }
     }
+    
+    
     //MARK:- UIPickerViewDelegate
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        catName = "\(categoriesArr[row].name!)"
-        catID = categoriesArr[row]._id!
+        if pickerView == pickerStates {
+            stateName = "\(arrStates[row].name!)"
+            stateID = arrStates[row]._id!
+        }else if pickerView == pickerLGA {
+            lgaName = "\(arrLGA[row].name!)"
+            lgaID = arrLGA[row]._id!
+        }else {
+            catName = "\(categoriesArr[row].name!)"
+            catID = categoriesArr[row]._id!
+        }
+        
     }
     //MARK:- Helper
     @objc func pickerDone(){
-        txtCategory.text = catName
+        
+        if selectedTextField == txtState {
+            txtState.text = stateName
+            getLGA(stateId: stateID)
+        }else if selectedTextField == txtLGA {
+            txtLGA.text = lgaName
+        }else {
+            txtCategory.text = catName
+        }
+        
         self.view.endEditing(true)
     }
+    
     @objc func pickerCancel(){
         self.view.endEditing(true)
     }
@@ -496,7 +586,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         } else {
             return 1
         }
-   }
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageVideoCollectionCell", for: indexPath)
@@ -523,7 +613,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 }
             }
             return cell
-          
+            
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddMediaCollectionCell", for: indexPath)
             return cell
@@ -548,7 +638,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 } else {
                     AppSharedData.sharedInstance.alert(vc: self, message: "There is no camera available")
                 }
-           }
+            }
             let secondAction: UIAlertAction = UIAlertAction(title: "Select from gallery", style: .default) { action -> Void in
                 self.picker.allowsEditing = true
                 self.picker.sourceType = .photoLibrary
@@ -579,7 +669,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         print(info)
-       
+        
         if picker.sourceType == .photoLibrary {
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
@@ -605,8 +695,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.activityIndicator.isHidden = true
                         self.activityIndicator.stopAnimating()
                         self.vidImgCountUpload.append("jpg")
-                       // self.picVideoUrlArr.append(urlImgVideo!)
-                      //  self.collectionView.reloadData()
+                        // self.picVideoUrlArr.append(urlImgVideo!)
+                        //  self.collectionView.reloadData()
                     })
                 }
                 if mediaType == "public.movie" {
@@ -639,8 +729,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                             self.activityIndicator.isHidden = true
                             self.activityIndicator.stopAnimating()
                             self.vidImgCountUpload.append("jpg")
-                          //  self.picVideoUrlArr.append(urlImgVideo!)
-                           // self.collectionView.reloadData()
+                            //  self.picVideoUrlArr.append(urlImgVideo!)
+                            // self.collectionView.reloadData()
                         })
                     }
                 }
@@ -671,7 +761,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                         self.activityIndicator.isHidden = true
                         self.activityIndicator.stopAnimating()
                         self.vidImgCountUpload.append("jpg")
-                       // self.picVideoUrlArr.append(urlImgVideo!)
+                        // self.picVideoUrlArr.append(urlImgVideo!)
                         //self.collectionView.reloadData()
                     })
                 }
@@ -710,9 +800,11 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             }
         }
         dismiss(animated: true,completion: nil)
-     }
+    }
+    
+    
     //MARK:- Generate Thumbnail
-     func thumbnailForVideoAtURL(url: NSURL) -> UIImage? {
+    func thumbnailForVideoAtURL(url: NSURL) -> UIImage? {
         let asset = AVAsset(url: url as URL)
         let assetImageGenerator = AVAssetImageGenerator(asset: asset)
         assetImageGenerator.appliesPreferredTrackTransform = true
@@ -813,18 +905,18 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     
     @IBAction func submit(_ sender: Any) {
         
-       if txtFirstName.text?.count  == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtEmail.text?.count == 0 ||  txtVictimNo.text?.count == 0 || txtViolatorNo.text?.count == 0 {   //txtState.text?.count  == 0 || txtLGA.text?.count == 0 ||
-        
+        if txtFirstName.text?.count  == 0 || txtCategory.text?.count == 0 || txtCrimeDetail.text?.count == 0 || txtEmail.text?.count == 0 ||  txtVictimNo.text?.count == 0 || txtViolatorNo.text?.count == 0 {   //txtState.text?.count  == 0 || txtLGA.text?.count == 0 ||
+            
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields.")
             
         } else if isAccept == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Agree with Terms & Conditions to proceed")
-       } else if vidImgCount != vidImgCountUpload {
+        } else if vidImgCount != vidImgCountUpload {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please wait while the image is being uploaded")
-       }
+        }
             /*else if txtMobSubmitter.text?.count != 10 {
-            AppSharedData.sharedInstance.alert(vc: self, message: "Please enter 10 digit mobile number.")
-        } */else {
+             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter 10 digit mobile number.")
+         } */else {
             createIncidents()
         }
     }
@@ -888,11 +980,12 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             submittedBy = "Myself"
             
         } else {
-            self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
+            self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
             self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
-            submittedBy = "Someone else"
+            submittedBy = ""
         }
     }
+    
     @IBAction func someoneElse(_ sender: Any) {
         self.txtFirstName.isUserInteractionEnabled = true
         self.txtLastname.isUserInteractionEnabled = true
@@ -905,7 +998,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         self.txtViolatorNo.isUserInteractionEnabled = true
         
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-        
+            
             self.txtFirstName.text = ""
             self.txtLastname.text = ""
             self.txtMobVictim.text = ""
@@ -920,11 +1013,12 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
             submittedBy = "Someone else"
         } else {
-            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_filled")
+            self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
             self.imgMyself.image = #imageLiteral(resourceName: "radio_unfilled")
-            submittedBy = "Someone else"
+            submittedBy = ""
         }
     }
+    
     @IBAction func deleteGallery(_ sender: Any) {
         let button = sender as? UIButton
         let cell = button?.superview?.superview as? UICollectionViewCell
@@ -932,4 +1026,4 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         photoVideoImageArr.remove(at: (indexPath?.row)!)
         collectionView.reloadData()
     }
- }
+}

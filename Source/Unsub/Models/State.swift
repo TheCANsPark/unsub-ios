@@ -13,6 +13,16 @@ struct State : JSONDecodable {
     let _id              : String?
     let name             : String?
     
+    init?(json: JSON) {
+        self._id = "_id" <~~ json
+        self.name = "name" <~~ json
+        
+    }
+}
+
+struct LGA : JSONDecodable {
+    let _id              : String?
+    let name             : String?
     
     init?(json: JSON) {
         self._id = "_id" <~~ json
@@ -20,3 +30,8 @@ struct State : JSONDecodable {
         
     }
 }
+
+
+/*"_id" = 5c3c436f8a734a43f54a3503;
+name = GULANI;
+state = 5c3c436d8a734a43f54a31d4;*/
