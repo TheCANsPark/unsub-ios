@@ -336,7 +336,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         let fileName = myURL.lastPathComponent
         lblNameAttachment.isHidden = false
         lblNameAttachment.text = fileName
-        btnAddRemoveAttachment.setTitle("Delete it", for: .normal)
+        btnAddRemoveAttachment.setTitle("Remove attachment", for: .normal)
         isAttachedFile = 1
         lblNameAttachment.isHidden = false
         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: videoURL as URL, isVideo: false, imageUrl: imageURL as URL, isCamera: false, imageData: imgData as NSData, filePath: fileURL as URL, isFile: true, completionHandler: {(urlImgVideo : URL?) in
@@ -784,6 +784,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         })
         
     }
+    
     //MARK:- UIButtonActions
     @IBAction func getLocation(_ sender: Any) {
         locationManager.requestAlwaysAuthorization()
@@ -791,6 +792,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
     }
+    
     @IBAction func addAttachment(_ sender: Any) {
         if isAttachedFile == 1 {
             btnAddRemoveAttachment.setTitle("Add Attachment", for: .normal)

@@ -21,7 +21,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Incidence Details"     //Incidence
+        self.title = "Case Details"     //Incidence
         getComplaintDetail()
     }
 
@@ -147,6 +147,8 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
                 }
                 
                 if self.complaintDetailArr.assignedstkHolders!.count == 0 {
+                    lblAssignedStackholder.isHidden = false
+                }else {
                     lblAssignedStackholder.isHidden = true
                 }
                 
@@ -154,7 +156,7 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
                 lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
                 lblAddress.text = "\(detail.address?.address ?? "")"
                 lblMail.text = "\(detail.email ?? "")"
-                lblComplaintNumber.text = "#\(detail.complaint_number!)"
+                lblComplaintNumber.text = "\(detail.complaint_number!)"
                 lblStatus.text = appShared.getCaseStatus(status: detail.status ?? "")
                 lblCategoryName.text = categoryName
                 lblDetail.text = incidentString

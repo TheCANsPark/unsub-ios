@@ -21,7 +21,7 @@ class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerVi
         super.viewDidLoad()
         
         if isHome == 1 {
-            self.title = "Emergency Contact"
+            self.title = "Emergency Numbers"
             self.view.backgroundColor = UIColor.white
             //back
             let backbutton = UIButton(type: .custom)
@@ -39,6 +39,7 @@ class ContactViewController: BaseViewController, UITextFieldDelegate, UIPickerVi
             
         } else {
             AppSharedData.sharedInstance.contactViewControllerRef = self
+            self.title = "Emergency Numbers"
             
             
             

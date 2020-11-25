@@ -59,7 +59,7 @@ class TimelineViewController: BaseViewController, UITableViewDelegate, UITableVi
                     let resultString = inputFormatter.string(from: showDate!)
                     self.lblDate.text = resultString
                     self.lblIncidenceDetail.text = incident.incident_details!
-                    self.lblComplaintID.text = "Incidence ID: #\(incident.complaint_number!)"
+                    self.lblComplaintID.text = "Case ID: #\(incident.complaint_number!)"
                     
                    // self.heightConstraintView.constant = self.heightForView(text: incident.incident_details!) + 70
                 }

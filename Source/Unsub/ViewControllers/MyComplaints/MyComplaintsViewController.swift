@@ -18,7 +18,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         AppSharedData.sharedInstance.myComplaintsViewControllerRef = self
-        self.title = "Incidence List"
+        self.title = "Case List"
         
     }
     
@@ -84,7 +84,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         let resultString = inputFormatter.string(from: showDate!)
         
         lblCrimeDetail.text = incident.crime_details!
-        lblComplaintID.text = "Incidence ID: #\(incident.complaint_number!)"
+        lblComplaintID.text = "Case ID: #\(incident.complaint_number!)"
         lblCrimeDate.text = "Date: \(resultString)"
         lblCategoryName.text = incident.Category?.name!
         lblTimeline.text = "\(incident.timeline_actions_count!)"
