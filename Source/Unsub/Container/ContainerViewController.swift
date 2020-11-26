@@ -138,8 +138,7 @@ class ContainerViewController: BaseViewController {
         setUpNavBarLoginBtn()
     }
     @IBAction func profile(_ sender: Any) {
-        self.title = ""
-        self.navigationItem.rightBarButtonItem = nil
+        self.title = "Profile"
         
         if UserDefaults.standard.bool(forKey: kLogin) == true {
             homeView.isHidden = true
@@ -154,6 +153,8 @@ class ContainerViewController: BaseViewController {
             AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
             
             self.navigationItem.leftBarButtonItem = nil
+            self.navigationItem.rightBarButtonItems = nil
+            
             AppSharedData.sharedInstance.profileViewControllerRef.getProfile()
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
@@ -183,7 +184,7 @@ class ContainerViewController: BaseViewController {
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         
     }
     @IBAction func contact(_ sender: Any) {
@@ -202,12 +203,12 @@ class ContainerViewController: BaseViewController {
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         
     }
     //MARK:- Helper
     func customizeNavigationBar() {
-    //      AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+    //     AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -258,17 +259,15 @@ class ContainerViewController: BaseViewController {
         imgProfile.image = #imageLiteral(resourceName: "footer-profile-black")
         imgChat.image = #imageLiteral(resourceName: "my-complaints-black")
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny")
-        
-        AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
+    AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
         
     }
     @objc func loadIncidences(notification: Notification) {
         self.title = "My Cases List"
-        
-        AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
+    AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true
         profileView.isHidden = true
         chatView.isHidden = false
@@ -282,7 +281,7 @@ class ContainerViewController: BaseViewController {
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         
         self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.rightBarButtonItems = nil
     }
     @objc func info() -> Void {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "PopUpHomeViewController") as! PopUpHomeViewController
