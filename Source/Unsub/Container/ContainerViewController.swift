@@ -121,6 +121,41 @@ class ContainerViewController: BaseViewController {
         self.navigationItem.rightBarButtonItems = [rightButtonTitle,loginBar]
     }
     
+    func setBackBtnOnCaseList() {
+        let backbutton = UIButton(type: .custom)
+        backbutton.setImage(UIImage(named:"back-arrow"), for: .normal) // Image can be downloaded from here below link
+        backbutton.addTarget(self, action: #selector(home(_:)), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backbutton)
+        
+        let menuBarItem = UIBarButtonItem(customView: backbutton)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 30)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+        currHeight?.isActive = true
+    }
+    
+    func customizeNavigationBar() {
+    //     AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+        
+        //back
+        let infoButton = UIButton(type: .custom)
+        infoButton.setImage(UIImage(named:"C"), for: .normal) // Image can be downloaded from here below link
+        infoButton.addTarget(self, action: #selector(ContainerViewController.info), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
+        
+        let menuBarItem = UIBarButtonItem(customView: infoButton)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
+        currHeight?.isActive = true
+        
+        self.title = ""
+    }
+    
     //MARK:-UIButtonActions
     @IBAction func home(_ sender: Any) {
         self.title = ""
@@ -163,7 +198,7 @@ class ContainerViewController: BaseViewController {
     }
     
     @IBAction func chat(_ sender: Any) {
-        self.title = "My Cases"
+        self.title = "My Case List"
         if UserDefaults.standard.bool(forKey: kLogin) == true {
            AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         } else {
@@ -182,8 +217,7 @@ class ContainerViewController: BaseViewController {
         imgContact.image = #imageLiteral(resourceName: "footer-emargeny-black")
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
-        
-        self.navigationItem.leftBarButtonItem = nil
+        self.setBackBtnOnCaseList()
         self.navigationItem.rightBarButtonItems = nil
         
     }
@@ -207,28 +241,6 @@ class ContainerViewController: BaseViewController {
         
     }
     //MARK:- Helper
-    func customizeNavigationBar() {
-    //     AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
-        
-        //back
-        let infoButton = UIButton(type: .custom)
-        infoButton.setImage(UIImage(named:"C"), for: .normal) // Image can be downloaded from here below link
-        infoButton.addTarget(self, action: #selector(ContainerViewController.info), for: .touchUpInside)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: infoButton)
-        
-        let menuBarItem = UIBarButtonItem(customView: infoButton)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 20)
-        currHeight?.isActive = true
-        
-        self.title = ""
-    }
-    
     @objc func login() -> Void {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginnViewController") as! LoginnViewController
         self.present(vc, animated: true, completion: nil)
@@ -248,6 +260,7 @@ class ContainerViewController: BaseViewController {
         self.present(refreshAlert, animated: true, completion: nil)
     }
     @objc func loadContact(notification: Notification) {
+        self.title = "Emergency Numbers"
         AppSharedData.sharedInstance.contactViewControllerRef.getContacts()
         
         homeView.isHidden = true
@@ -266,7 +279,7 @@ class ContainerViewController: BaseViewController {
         
     }
     @objc func loadIncidences(notification: Notification) {
-        self.title = "My Cases List"
+        self.title = "My Case List"
     AppSharedData.sharedInstance.myComplaintsViewControllerRef.getIncidents()
         homeView.isHidden = true
         profileView.isHidden = true
@@ -280,7 +293,7 @@ class ContainerViewController: BaseViewController {
         
         AppSharedData.sharedInstance.setGradientOnObject((self.navigationController?.navigationBar)!, colour1: UIColor(red: 255/255, green: 188/255, blue: 58/255, alpha: 1), colour2: UIColor(red: 255/255, green: 150/255, blue: 0/255, alpha: 1))
         
-        self.navigationItem.leftBarButtonItem = nil
+        setBackBtnOnCaseList()
         self.navigationItem.rightBarButtonItems = nil
     }
     @objc func info() -> Void {

@@ -18,8 +18,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         AppSharedData.sharedInstance.myComplaintsViewControllerRef = self
-        self.title = "Case List"
-        
+        self.title = "My Case List"
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,8 +83,8 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         let resultString = inputFormatter.string(from: showDate!)
         
         lblCrimeDetail.text = incident.crime_details!
-        lblComplaintID.text = "Case ID: #\(incident.complaint_number!)"
-        lblCrimeDate.text = "Date: \(resultString)"
+        lblComplaintID.text = "Case ID: \(incident.complaint_number!)"
+        lblCrimeDate.text = "\(resultString)"
         lblCategoryName.text = incident.Category?.name!
         lblTimeline.text = "\(incident.timeline_actions_count!)"
         lblComment.text = "\(incident.comments_count!)"

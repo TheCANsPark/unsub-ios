@@ -22,12 +22,10 @@ class ResourceCenterViewController: BaseViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         self.title = "Resource Category"
         getResourceCenter()
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     //MARK:- Server Request
     func getResourceCenter() {
