@@ -14,7 +14,6 @@ import SkyFloatingLabelTextField
 import AVFoundation
 import CoreLocation
 import AES256CBC
-
 import RNCryptor
 
 class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UICollectionViewDelegateFlowLayout, UIDocumentMenuDelegate, UIDocumentPickerDelegate, CLLocationManagerDelegate{
@@ -183,6 +182,8 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     //            return "FAILED"
     //        }
     //    }
+    
+    
     //MARK:- Server Requests
     func getStates() {
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.getStates , completion: {(response: NSDictionary?, statusCode: Int?) in
@@ -231,7 +232,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         let cryptLength  = size_t(data.count + kCCBlockSizeAES128)
         var cryptData = Data(count:cryptLength)
         
-        let keyLength             = size_t(kCCKeySizeAES128)
+        let keyLength = size_t(kCCKeySizeAES128)
         let options   = CCOptions(kCCOptionPKCS7Padding)
         
         
@@ -303,6 +304,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             }
         })
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

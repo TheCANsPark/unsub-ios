@@ -50,13 +50,15 @@ class ComplaintImagesVideosVC: BaseViewController, UICollectionViewDelegate, UIC
             videoIcon.isHidden = false
             
         } else {
-             img.setImgFromUrl(url: "\(getUrl)")
+             //img.setImgFromUrl(url: "\(getUrl)")
+             let data = try? Data(contentsOf: getUrl)
+             if let imageData = data {
+                 let image = UIImage(data: imageData)
+                 img.image = image
+             }else {
+                 img.image = UIImage(named: "placeholder")
+             }
             
-          /*  let data = try? Data(contentsOf: getUrl)
-            if let imageData = data {
-                let image = UIImage(data: imageData)
-                img.image = image
-            }*/
             videoIcon.isHidden = true
         }
         
@@ -81,7 +83,7 @@ class ComplaintImagesVideosVC: BaseViewController, UICollectionViewDelegate, UIC
         } else {
             
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ImageViewController") as! ImageViewController
-                vc.imgUrl = getUrl as NSURL
+            vc.imgUrl = getUrl as NSURL
                 vc.modalTransitionStyle = .coverVertical
                 vc.modalPresentationStyle = .overCurrentContext
                 self.present(vc, animated: true, completion: nil)

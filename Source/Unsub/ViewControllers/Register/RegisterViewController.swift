@@ -132,6 +132,25 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
         }
         return true
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField != txtState || textField != txtAge {
+
+            if range.location == 0 && string == " " {
+                return false
+            } else if range.location > 1 && textField.text?.characters.last == " " && string == " " {
+                return false
+            }else{
+                return true
+            }
+
+        }else {
+            return true
+        }
+        
+    }
+    
     //MARK:- Date Picker
     func createDatePicker(){
         datePicker.datePickerMode = .date
@@ -192,7 +211,6 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter state")
         } else if isAgreed == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Agree with Terms & Conditions to proceed")
-            
         }else {
             register()
         }

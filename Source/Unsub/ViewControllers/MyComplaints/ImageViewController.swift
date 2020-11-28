@@ -19,6 +19,13 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
         imgView.setImgFromUrl(url: "\(imgUrl)")
      
+        let data = try? Data(contentsOf: imgUrl as URL)
+        if let imageData = data {
+            let image = UIImage(data: imageData)
+            imgView.image = image
+        }else {
+            imgView.image = UIImage(named: "placeholder")
+        }
         // Do any additional setup after loading the view.
     }
 
