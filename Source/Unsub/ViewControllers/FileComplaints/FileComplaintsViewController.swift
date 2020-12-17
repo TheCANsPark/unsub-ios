@@ -153,8 +153,9 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         txtCrimeDetail.layer.borderColor = UIColor.lightGray.cgColor
         
         getCategories()
+ 
     }
-    
+   
     //    func decryptMessage(encryptedMessage: String, encryptionKey: String) throws -> String {
     //
     //        let encryptedData = Data.init(base64Encoded: encryptedMessage)!
@@ -371,6 +372,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         txtDatetime.inputAccessoryView = toolbar
         txtDatetime.inputView = datePicker
     }
+    
     @objc func fromTimePickerDone(){
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM dd,yyyy  hh:mm:ss a"
@@ -378,6 +380,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         dateUTC = get_Date_time_from_UTC_time(string: txtDatetime.text!)
         self.view.endEditing(true)
     }
+    
     func get_Date_time_from_UTC_time(string : String) -> String {
         
         let dateformattor = DateFormatter()
@@ -388,6 +391,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
         return dateformattor.string(from: dt1!)
     }
+    
     @objc func fromTimePickerCancel(){
         self.view.endEditing(true)
     }
@@ -412,7 +416,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         textField.inputView = picker
         selectedTextField = textField
     }
-    
     
     //MARK:- UIPickerViewDataSource
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {

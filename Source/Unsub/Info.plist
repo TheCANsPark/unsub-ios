@@ -49,7 +49,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
@@ -57,11 +57,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>You can take photos to document your job.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App would like to use your location</string>
+	<string>We will need your location to store exaction position of the case happened</string>
 	<key>NSLocationUsageDescription</key>
-	<string>App would like to use your location</string>
+	<string>We will need your location to store exaction position of the case happened</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>App would like to use your location</string>
+	<string>We will need your location to store exaction position of the case happened</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Need microphone access for uploading videos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
