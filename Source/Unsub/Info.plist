@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Privacy - Microphone Usage Description and Value</key>
+	<string>For using microphone, to record Audio</string>
 	<key>AWS</key>
 	<dict>
 		<key>CredentialsProvider</key>

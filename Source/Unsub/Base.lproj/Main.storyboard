@@ -540,11 +540,27 @@
                                     <constraint firstAttribute="bottom" secondItem="yov-pW-nit" secondAttribute="bottom" id="rZp-wE-Kv7"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3JV-xd-AEz">
+                                <rect key="frame" x="250" y="15" width="120" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="E3W-mi-u2O"/>
+                                    <constraint firstAttribute="height" constant="50" id="Tpr-62-aw6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-ExtraBold" family="Montserrat ExtraBold" pointSize="16"/>
+                                <state key="normal" title="Record" backgroundImage="btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnRecord:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uht-C3-zhc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="upH-FY-Aqu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="34Q-7S-TQC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3JV-xd-AEz" secondAttribute="trailing" constant="5" id="8UB-dN-3ab"/>
                             <constraint firstItem="upH-FY-Aqu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="9NC-By-dW8"/>
+                            <constraint firstItem="3JV-xd-AEz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="HYg-rx-Ifu"/>
                             <constraint firstItem="cl0-kE-ONK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Sxm-ti-nz3"/>
                             <constraint firstItem="cl0-kE-ONK" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="T2c-VF-532"/>
                             <constraint firstItem="upH-FY-Aqu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iKg-nR-ig2"/>
@@ -3068,7 +3084,7 @@
                                                             <fragment content=" Terms and Conditions">
                                                                 <attributes>
                                                                     <color key="NSColor" red="0.19997704029083252" green="0.20001652836799622" blue="0.19996866583824158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                     <integer key="NSUnderline" value="1"/>
                                                                 </attributes>
@@ -3093,7 +3109,7 @@
                                                             <fragment content="Privacy Policy">
                                                                 <attributes>
                                                                     <color key="NSColor" red="0.19997704029083252" green="0.20001652836799622" blue="0.19996866583824158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                     <integer key="NSUnderline" value="1"/>
                                                                 </attributes>
@@ -4643,6 +4659,101 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MqW-Mq-dWq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="966" y="1501"/>
+        </scene>
+        <!--Voice Record To ReportVC-->
+        <scene sceneID="Dt3-Yu-isn">
+            <objects>
+                <viewController storyboardIdentifier="VoiceRecordToReportVC" modalPresentationStyle="currentContext" id="LIv-sw-xm2" customClass="VoiceRecordToReportVC" customModule="Unsub" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cXS-T8-00d">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qki-yG-lAd">
+                                <rect key="frame" x="30" y="233.5" width="315" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Start Recording" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A38-ZW-qgv">
+                                        <rect key="frame" x="20" y="15" width="275" height="50"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat Medium" pointSize="13"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j5v-wB-NA9">
+                                        <rect key="frame" x="67.5" y="75" width="180" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="180" id="XDO-2n-4Uz"/>
+                                            <constraint firstAttribute="height" constant="50" id="eBR-TF-Myn"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Montserrat-ExtraBold" family="Montserrat ExtraBold" pointSize="16"/>
+                                        <state key="normal" title="Start" backgroundImage="btn">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnRecord:" destination="LIv-sw-xm2" eventType="touchUpInside" id="TSe-RC-zQo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnQ-ru-z7o">
+                                        <rect key="frame" x="67.5" y="135" width="180" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="dTp-dd-HW2"/>
+                                            <constraint firstAttribute="width" constant="180" id="mHF-fz-eHp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Montserrat-ExtraBold" family="Montserrat ExtraBold" pointSize="16"/>
+                                        <state key="normal" title="Play" backgroundImage="btn">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="play_recording:" destination="LIv-sw-xm2" eventType="touchUpInside" id="aPP-JK-XRf"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="jnQ-ru-z7o" secondAttribute="bottom" constant="15" id="OTg-t3-3Ak"/>
+                                    <constraint firstItem="jnQ-ru-z7o" firstAttribute="centerX" secondItem="Qki-yG-lAd" secondAttribute="centerX" id="VhT-Vu-oe2"/>
+                                    <constraint firstAttribute="trailing" secondItem="A38-ZW-qgv" secondAttribute="trailing" constant="20" id="XaH-CX-eWm"/>
+                                    <constraint firstItem="j5v-wB-NA9" firstAttribute="top" secondItem="A38-ZW-qgv" secondAttribute="bottom" constant="10" id="hlA-qr-WbA"/>
+                                    <constraint firstItem="j5v-wB-NA9" firstAttribute="centerX" secondItem="Qki-yG-lAd" secondAttribute="centerX" id="knA-3i-BcV"/>
+                                    <constraint firstItem="j5v-wB-NA9" firstAttribute="centerY" secondItem="Qki-yG-lAd" secondAttribute="centerY" id="mh3-ta-8cy"/>
+                                    <constraint firstItem="A38-ZW-qgv" firstAttribute="leading" secondItem="Qki-yG-lAd" secondAttribute="leading" constant="20" id="s9F-2c-GDq"/>
+                                    <constraint firstItem="A38-ZW-qgv" firstAttribute="top" secondItem="Qki-yG-lAd" secondAttribute="top" constant="15" id="w6h-RQ-PRw"/>
+                                    <constraint firstItem="jnQ-ru-z7o" firstAttribute="top" secondItem="j5v-wB-NA9" secondAttribute="bottom" constant="10" id="y7d-kY-Np5"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qpk-fP-rhq">
+                                <rect key="frame" x="330" y="20" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="kGw-eI-Oc1"/>
+                                    <constraint firstAttribute="height" constant="25" id="rSd-6v-Zt4"/>
+                                </constraints>
+                                <state key="normal" image="cross_icon"/>
+                                <connections>
+                                    <action selector="btnClose:" destination="LIv-sw-xm2" eventType="touchUpInside" id="Q61-6y-zU3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.4765089897" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Qki-yG-lAd" firstAttribute="leading" secondItem="IQu-L0-hl8" secondAttribute="leading" constant="30" id="9E7-1s-s79"/>
+                            <constraint firstItem="Qki-yG-lAd" firstAttribute="centerY" secondItem="cXS-T8-00d" secondAttribute="centerY" id="BTH-1R-0mP"/>
+                            <constraint firstItem="Qpk-fP-rhq" firstAttribute="top" secondItem="IQu-L0-hl8" secondAttribute="top" constant="20" id="SB9-xg-ZMZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Qki-yG-lAd" secondAttribute="trailing" constant="30" id="Tdz-Ji-Yuv"/>
+                            <constraint firstItem="IQu-L0-hl8" firstAttribute="trailing" secondItem="Qpk-fP-rhq" secondAttribute="trailing" constant="20" id="b6L-kC-CMG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IQu-L0-hl8"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnPlaySound" destination="jnQ-ru-z7o" id="3u1-gx-7Du"/>
+                        <outlet property="btnRecordSound" destination="j5v-wB-NA9" id="SQG-ZU-P3h"/>
+                        <outlet property="lblRecordStatus" destination="A38-ZW-qgv" id="jK5-HR-K8s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6MO-WR-eQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2056.8000000000002" y="590.55472263868069"/>
         </scene>
     </scenes>
     <resources>

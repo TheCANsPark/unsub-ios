@@ -25,7 +25,15 @@ class HomeViewController: BaseViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     //MARK:- UIButtonActions
+    @IBAction func btnRecord(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "VoiceRecordToReportVC") as! VoiceRecordToReportVC
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: true, completion: nil)
+    }
+    
     @IBAction func fileComplaintAction(_ sender: Any) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FileComplaintsViewController") as? FileComplaintsViewController
         self.navigationController?.pushViewController(vc!, animated: true)

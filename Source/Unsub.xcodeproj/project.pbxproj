@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0425DC1C2591ED5F002679C2 /* VoiceRecordToReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */; };
 		1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */; };
 		1310793722B775780052D515 /* ComplaintImagesVideosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1310793622B775780052D515 /* ComplaintImagesVideosVC.swift */; };
 		1310793922B7997B0052D515 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1310793822B7997B0052D515 /* ImageViewController.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecordToReportVC.swift; sourceTree = "<group>"; };
 		1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		1310793622B775780052D515 /* ComplaintImagesVideosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintImagesVideosVC.swift; sourceTree = "<group>"; };
 		1310793822B7997B0052D515 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				13C5F13C22C23C5400F3F497 /* PopUpHomeViewController.swift */,
+				0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */,
 			);
 			path = PopUp;
 			sourceTree = "<group>";
@@ -672,6 +675,7 @@
 				13DB6F4D22B284090055BF77 /* Incidents.swift in Sources */,
 				13CE749222B8BB30006A51E0 /* TimelineViewController.swift in Sources */,
 				13CE749422B8BD9E006A51E0 /* Timeline.swift in Sources */,
+				0425DC1C2591ED5F002679C2 /* VoiceRecordToReportVC.swift in Sources */,
 				13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */,
 				134B6EE122A6802900DD97C8 /* BaseViewController.swift in Sources */,
 				1327061C22B8E58000DE0403 /* Resource.swift in Sources */,
