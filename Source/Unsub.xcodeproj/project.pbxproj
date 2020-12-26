@@ -591,7 +591,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Unsub/Pods-Unsub-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Unsub/Pods-Unsub-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
@@ -602,7 +602,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Unsub/Pods-Unsub-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Unsub/Pods-Unsub-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FB35190DBA36B991B0674833 /* [CP] Embed Pods Frameworks */ = {
@@ -611,7 +611,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Unsub/Pods-Unsub-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Unsub/Pods-Unsub-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AES256CBC/AES256CBC.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.framework",
@@ -650,7 +650,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Unsub/Pods-Unsub-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Unsub/Pods-Unsub-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

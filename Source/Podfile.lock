@@ -48,7 +48,7 @@ DEPENDENCIES:
   - StatusBarOverlay (~> 1.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AES256CBC
     - Alamofire
     - AWSAuthCore
@@ -88,6 +88,6 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   StatusBarOverlay: ce2193d14935dce0c7097ac8f79a7145e87e0c07
 
-PODFILE CHECKSUM: e43d7f76c0b77c4d3728bdca1a04c704da2259b7
+PODFILE CHECKSUM: e56f1319d8776bbe84646f8332176f2801662906
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

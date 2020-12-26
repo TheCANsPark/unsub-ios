@@ -161,6 +161,9 @@ class NetworkManager {
                           "Authorization"  : "Bearer \(token)"]
             }
         }
+        
+        print("Header: \(header)")
+        
         Alamofire.request(urlString, method: .post, parameters: postParameters as? Parameters, encoding: JSONEncoding.default, headers: header).responseJSON {
             response in
             
