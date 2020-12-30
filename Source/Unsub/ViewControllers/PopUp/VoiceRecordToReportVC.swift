@@ -65,7 +65,7 @@ class VoiceRecordToReportVC: UIViewController, AVAudioRecorderDelegate {
                 
             } else if statusCode == STATUS_CODE.internalServerError {
                 
-                self.showAlert(message: "Please wait while the file is being uploaded")
+                self.showAlert(message: response?.value(forKey: "message") as? String ?? "")
                 //AppSharedData.sharedInstance.alert(vc: self, message: response?["message"] as? String ?? "Please wait while the file is being uploaded")
             }
         })

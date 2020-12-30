@@ -355,7 +355,7 @@ class NetworkManager {
         //uploadRequest?.body = videoFileUrl as URL
         uploadRequest?.key = newKey
         uploadRequest?.bucket = "unsub-prod"  //"unsub-test-media-bucket"
-        uploadRequest?.acl = AWSS3ObjectCannedACL.publicRead
+        uploadRequest?.acl = AWSS3ObjectCannedACL.publicReadWrite  //publicRead
         //  uploadRequest?.contentType = "movie/mov"
         
         uploadRequest?.uploadProgress = { (bytesSent, totalBytesSent, totalBytesExpectedToSend) -> Void in

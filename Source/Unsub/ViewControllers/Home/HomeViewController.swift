@@ -15,6 +15,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var viewSoundWave: UIView!
     @IBOutlet weak var lblStartRecord: UILabel!
     @IBOutlet weak var imageRecord: UIImageView!
+    @IBOutlet weak var viewRecordAudio: UIView!
     
     var audioRecorder: AVAudioRecorder!
     var isAudioRecordingGranted: Bool!
@@ -31,6 +32,16 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        if UserDefaults.standard.bool(forKey: kLogin) == true {
+//            viewRecordAudio.isHidden = false
+//        }else {
+//            viewRecordAudio.isHidden = true
+//        }
+    }
+    
     override func didReceiveMemoryWarning() {  
         super.didReceiveMemoryWarning()
     }
