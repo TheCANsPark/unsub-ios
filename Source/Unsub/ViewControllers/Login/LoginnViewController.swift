@@ -44,6 +44,10 @@ class LoginnViewController: UIViewController, UIGestureRecognizerDelegate {
                     AppSharedData.sharedInstance.saveAccessTokenAndRefreshToken(accessToken: data.value(forKey: kAccessToken) as! String, refreshToken: data.value(forKey: kRefreshToken) as! String)
                     UserDefaults.standard.set(true, forKey: kLogin)
                     UserDefaults.standard.set(data, forKey: kLoginResponse)
+                    
+                    appShared.homeViewControllerRef.viewDidLoad()  //Update home record feature
+                    appShared.containerVCRef.viewWillAppear(true)
+                    
                 }))
                 self.present(refreshAlert, animated: true, completion: nil)
                 

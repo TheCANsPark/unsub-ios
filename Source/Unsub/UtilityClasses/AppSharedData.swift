@@ -17,6 +17,8 @@ class AppSharedData {
     var myComplaintsViewControllerRef    : MyComplaintsViewController!
     var timelineViewControllerRef        : TimelineViewController!
     var chatViewControllerRef            : ChatViewController!
+    var homeViewControllerRef            : HomeViewController!
+    var containerVCRef                   : ContainerViewController!
     
     var isBackIncident : Int = 0
     var keyboardHeight : CGFloat = 0

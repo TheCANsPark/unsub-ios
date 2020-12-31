@@ -24,8 +24,11 @@ var isLogin : Bool = false
 //URL
 //let BASE_URL = "http://192.168.1.109:4000/"   //Local
 
-let BASE_URL = "https://api.unsub.africa/"  //"http://104.154.76.106:4000/" //Live
+let BASE_URL = "https://api-stage.unsub.africa/"   //"https://api.unsub.africa/"  //"http://104.154.76.106:4000/" //Live
 
+let s3PoolId = "eu-west-1:95ae450b-47a9-4ab7-a8b5-809a465954ba"
+let s3Bucket = "unsub-stage"//"unsub-prod"
+let s3Region = "eu-west-1"
 
 struct WEB_URL {
     static let signUp                    = BASE_URL + "user/sign-up"

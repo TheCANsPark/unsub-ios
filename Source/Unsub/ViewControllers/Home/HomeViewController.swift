@@ -27,13 +27,22 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.isHidden = true
+        appShared.homeViewControllerRef = self
+        
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            viewRecordAudio.isHidden = false
+        }else {
+            viewRecordAudio.isHidden = true
+        }
+        
         checkRecordPermission()
         
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        //self.navigationController?.navigationBar.isHidden = true
         
 //        if UserDefaults.standard.bool(forKey: kLogin) == true {
 //            viewRecordAudio.isHidden = false
@@ -71,15 +80,22 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
                 try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
                 try session.setActive(true)
                 let settings = [
-                    AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                    AVSampleRateKey: 44100,
-                    AVNumberOfChannelsKey: 2,
-                    AVEncoderAudioQualityKey:AVAudioQuality.high.rawValue
-                ]
+                    AVSampleRateKey: 16000,
+                    AVNumberOfChannelsKey: 1,
+                    AVFormatIDKey: kAudioFormatLinearPCM, //Wav formate
+                    AVLinearPCMIsBigEndianKey: false,
+                    AVLinearPCMIsNonInterleaved: true,
+                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+//                    AVFormatIDKey: Int(kAudioFileWAVEType),
+//                    AVSampleRateKey: 44100,
+//                    AVNumberOfChannelsKey: 2,
+//                    AVEncoderAudioQualityKey:AVAudioQuality.high.rawValue
+                    ] as [String : Any]
                 audioRecorder = try AVAudioRecorder(url: getFileUrl(), settings: settings)
                 audioRecorder.delegate = self
-                audioRecorder.isMeteringEnabled = true
+                //audioRecorder.isMeteringEnabled = true
                 audioRecorder.prepareToRecord()
+                
             }
             catch let error {
                 appShared.alert(vc: self, message: error.localizedDescription)
@@ -96,7 +112,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     }
 
     func getFileUrl() -> URL {
-        let filename = "myRecording.m4a"
+        let filename = "myRecording.wav"
         let filePath = getDocumentsDirectory().appendingPathComponent(filename)
         return filePath
     }
@@ -104,6 +120,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     func finishAudioRecording(success: Bool) {
         
         if success {
+            
             audioRecorder.stop()
             audioRecorder = nil
             
@@ -112,12 +129,10 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
             
             print("recorded successfully.")
             
-            
         }else{
             appShared.alert(vc: self, message: "Recording failed.")
         }
     }
-    
     
     //MARK:- UIButtonActions
     @IBAction func btnRecord(_ sender: Any) {

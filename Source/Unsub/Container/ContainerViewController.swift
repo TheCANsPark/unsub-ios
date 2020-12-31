@@ -31,6 +31,8 @@ class ContainerViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        appShared.containerVCRef = self
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadContact(notification:)), name: Notification.Name("loadContactViewController"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadIncidences(notification:)), name: Notification.Name("loadIncidentsViewController"), object: nil)
         
@@ -252,7 +254,11 @@ class ContainerViewController: BaseViewController {
             UserDefaults.standard.set(nil, forKey: kDictTokens)
             UserDefaults.standard.set(false, forKey: kLogin)
             UserDefaults.standard.set(nil, forKey: kLoginResponse)
+            
+            appShared.homeViewControllerRef.viewDidLoad() ////Update home record feature
+            
             self.viewWillAppear(true)
+            
         }))
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Handle Cancel Logic here")

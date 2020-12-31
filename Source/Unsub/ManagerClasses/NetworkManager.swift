@@ -298,7 +298,7 @@ class NetworkManager {
     }
     
     
-    func uploadVideo(videoFileUrl: URL, isVideo: Bool, imageUrl: URL, isCamera: Bool, imageData : NSData, filePath: URL, isFile :Bool, completionHandler :@escaping (_ urlImageVideo : URL) -> ()) {
+    func uploadVideo(videoFileUrl: URL, isVideo: Bool, imageUrl: URL, isCamera: Bool, imageData : NSData, filePath: URL, isFile :Bool,isVoice :Bool = false, completionHandler :@escaping (_ urlImageVideo : URL) -> ()) {
         
         let ticks = Date().ticks
         var newKey: String = ""
@@ -351,10 +351,15 @@ class NetworkManager {
             uploadRequest?.contentType = "file/pdf"
         }
         
+        if isVoice == true {
+            newKey = "temp_folder/\(ticks).wav"
+            uploadRequest?.body = videoFileUrl as URL
+            uploadRequest?.contentType = "audio/vnd.wav"
+        }
         
         //uploadRequest?.body = videoFileUrl as URL
         uploadRequest?.key = newKey
-        uploadRequest?.bucket = "unsub-prod"  //"unsub-test-media-bucket"
+        uploadRequest?.bucket = s3Bucket  //"unsub-test-media-bucket"
         uploadRequest?.acl = AWSS3ObjectCannedACL.publicReadWrite  //publicRead
         //  uploadRequest?.contentType = "movie/mov"
         
@@ -378,13 +383,97 @@ class NetworkManager {
                 
             } else {
                 completionHandler(s3URL as URL)
-                //https://s3-eu-west-1.amazonaws.com/unsub-test-media-bucket/temp_folder/636958313655505536.jpeg/
-                //https://s3-eu-west-1.amazonaws.com/bucket_name/folder_name/file
+                //https://s3-eu-west-1.amazonaws.com/unsub-stage/temp_folder/636958313655505536.jpeg/
+                //https://s3-eu-west-1.amazonaws.com/[[bucket_name]]/folder_name/file
+                
                 // Do something with your result.
                 print("done")
             }
             return nil
         })
+    }
+    
+    func uploadVoice(videoFileUrl: URL, isVideo: Bool, imageUrl: URL, isCamera: Bool, imageData : NSData, filePath: URL, isFile :Bool,isVoice: Bool = false, completionHandler :@escaping (_ urlImageVideo : URL) -> ()) {
+        
+        var completionHandler1: AWSS3TransferUtilityUploadCompletionHandlerBlock?
+        
+        let Url = videoFileUrl
+        
+        let ticks = Date().ticks
+        let key = "temp_folder/\(ticks).mp4"
+        
+        let expression  = AWSS3TransferUtilityUploadExpression()
+        expression.progressBlock = { (task: AWSS3TransferUtilityTask,progress: Progress) -> Void in
+          print(progress.fractionCompleted)   //2
+          if progress.isFinished{           //3
+            print("Upload Finished...")
+            //do any task here.
+          }
+        }
+        
+        expression.setValue("public-read-write", forRequestHeader: "x-amz-acl")   //4
+        expression.setValue("public-read-write", forRequestParameter: "x-amz-acl")
+
+        var s3URL = NSURL(string: "\(key)")!
+        
+        completionHandler1 = { (task:AWSS3TransferUtilityUploadTask, error:NSError?) -> Void in
+            if(error != nil){
+                print("Failure uploading file")
+                s3URL = NSURL()
+                completionHandler(s3URL as URL)
+            }else{
+                print("Success uploading file")
+                completionHandler(s3URL as URL)
+            }
+        } as? AWSS3TransferUtilityUploadCompletionHandlerBlock
+        
+        //5
+        AWSS3TransferUtility.default().uploadFile(Url, bucket: s3Bucket, key: String(key), contentType: "movie/mp4", expression: expression, completionHandler: completionHandler1).continueWith(block: { (task:AWSTask) -> AnyObject? in
+            if(task.error != nil){
+                print("Error uploading file: \(String(describing: task.error?.localizedDescription))")
+                s3URL = NSURL()
+                completionHandler(s3URL as URL)
+            }
+            if(task.result != nil){
+                print("Starting upload...")
+            }
+            return nil
+        })
+        
+//        let ticks = Date().ticks
+//        let newKey = "temp_folder/\(ticks).wav"
+//
+//        let request = AWSS3TransferManagerUploadRequest()
+//        request?.bucket = s3Bucket  //3
+//        request?.key = newKey  //4
+//        request?.body = videoFileUrl
+//        request?.acl = .publicReadWrite  //5
+//
+//        request?.uploadProgress = { (bytesSent, totalBytesSent, totalBytesExpectedToSend) -> Void in
+//            DispatchQueue.main.async(execute: {
+//                let amountUploaded = totalBytesSent // To show the updating data status in label.
+//                print(amountUploaded)
+//            })
+//        }
+//
+//        //url to be send on server
+//        var s3URL = NSURL(string: "\(newKey)")!
+//
+//        //6
+//        let transferManager = AWSS3TransferManager.default()
+//        transferManager.upload(request!).continueWith(executor: AWSExecutor.mainThread()) { (task) -> Any? in
+//
+//            if task.result != nil {   //7
+//                print("Uploaded \(s3URL)")
+//                completionHandler(s3URL as URL)
+//            }else {
+//                s3URL = NSURL()
+//                print(task.error.debugDescription)
+//                completionHandler(s3URL as URL)
+//            }
+//
+//            return nil
+//        }
     }
     
     //MARK:- PutWithJsonEncoding
@@ -445,6 +534,9 @@ class NetworkManager {
         }
     }
 }
+
+
+
 extension Date {
     var ticks: UInt64 {
         return UInt64((self.timeIntervalSince1970 + 62_135_596_800) * 10_000_000)

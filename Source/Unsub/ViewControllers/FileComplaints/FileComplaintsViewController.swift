@@ -301,7 +301,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 self.present(refreshAlert, animated: true, completion: nil)
                 
             } else if statusCode == STATUS_CODE.internalServerError {
-                AppSharedData.sharedInstance.alert(vc: self, message: "Please wait while the image is being uploaded")
+                AppSharedData.sharedInstance.alert(vc: self, message: response?.value(forKey: "message") as? String ?? "")
             }
         })
     }

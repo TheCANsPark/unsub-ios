@@ -78,19 +78,20 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
   
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let showDate = inputFormatter.date(from: incident.incident_date!)
+        let showDate = inputFormatter.date(from: incident.incident_date ?? "")
         inputFormatter.dateFormat = "MMM dd,yyyy HH:mm a"
-        let resultString = inputFormatter.string(from: showDate!)
+        let resultString = inputFormatter.string(from: showDate ?? Date())
         
-        lblCrimeDetail.text = incident.crime_details!
-        lblComplaintID.text = "Case ID: \(incident.complaint_number!)"
+        lblCrimeDetail.text = incident.crime_details ?? ""
+        lblComplaintID.text = "Case ID: \(incident.complaint_number ?? "")"
         lblCrimeDate.text = "\(resultString)"
-        lblCategoryName.text = incident.Category?.name!
-        lblTimeline.text = "\(incident.timeline_actions_count!)"
-        lblComment.text = "\(incident.comments_count!)"
+        lblCategoryName.text = incident.Category?.name ?? ""
+        lblTimeline.text = "\(incident.timeline_actions_count ?? 0)"
+        lblComment.text = "\(incident.comments_count ?? 0)"
         
         return cell!
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ComplaintDetailViewController") as? ComplaintDetailViewController
         vc?.complaintID = incidentArr[indexPath.row]._id!
