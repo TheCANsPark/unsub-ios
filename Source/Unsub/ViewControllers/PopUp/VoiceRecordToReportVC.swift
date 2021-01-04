@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
-
+    
     @IBOutlet weak var audioSlider: UISlider!
     @IBOutlet weak var lblStartTime: UILabel!
     @IBOutlet weak var lblEndTime: UILabel!
@@ -39,29 +39,50 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
         self.present(refreshAlert, animated: true, completion: nil)
     }
     
-    @objc func updateTime() {
-        let currentTime = Int(audioPlayer.currentTime)
+    @objc func updateTime(withDuration: Bool = false) {
         
+        var currentTime = Int(audioPlayer.currentTime)
+        
+        if withDuration {
+            currentTime = Int(audioPlayer.duration)
+        }
         let minutes = currentTime/60
         let seconds = currentTime - minutes / 60
-
-        audioSlider.value = Float(currentTime)
+        
+        updateSlider(to: self.audioSlider.value + Float(timer.timeInterval))
+        //audioSlider.value = Float(currentTime)
         lblStartTime.text = NSString(format: "%02d:%02d", minutes,seconds) as String
+    }
+    
+    private func updateSlider(to value: Float) {
+        audioSlider.value = value
+    }
+    
+    private func stopPlayer() {
+        if audioPlayer != nil {
+            audioPlayer.stop()
+            timer.invalidate()
+            btnPlay.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            isPlaying = false
+        }
     }
     
     func prepare_play(){
         do{
             audioPlayer = try AVAudioPlayer(contentsOf: appShared.homeViewControllerRef.getFileUrl())
-            updateTime()
+            //updateTime()
             
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
             
             let minutes = Int(audioPlayer.duration)/60
             let seconds = Int(audioPlayer.duration) - minutes / 60
-
+            
             audioSlider.maximumValue = Float(audioPlayer.duration)
             audioSlider.minimumValue = 0.0
+            
+            //audioSlider.value = 0.0
+            updateSlider(to: 0.0)
             
             lblEndTime.text = NSString(format: "%02d:%02d", minutes,seconds) as String
             lblStartTime.text = "00.00"
@@ -75,8 +96,8 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     func createIncidents() {
         
         let param = [
-                     "incident_type"             : 2,
-                     "voice_file"                : arrVoiceName
+            "incident_type"             : 2,
+            "voice_file"                : arrVoiceName
             ] as [String : Any]
         
         NetworkManager.sharedInstance.apiParsePostWithJsonEncoding(WEB_URL.createIncidents as NSString, postParameters: param as NSDictionary, completionHandler: {(response : NSDictionary?, statusCode : Int?) in
@@ -97,18 +118,18 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     @IBAction func play_recording(_ sender: Any){
         if(isPlaying){
             
-            if audioPlayer != nil {
-                audioPlayer.stop()
-                timer.invalidate()
-                btnPlay.setImage(#imageLiteral(resourceName: "play"), for: .normal)
-                isPlaying = false
-            }
+            stopPlayer()
             
         }else{
             
             if FileManager.default.fileExists(atPath: appShared.homeViewControllerRef.getFileUrl().path){
                 
                 audioPlayer.play()
+                
+                if audioPlayer.currentTime  == audioPlayer.duration {
+                    self.updateSlider(to: 0.0)
+                    self.lblStartTime.text = "00.00"
+                }
                 timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
                 
                 btnPlay.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
@@ -123,36 +144,56 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     
     @IBAction func sliderValueChanged(_ sender: Any) {
         audioPlayer.currentTime = TimeInterval(audioSlider.value)
-        updateTime()
+        
+        if audioPlayer.currentTime  == audioPlayer.duration {
+            stopPlayer()
+        }else {
+            updateTime()
+        }
     }
     
     @IBAction func btnUpload(_ sender: Any) {
         
         Loader.shared.show()
-  
+        
         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: voiceURL!, isVideo: false, imageUrl: URL(string: "http://")!, isCamera: false, imageData: UIImageJPEGRepresentation(#imageLiteral(resourceName: "without-check"), 0.1)! as NSData, filePath: URL(string: "http://")!, isFile: false, isVoice: true) { (urlVoice) in
-
+            
             let str = String(describing: urlVoice)
             let fileArray = str.components(separatedBy: "/")
             let finalFileName = fileArray.last
-
+            
             self.arrVoiceName.append(finalFileName ?? "")
-
+            
             self.createIncidents()
-
+            
             print(urlVoice)
         }
         
     }
     
     @IBAction func btnClose(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.showAlert(message: "Are you sure you want to Cancel?")
+        self.stopPlayer()
+        
+//        let alert = UIAlertController(title: "Alert", message: "Are you sure you want to Cancel?", preferredStyle: UIAlertControllerStyle.alert)
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+//
+//            self.dismiss(animated: true, completion: nil)
+//            self.stopPlayer()
+//
+//        }))
+//        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     //MARK:- AVAudioPlayerDelegate
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool){
         if flag {
             btnPlay.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            DispatchQueue.main.async() {
+                self.updateSlider(to: 0.0)
+                self.lblStartTime.text = "00.00"
+            }
+            timer.invalidate()
             isPlaying = false
         }
     }

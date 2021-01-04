@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0422B8BC259DD82D00109CC8 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B8BB259DD82D00109CC8 /* CustomSlider.swift */; };
 		0425DC1C2591ED5F002679C2 /* VoiceRecordToReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */; };
+		04DC729225A32DD6006500F4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DC729125A32DD6006500F4 /* UIImage.swift */; };
+		04DC729725A33452006500F4 /* sound_wave.gif in Resources */ = {isa = PBXBuildFile; fileRef = 04DC729625A33452006500F4 /* sound_wave.gif */; };
+		04DC729925A3367D006500F4 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DC729825A3367C006500F4 /* CustomView.swift */; };
 		1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */; };
 		1310793722B775780052D515 /* ComplaintImagesVideosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1310793622B775780052D515 /* ComplaintImagesVideosVC.swift */; };
 		1310793922B7997B0052D515 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1310793822B7997B0052D515 /* ImageViewController.swift */; };
@@ -76,6 +79,9 @@
 /* Begin PBXFileReference section */
 		0422B8BB259DD82D00109CC8 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecordToReportVC.swift; sourceTree = "<group>"; };
+		04DC729125A32DD6006500F4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		04DC729625A33452006500F4 /* sound_wave.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sound_wave.gif; sourceTree = "<group>"; };
+		04DC729825A3367C006500F4 /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		1302FB1E22AA7FC000D95DBA /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		1310793622B775780052D515 /* ComplaintImagesVideosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplaintImagesVideosVC.swift; sourceTree = "<group>"; };
 		1310793822B7997B0052D515 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -156,10 +162,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04DC729525A32FBB006500F4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				13C5F13922C215ED00F3F497 /* cccc.png */,
+				04DC729625A33452006500F4 /* sound_wave.gif */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		04FBF54C2521EB1500500A0D /* CustomClasses */ = {
 			isa = PBXGroup;
 			children = (
 				0422B8BB259DD82D00109CC8 /* CustomSlider.swift */,
+				04DC729825A3367C006500F4 /* CustomView.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -211,7 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				04FBF54C2521EB1500500A0D /* CustomClasses */,
-				13C5F13922C215ED00F3F497 /* cccc.png */,
+				04DC729525A32FBB006500F4 /* Resources */,
 				134B6EC622A67D9A00DD97C8 /* AppDelegate.swift */,
 				134B6EC822A67D9A00DD97C8 /* ViewController.swift */,
 				134B6ED022A67D9A00DD97C8 /* Assets.xcassets */,
@@ -338,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				13C2AD6B22AF942800822273 /* UIImageView.swift */,
+				04DC729125A32DD6006500F4 /* UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -547,6 +564,7 @@
 				134B6ED422A67D9B00DD97C8 /* LaunchScreen.storyboard in Resources */,
 				134B6F2922A68D2900DD97C8 /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				134B6F2A22A68D2900DD97C8 /* Montserrat-Italic.ttf in Resources */,
+				04DC729725A33452006500F4 /* sound_wave.gif in Resources */,
 				134B6F3022A68D2900DD97C8 /* Montserrat-SemiBold.ttf in Resources */,
 				134B6F3322A68D2900DD97C8 /* Montserrat-ThinItalic.ttf in Resources */,
 				134B6F2522A68D2900DD97C8 /* Montserrat-BoldItalic.ttf in Resources */,
@@ -664,8 +682,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				13DC8A8F22A91A3D0018097C /* AppSharedData.swift in Sources */,
+				04DC729225A32DD6006500F4 /* UIImage.swift in Sources */,
 				137A50F622AE8617006F41BD /* Categories.swift in Sources */,
 				13CF50292336077D006283A0 /* NetworkManager.swift in Sources */,
+				04DC729925A3367D006500F4 /* CustomView.swift in Sources */,
 				13DC8A9922A940D70018097C /* Constants.swift in Sources */,
 				13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */,
 				1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */,

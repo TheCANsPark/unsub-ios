@@ -8,11 +8,11 @@
 
 import UIKit
 import AVFoundation
-
+import ImageIO
 
 class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     
-    @IBOutlet weak var viewSoundWave: UIView!
+    @IBOutlet weak var imgViewSoundWave: UIImageView!
     @IBOutlet weak var lblStartRecord: UILabel!
     @IBOutlet weak var imageRecord: UIImageView!
     @IBOutlet weak var viewRecordAudio: UIView!
@@ -30,9 +30,17 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         appShared.homeViewControllerRef = self
         
         if UserDefaults.standard.bool(forKey: kLogin) == true {
+            
+            let soundWaveGifImg = UIImage.gif(name: "sound_wave")
+            imgViewSoundWave.image = soundWaveGifImg
+            
             viewRecordAudio.isHidden = false
+            
         }else {
+            
+            imgViewSoundWave.image = nil
             viewRecordAudio.isHidden = true
+            
         }
         
         checkRecordPermission()
@@ -125,7 +133,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
             audioRecorder = nil
             
             lblStartRecord.isHidden = false
-            viewSoundWave.isHidden = true
+            imgViewSoundWave.isHidden = true
             
             print("recorded successfully.")
             
@@ -148,7 +156,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
             audioRecorder.record()
             
             lblStartRecord.isHidden = true
-            viewSoundWave.isHidden = false
+            imgViewSoundWave.isHidden = false
             
             imageRecord.image = #imageLiteral(resourceName: "stop_recording")
             

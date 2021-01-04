@@ -156,14 +156,14 @@ class ComplaintDetailViewController: BaseViewController, UITableViewDelegate, UI
                 lblVictimMobile.text = "\(detail.phone_number ?? "N/A")"
                 lblAddress.text = "\(detail.address?.address ?? "")"
                 lblMail.text = "\(detail.email ?? "")"
-                lblComplaintNumber.text = "\(detail.complaint_number!)"
+                lblComplaintNumber.text = "\(detail.complaint_number ?? "")"
                 lblStatus.text = appShared.getCaseStatus(status: detail.status ?? "")
                 lblCategoryName.text = categoryName
                 lblDetail.text = incidentString
                 
                 let inputFormatter = DateFormatter()
                 inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                let showDate = inputFormatter.date(from: detail.incident_date!)
+                let showDate = inputFormatter.date(from: detail.incident_date ?? "")
                 inputFormatter.dateFormat = "MMM dd,yyyy hh:mm a"
                 let resultString = inputFormatter.string(from: showDate!)
                 

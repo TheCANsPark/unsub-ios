@@ -18,4 +18,24 @@ extension UIImageView{
         self.kf.setImage(with: URL(string: urlString!), placeholder: UIImage(named: "placeholder"), options:[.transition(.none)], progressBlock: nil, completionHandler: nil)
         
     }
+    
+    public func loadGif(name: String) {
+        DispatchQueue.global().async {
+            let image = UIImage.gif(name: name)
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }
+    }
+
+    @available(iOS 9.0, *)
+    public func loadGif(asset: String) {
+        DispatchQueue.global().async {
+            let image = UIImage.gif(asset: asset)
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        }
+    }
+
 }

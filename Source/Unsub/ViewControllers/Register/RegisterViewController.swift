@@ -20,6 +20,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
     @IBOutlet weak var txtAnnonymousName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtState: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtGender: SkyFloatingLabelTextField!
     
     @IBOutlet weak var imgVolunteer: UIImageView!
     @IBOutlet weak var imgAcceptTerms: UIImageView!
@@ -30,29 +31,36 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
     var isVolunteer : Bool = false
     let datePicker:UIDatePicker = UIDatePicker()
     var dateUTC = String()
-    let pickerStates:UIPickerView = UIPickerView()
     var selectedTextField:UITextField!
+    let pickerStates:UIPickerView = UIPickerView()
     var arrStates = [State]()
+    let pickerGender:UIPickerView = UIPickerView()
+    var arrGender = ["male", "female", "other"]
+    var gender = String()
     var stateID = String()
     var stateName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getStates()
-        pickerStates.delegate = self
         
-        
+        //Disable future Dates
+        let components = Calendar.current.dateComponents([.day, .month, .year], from: Date())
+        let today = Calendar.current.date(from: components)!
+        datePicker.maximumDate = today
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     //MARK:- ServerRequests
     func register() {
         Loader.shared.show()
         let param = ["name.first"   : txtName.text!,
                      "email"        : txtMail.text!,
+                     "gender"       : txtGender.text!,
                      "password"     : txtPassword.text!,
                      "mobile_number": txtMobile.text!,
                      "age"          : dateUTC,
@@ -91,22 +99,37 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
         return 1
     }
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arrStates.count
+        if pickerView == pickerStates {
+            return arrStates.count
+        }else {
+            return arrGender.count
+        }
+        
     }
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
         
-        return "\(arrStates[row].name!)"
+        if pickerView == pickerStates {
+            return "\(arrStates[row].name!)"
+        }else {
+            return "\(arrGender[row])"
+        }
         
     }
     //MARK:- UIPickerViewDelegate
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        stateName = "\(arrStates[row].name!)"
-        stateID = arrStates[row]._id!
+        
+        if pickerView == pickerStates {
+            stateName = "\(arrStates[row].name!)"
+            stateID = arrStates[row]._id!
+        }else {
+            gender = "\(arrGender[row])"
+        }
     }
+    
     //MARK:- UIPickerView
-    func createStockPicker(_ textField: UITextField){
-        pickerStates.delegate = self
-        pickerStates.dataSource = self
+    func createStockPicker(_ textField: UITextField, picker:UIPickerView){
+        picker.delegate = self
+        picker.dataSource = self
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
         
@@ -118,7 +141,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
         textField.inputAccessoryView = toolbar
         textField.tintColor = .clear
-        textField.inputView = pickerStates
+        textField.inputView = picker
         selectedTextField = textField
     }
     
@@ -128,14 +151,17 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
             createDatePicker()
         }
         if textField == txtState {
-            createStockPicker(txtState)
+            createStockPicker(txtState, picker: pickerStates)
+        }
+        if textField == txtGender {
+            createStockPicker(txtGender, picker: pickerGender)
         }
         return true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if textField != txtState || textField != txtAge {
+        if textField != txtState || textField != txtGender || textField != txtAge {
 
             if range.location == 0 && string == " " {
                 return false
@@ -154,14 +180,6 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
     //MARK:- Date Picker
     func createDatePicker(){
         datePicker.datePickerMode = .date
-//        let calendar = Calendar(identifier: .gregorian)
-//        let currentDate = Date()
-//        var components = DateComponents()
-//        components.calendar = calendar
-//        components.year = -12
-//        let minDate = calendar.date(byAdding: components, to: currentDate)!
-//        datePicker.minimumDate = minDate
-        datePicker.maximumDate = Date()
         
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -250,7 +268,12 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
     }
     //MARK:- Helper
     @objc func pickerDoneStock(){
-        txtState.text = stateName
+        
+        if selectedTextField == txtState {
+            txtState.text = stateName
+        }else {
+            txtGender.text = gender
+        }
         self.view.endEditing(true)
     }
     @objc func pickerCancelStock() {
