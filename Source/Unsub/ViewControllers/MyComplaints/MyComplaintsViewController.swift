@@ -17,8 +17,14 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         AppSharedData.sharedInstance.myComplaintsViewControllerRef = self
         self.title = "My Case List"
+        
+        if UserDefaults.standard.bool(forKey: kLogin) == true {
+            getIncidents()
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -26,9 +32,7 @@ class MyComplaintsViewController: BaseViewController, UITableViewDelegate, UITab
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(_ animated: Bool) {
-        if UserDefaults.standard.bool(forKey: kLogin) == true {
-            getIncidents()
-        }
+        
     }
     func getIncidents() {
         Loader.shared.show()

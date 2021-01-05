@@ -25,6 +25,7 @@ struct Incidents : JSONDecodable {
     let name             : Name?
     let images   : [URL]?
     let videos        : [URL]?
+    let voice_file        : [URL]?
     let status        : String?
     
     let viewed_on              : String?
@@ -48,12 +49,14 @@ struct Incidents : JSONDecodable {
     let createdAt        : String?
     let complaint_number        : String?
     let updated_on        : String?
+    let incident_type        : Int?
     
     init?(json: JSON) {
         self.address = "address" <~~ json
         self.name = "name" <~~ json
         self.images = "images" <~~ json
         self.videos = "videos" <~~ json
+        self.voice_file = "voice_file" <~~ json
         self.status = "status" <~~ json
         
         self.viewed_on = "viewed_on" <~~ json
@@ -77,6 +80,7 @@ struct Incidents : JSONDecodable {
         self.complaint_number = "complaint_number" <~~ json
         self.updated_on = "updated_on" <~~ json
         self.assignedstkHolders = "stake_holder_assigned" <~~ json
+        self.incident_type = "incident_type" <~~ json
     }
 }
 struct Name : JSONDecodable {

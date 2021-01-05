@@ -118,20 +118,6 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             self.txtEmail.text = val.value(forKey: "email") as? String
             self.txtEmail.isUserInteractionEnabled = false
             
-            /*self.txtSchoolName.text = val.value(forKey: "tertiary") as? String
-             self.txtSchoolName.isUserInteractionEnabled = false
-             self.txtVictimNo.text = val.value(forKey: "victims_count") as? String
-             self.txtVictimNo.isUserInteractionEnabled = false
-             self.txtViolatorNo.text = val.value(forKey: "violators") as? String
-             self.txtViolatorNo.isUserInteractionEnabled = false
-             */
-            
-            /*self.txtState.text = val.value(forKey: "state") as? String
-             self.txtState.isUserInteractionEnabled = false
-             self.txtLGA.text = val.value(forKey: "lga") as? String
-             self.txtLGA.isUserInteractionEnabled = false
-             */
-            
             self.imgMyself.image = #imageLiteral(resourceName: "radio_filled")
             self.imgSomeOne.image = #imageLiteral(resourceName: "radio_unfilled")
             submittedBy = "Myself"
@@ -550,7 +536,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             let secondAction: UIAlertAction = UIAlertAction(title: "Select from gallery", style: .default) { action -> Void in
                 self.picker.allowsEditing = true
                 self.picker.sourceType = .photoLibrary
-                self.picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+                //self.picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
                 self.picker.mediaTypes = ["public.image", "public.movie"]
                 self.present(self.picker, animated: true, completion: nil)
                 print("Gallery A ction pressed")

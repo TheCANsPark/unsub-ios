@@ -12,9 +12,14 @@ import AVFoundation
 class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     
     @IBOutlet weak var audioSlider: UISlider!
+    @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblStartTime: UILabel!
     @IBOutlet weak var lblEndTime: UILabel!
     @IBOutlet weak var btnPlay: UIButton!
+    @IBOutlet weak var btnCancel: UIButton!
+    @IBOutlet weak var btnSubmit: UIButton!
+    
+    var isFromCaseDetail = false
     
     var audioPlayer : AVAudioPlayer!
     var isPlaying = false
@@ -26,9 +31,32 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepare_play()
-        
+        if isFromCaseDetail {
+            btnSubmit.isHidden = true
+            lblTitle.text = "Play"
+            
+            NetworkManager.sharedInstance.downloadAndSaveFile(withUrl: voiceURL!, andFilePath: appShared.homeViewControllerRef.getFileUrl()) { (url) in
+                self.prepare_play()
+            }
+        }else {
+            self.prepare_play()
+        }
     }
+    
+    //MARK: Helper
+    /*func downloadFileFromURL(url:URL){
+
+        var downloadTask:URLSessionDownloadTask
+        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: { [weak self](url1, response, error) -> Void in
+            
+            self?.voiceURL = url1
+            self?.prepare_play()
+            
+        })
+            
+        downloadTask.resume()
+        
+    }*/
     
     func showAlert(message: String) {
         
@@ -58,20 +86,15 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
         audioSlider.value = value
     }
     
-    private func stopPlayer() {
-        if audioPlayer != nil {
-            audioPlayer.stop()
-            timer.invalidate()
-            btnPlay.setImage(#imageLiteral(resourceName: "play"), for: .normal)
-            isPlaying = false
-        }
-    }
-    
     func prepare_play(){
-        do{
-            audioPlayer = try AVAudioPlayer(contentsOf: appShared.homeViewControllerRef.getFileUrl())
-            //updateTime()
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
+            try session.setActive(true)
             
+            audioPlayer = try AVAudioPlayer(contentsOf: appShared.homeViewControllerRef.getFileUrl())
+            
+            audioPlayer.volume = 1.0
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
             
@@ -89,6 +112,30 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
             
         }catch{
             print("Error")
+        }
+    }
+    
+    func playAudio() {
+        if audioPlayer != nil {
+            audioPlayer.play()
+            
+            if audioPlayer.currentTime  == audioPlayer.duration {
+                self.updateSlider(to: 0.0)
+                self.lblStartTime.text = "00.00"
+            }
+            timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+            
+            btnPlay.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
+            isPlaying = true
+        }
+    }
+    
+    private func stopPlayer() {
+        if audioPlayer != nil {
+            audioPlayer.stop()
+            timer.invalidate()
+            btnPlay.setImage(#imageLiteral(resourceName: "play"), for: .normal)
+            isPlaying = false
         }
     }
     
@@ -122,18 +169,14 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
             
         }else{
             
+            /*if isFromCaseDetail {
+                
+                playAudio()
+                
+            }else */
             if FileManager.default.fileExists(atPath: appShared.homeViewControllerRef.getFileUrl().path){
                 
-                audioPlayer.play()
-                
-                if audioPlayer.currentTime  == audioPlayer.duration {
-                    self.updateSlider(to: 0.0)
-                    self.lblStartTime.text = "00.00"
-                }
-                timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
-                
-                btnPlay.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
-                isPlaying = true
+                playAudio()
                 
             }else{
                 appShared.alert(vc: self, message: "Audio file is missing.")
@@ -154,6 +197,8 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     
     @IBAction func btnUpload(_ sender: Any) {
         
+        stopPlayer()
+        
         Loader.shared.show()
         
         NetworkManager.sharedInstance.uploadVideo(videoFileUrl: voiceURL!, isVideo: false, imageUrl: URL(string: "http://")!, isCamera: false, imageData: UIImageJPEGRepresentation(#imageLiteral(resourceName: "without-check"), 0.1)! as NSData, filePath: URL(string: "http://")!, isFile: false, isVoice: true) { (urlVoice) in
@@ -172,8 +217,14 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
     }
     
     @IBAction func btnClose(_ sender: Any) {
-        self.showAlert(message: "Are you sure you want to Cancel?")
-        self.stopPlayer()
+        
+        if isFromCaseDetail {
+            self.dismiss(animated: true, completion: nil)
+            self.stopPlayer()
+        }else {
+            self.showAlert(message: "Are you sure you want to Cancel?")
+            self.stopPlayer()
+        }
         
 //        let alert = UIAlertController(title: "Alert", message: "Are you sure you want to Cancel?", preferredStyle: UIAlertControllerStyle.alert)
 //        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in

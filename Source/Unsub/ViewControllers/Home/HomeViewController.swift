@@ -51,12 +51,6 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         super.viewWillAppear(animated)
         
         //self.navigationController?.navigationBar.isHidden = true
-        
-//        if UserDefaults.standard.bool(forKey: kLogin) == true {
-//            viewRecordAudio.isHidden = false
-//        }else {
-//            viewRecordAudio.isHidden = true
-//        }
     }
     
     override func didReceiveMemoryWarning() {  

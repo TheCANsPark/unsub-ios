@@ -9,30 +9,28 @@
 import UIKit
 
 class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegate {
-
+    
     
     @IBOutlet weak var txtCurrentPass: UITextField!
     @IBOutlet weak var txtNewPas: UITextField!
     @IBOutlet weak var txtConfirmPass: UITextField!
     
     @IBOutlet weak var viewBg: UIView!
-    
     @IBOutlet weak var viewChangePassword: UIView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewChangePassword.layer.cornerRadius = 20
         viewChangePassword.clipsToBounds = true
-    var tapGesture = UITapGestureRecognizer()
-    tapGesture = UITapGestureRecognizer(target: self, action: #selector(ChangePasswordViewController.myviewTapped(_:)))
-    tapGesture.numberOfTapsRequired = 1
-    tapGesture.numberOfTouchesRequired = 1
-    self.viewBg.addGestureRecognizer(tapGesture)
-    self.viewBg.isUserInteractionEnabled = true
+        var tapGesture = UITapGestureRecognizer()
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(ChangePasswordViewController.myviewTapped(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.numberOfTouchesRequired = 1
+        self.viewBg.addGestureRecognizer(tapGesture)
+        self.viewBg.isUserInteractionEnabled = true
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -533,6 +533,25 @@ class NetworkManager {
             completionHandler(json as NSDictionary?,statusCode)
         }
     }
+    
+    func downloadAndSaveFile(withUrl url: URL, andFilePath filePath: URL, completion: @escaping ((_ filePath: URL)->Void)){
+        Loader.shared.show()
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let data = try Data.init(contentsOf: url)
+                try data.write(to: filePath, options: .atomic)
+                print("saved at \(filePath.absoluteString)")
+                DispatchQueue.main.async {
+                    Loader.shared.hide()
+                    completion(filePath)
+                }
+            } catch {
+                print("an error happened while downloading or saving the file")
+            }
+        }
+    }
+    
+    
 }
 
 
