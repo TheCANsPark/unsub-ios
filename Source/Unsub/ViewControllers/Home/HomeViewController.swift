@@ -20,6 +20,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     var audioRecorder: AVAudioRecorder!
     var isAudioRecordingGranted: Bool!
     var isRecording = false
+    var isPushFileComplaint = true
     
     var arrVoiceName = [String]()
     
@@ -49,6 +50,8 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        isPushFileComplaint = true
         
         //self.navigationController?.navigationBar.isHidden = true
     }
@@ -159,8 +162,15 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     }
     
     @IBAction func fileComplaintAction(_ sender: Any) {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FileComplaintsViewController") as? FileComplaintsViewController
-        self.navigationController?.pushViewController(vc!, animated: true)
+        
+        if isPushFileComplaint {
+            
+            isPushFileComplaint = false
+            
+            let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "FileComplaintsViewController") as? FileComplaintsViewController
+            self.navigationController?.pushViewController(vc!, animated: true)
+        }
+        
     }
     
     @IBAction func emergencyAction(_ sender: Any) {

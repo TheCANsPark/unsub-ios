@@ -185,8 +185,12 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     }
     
     func getLGA(stateId: String) {
+        
+        Loader.shared.show()
+        
         let url = WEB_URL.getLGA + stateId //"/lga?state_id=\(stateId)"
         NetworkManager.sharedInstance.apiParseGet(url: url , completion: {(response: NSDictionary?, statusCode: Int?) in
+            Loader.shared.hide()
             if statusCode == STATUS_CODE.success {
                 if let lga = [LGA].from(jsonArray: response?.value(forKey: "data") as! [JSON]) {
                     self.arrLGA = lga
@@ -199,7 +203,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
     func getCategories() {
         Loader.shared.show()
         NetworkManager.sharedInstance.apiParseGet(url: WEB_URL.categories, completion: {(response: NSDictionary?,statusCode : Int?) in
-            Loader.shared.hide()
+            //Loader.shared.hide()
             
             self.getStates()
             
@@ -302,6 +306,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
         if textField == txtCategory {
             createStockPicker(txtCategory, picker: pickerCategories)
         }else if textField == txtState {
+            txtLGA.text = ""
             createStockPicker(txtState, picker: pickerStates)
         }else if textField == txtLGA {
             if txtState.text?.count  == 0 {
