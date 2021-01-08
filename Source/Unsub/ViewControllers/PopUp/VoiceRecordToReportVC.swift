@@ -79,7 +79,7 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
         
         updateSlider(to: self.audioSlider.value + Float(timer.timeInterval))
         //audioSlider.value = Float(currentTime)
-        lblStartTime.text = NSString(format: "%02d:%02d", minutes,seconds) as String
+        lblStartTime.text = AppSharedData.sharedInstance.getFormattedDurationString(fromSeconds: currentTime)
     }
     
     private func updateSlider(to value: Float) {
@@ -98,16 +98,13 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()
             
-            let minutes = Int(audioPlayer.duration)/60
-            let seconds = Int(audioPlayer.duration) - minutes / 60
-            
             audioSlider.maximumValue = Float(audioPlayer.duration)
             audioSlider.minimumValue = 0.0
             
             //audioSlider.value = 0.0
             updateSlider(to: 0.0)
             
-            lblEndTime.text = NSString(format: "%02d:%02d", minutes,seconds) as String
+            lblEndTime.text = AppSharedData.sharedInstance.getFormattedDurationString(fromSeconds: Int(audioPlayer.duration))
             lblStartTime.text = "00.00"
             
         }catch{
@@ -169,11 +166,6 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
             
         }else{
             
-            /*if isFromCaseDetail {
-                
-                playAudio()
-                
-            }else */
             if FileManager.default.fileExists(atPath: appShared.homeViewControllerRef.getFileUrl().path){
                 
                 playAudio()

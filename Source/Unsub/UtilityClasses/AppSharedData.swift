@@ -22,6 +22,19 @@ class AppSharedData {
     
     var isBackIncident : Int = 0
     var keyboardHeight : CGFloat = 0
+    var fcmToken = ""
+    
+    func getFormattedDurationString(fromSeconds: Int) -> String {
+        let hrs = fromSeconds/3600
+        let minutes = (fromSeconds - (hrs * 3600)) / 60
+        let seconds = fromSeconds - ((hrs * 3600) + (minutes * 60))
+        
+        if hrs > 0 {
+            return NSString(format: "%02d:%02d:%02d",hrs,minutes,seconds) as String
+        }else {
+            return NSString(format: "%02d:%02d", minutes,seconds) as String
+        }
+    }
     
     func alert(vc: UIViewController,message: String) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)

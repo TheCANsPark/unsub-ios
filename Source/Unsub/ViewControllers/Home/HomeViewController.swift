@@ -141,23 +141,27 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     
     //MARK:- UIButtonActions
     @IBAction func btnRecord(_ sender: Any) {
-        if(isRecording) {
-            
-            finishAudioRecording(success: true)
-            isRecording = false
-            imageRecord.image = #imageLiteral(resourceName: "speaker")
-            
+        if isAudioRecordingGranted {
+            if(isRecording) {
+                
+                finishAudioRecording(success: true)
+                isRecording = false
+                imageRecord.image = #imageLiteral(resourceName: "speaker")
+                
+            }else {
+                
+                setup_recorder()
+                audioRecorder.record()
+                
+                lblStartRecord.isHidden = true
+                imgViewSoundWave.isHidden = false
+                
+                imageRecord.image = #imageLiteral(resourceName: "stop_recording")
+                
+                isRecording = true
+            }
         }else {
-            
-            setup_recorder()
-            audioRecorder.record()
-            
-            lblStartRecord.isHidden = true
-            imgViewSoundWave.isHidden = false
-            
-            imageRecord.image = #imageLiteral(resourceName: "stop_recording")
-            
-            isRecording = true
+            appShared.alert(vc: self, message: "Audio recording permission denied")
         }
     }
     

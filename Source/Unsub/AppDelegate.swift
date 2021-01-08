@@ -13,9 +13,13 @@ import IQKeyboardManagerSwift
 import AWSCognitoIdentityProviderASF
 import AWSMobileClient
 import StatusBarOverlay
+import UserNotifications
+import Firebase
+import FirebaseMessaging
+
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
 
@@ -24,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let cognitoCredential = AWSCognitoCredentialsProvider(regionType: .EUWest1, identityPoolId: s3PoolId)
         let configuration = AWSServiceConfiguration.init(region: .EUWest1, credentialsProvider: cognitoCredential)
         AWSServiceManager.default().defaultServiceConfiguration = configuration!
+        
+        //Register For Push Notification
+        registerForPushNotification()
         
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
 //        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
@@ -35,6 +42,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    //MARK: Helper
+    func registerForPushNotification() {
+        
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            
+            print("Permission granted", granted)
+            
+            // 1. Check if permission granted
+            guard granted else { return }
+            
+            FirebaseApp.configure()
+            Messaging.messaging().delegate = self       //Assign messaging delegate
+            
+            // 2. Attempt registration for remote notifications on the main thread
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+        
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications with error: ", error)
+    }
+    
+    
+    //MARK:- UNUserNotificationCenterDelegate
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {  //Its Identify tap
+        
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert, .badge, .sound])  //To show push notification when app is in foreground also
+    }
+    
+    //MARK:- MessagingDelegate
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        // This callback is fired at each app startup
+        //UserDefaults.standard.setValue("\(fcmToken)", forKey: "fcmToken")
+        print("fcm  ",fcmToken)
+        AppSharedData.sharedInstance.fcmToken = "\(fcmToken)"
+        
+    }
+    
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+        
+        print(remoteMessage.appData)
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

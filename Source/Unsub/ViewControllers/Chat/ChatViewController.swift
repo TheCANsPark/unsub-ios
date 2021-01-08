@@ -86,6 +86,25 @@ class ChatViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         textField.resignFirstResponder()
         return true
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == txtQuery {
+
+            if range.location == 0 && string == " " {
+                return false
+            } else if range.location > 1 && textField.text?.characters.last == " " && string == " " {
+                return false
+            }else{
+                return true
+            }
+
+        }else {
+            return true
+        }
+        
+    }
+    
     //MARK:- UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if incidentCommentsArr.count != 0 {
