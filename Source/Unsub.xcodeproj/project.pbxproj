@@ -25,7 +25,6 @@
 		134B6ECF22A67D9A00DD97C8 /* Unsub.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 134B6ECD22A67D9A00DD97C8 /* Unsub.xcdatamodeld */; };
 		134B6ED122A67D9A00DD97C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 134B6ED022A67D9A00DD97C8 /* Assets.xcassets */; };
 		134B6ED422A67D9B00DD97C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 134B6ED222A67D9B00DD97C8 /* LaunchScreen.storyboard */; };
-		134B6EDD22A67FDF00DD97C8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B6EDC22A67FDF00DD97C8 /* HomeViewController.swift */; };
 		134B6EE122A6802900DD97C8 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B6EE022A6802900DD97C8 /* BaseViewController.swift */; };
 		134B6EE422A683C000DD97C8 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134B6EE322A683C000DD97C8 /* ContainerViewController.swift */; };
 		134B6F2222A68D2900DD97C8 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 134B6F0F22A68D2900DD97C8 /* Montserrat-Black.ttf */; };
@@ -75,6 +74,7 @@
 		13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DD331B22BA64E900591F45 /* ResourceDetailViewController.swift */; };
 		13E61C0F22C61D3400FAF015 /* ContainerChatTimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E61C0E22C61D3400FAF015 /* ContainerChatTimeVC.swift */; };
 		13FDBCE022BBB870002C5ABE /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FDBCDF22BBB870002C5ABE /* ChatViewController.swift */; };
+		C3A1274125B06B0500B57E0D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A1274025B06B0400B57E0D /* HomeViewController.swift */; };
 		ED24C510300B12DFA41B7A8A /* Pods_Unsub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75002B1FDA556FE0057CD87E /* Pods_Unsub.framework */; };
 /* End PBXBuildFile section */
 
@@ -101,7 +101,6 @@
 		134B6ED022A67D9A00DD97C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		134B6ED322A67D9B00DD97C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		134B6ED522A67D9B00DD97C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		134B6EDC22A67FDF00DD97C8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		134B6EE022A6802900DD97C8 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		134B6EE322A683C000DD97C8 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		134B6F0F22A68D2900DD97C8 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.ttf"; sourceTree = "<group>"; };
@@ -153,6 +152,7 @@
 		13FDBCDF22BBB870002C5ABE /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		75002B1FDA556FE0057CD87E /* Pods_Unsub.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unsub.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1BACB85FB8028F42613A6C0 /* Pods-Unsub.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unsub.release.xcconfig"; path = "Pods/Target Support Files/Pods-Unsub/Pods-Unsub.release.xcconfig"; sourceTree = "<group>"; };
+		C3A1274025B06B0400B57E0D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E33A8A4259F70051E81F855C /* Pods-Unsub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Unsub.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Unsub/Pods-Unsub.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -268,7 +268,7 @@
 		134B6EDB22A67FA000DD97C8 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				134B6EDC22A67FDF00DD97C8 /* HomeViewController.swift */,
+				C3A1274025B06B0400B57E0D /* HomeViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -715,6 +715,7 @@
 				137A50F622AE8617006F41BD /* Categories.swift in Sources */,
 				13CF50292336077D006283A0 /* NetworkManager.swift in Sources */,
 				04DC729925A3367D006500F4 /* CustomView.swift in Sources */,
+				C3A1274125B06B0500B57E0D /* HomeViewController.swift in Sources */,
 				13DC8A9922A940D70018097C /* Constants.swift in Sources */,
 				13DD331A22BA18AA00591F45 /* ChangePasswordViewController.swift in Sources */,
 				1302FB1F22AA7FC000D95DBA /* ContactViewController.swift in Sources */,
@@ -742,7 +743,6 @@
 				0431A65A25B03887000F72C6 /* IntExt.swift in Sources */,
 				13C8496022B1003500C909B2 /* MapViewController.swift in Sources */,
 				134B6EE422A683C000DD97C8 /* ContainerViewController.swift in Sources */,
-				134B6EDD22A67FDF00DD97C8 /* HomeViewController.swift in Sources */,
 				13D9ADD922B4C5C60032AD36 /* ComplaintDetailViewController.swift in Sources */,
 				13D72C1322B39F93003F323A /* ProfileViewController.swift in Sources */,
 				1327061A22B8E1B500DE0403 /* ResourceCenterViewController.swift in Sources */,
@@ -898,7 +898,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosapp.unsub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mac/Projects/codezilla-ios-unsub/Source/Unsub/BridgingHeader/UnsubBridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Unsub/BridgingHeader/UnsubBridgingHeader.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -918,7 +918,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosapp.unsub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mac/Projects/codezilla-ios-unsub/Source/Unsub/BridgingHeader/UnsubBridgingHeader.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Unsub/BridgingHeader/UnsubBridgingHeader.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

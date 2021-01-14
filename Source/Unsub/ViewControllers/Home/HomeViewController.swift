@@ -19,7 +19,7 @@ enum RecorderState {
 
 class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     
-    @IBOutlet weak var imgViewSoundWave: UIImageView!
+    
     @IBOutlet weak var lblStartRecord: UILabel!
     @IBOutlet weak var imageRecord: UIImageView!
     @IBOutlet weak var viewRecordAudio: UIView!
@@ -33,17 +33,9 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     var arrVoiceName = [String]()
     
     //For Audio
+    var handleView = UIView()
+    var recordButton = String()
     let settings = [AVFormatIDKey: kAudioFormatLinearPCM, AVLinearPCMBitDepthKey: 16, AVLinearPCMIsFloatKey: true, AVSampleRateKey: Float64(44100), AVNumberOfChannelsKey: 1] as [String : Any]
-    
-    /*let settings = [
-         AVSampleRateKey: 16000,
-         AVNumberOfChannelsKey: 1,
-         AVFormatIDKey: kAudioFormatLinearPCM, //Wav formate
-         AVLinearPCMIsBigEndianKey: false,
-         AVLinearPCMIsNonInterleaved: true,
-         AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-    ] as [String : Any]*/
-    
     let audioEngine = AVAudioEngine()
     private var renderTs: Double = 0
     private var recordingTs: Double = 0
@@ -53,23 +45,20 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //isRecording = true
         appShared.homeViewControllerRef = self
         
         if UserDefaults.standard.bool(forKey: kLogin) == true {
             
-            let soundWaveGifImg = UIImage.gif(name: "sound_wave")
-            imgViewSoundWave.image = soundWaveGifImg
             
             viewRecordAudio.isHidden = false
             
         }else {
             
-            imgViewSoundWave.image = nil
             viewRecordAudio.isHidden = true
             
         }
-        
+        self.lblStartRecord.isHidden = false
         checkRecordPermission()
         
     }
@@ -130,17 +119,17 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         let documentsDirectory = paths[0]
         return documentsDirectory
     }
-
+    
     func getFileUrl() -> URL {
-//        let format = DateFormatter()
-//        format.dateFormat="yyyy-MM-dd-HH-mm-ss-SSS"
-//        let filename = "recording-\(format.string(from: Date()))" + ".wav"
+        //        let format = DateFormatter()
+        //        format.dateFormat="yyyy-MM-dd-HH-mm-ss-SSS"
+        //        let filename = "recording-\(format.string(from: Date()))" + ".wav"
         
         let filename = "myRecording.wav"
         let filePath = getDocumentsDirectory().appendingPathComponent(filename)
         return filePath
     }
-
+    
     private func createAudioRecordFile() -> AVAudioFile? {
         guard let path = self.getFileUrl() as? URL else {
             return nil
@@ -242,7 +231,6 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
             audioRecorder = nil
             
             lblStartRecord.isHidden = false
-            imgViewSoundWave.isHidden = true
             
             
             self.audioFile = nil
@@ -325,73 +313,27 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     
     //MARK:- UIButtonActions
     @IBAction func btnRecord(_ sender: Any) {
-        
-        if isAudioRecordingGranted {
-            if(isRecording) {
-                
-                isRecording = false
-                imageRecord.image = #imageLiteral(resourceName: "speaker")
-                
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.layoutIfNeeded()
-                }, completion: nil)
-                
-                stopRecording()
-                //finishAudioRecording(success: true)
-                
-            }else {
-                
-                //setup_recorder()
-                //audioRecorder.record()
-                
-                visualizer.isHidden = false
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.visualizer.alpha = 1
-                }, completion: nil)
-                self.checkPermissionAndRecord()//startRecording()
-                
-                lblStartRecord.isHidden = true
-                imgViewSoundWave.isHidden = false
-                
-                imageRecord.image = #imageLiteral(resourceName: "stop_recording")
-                
-                isRecording = true
-            }
+        if(isRecording) {
+            isRecording = false
+            imageRecord.image = #imageLiteral(resourceName: "speaker")
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+            
+            stopRecording()
+            
         }else {
-            appShared.alert(vc: self, message: "Audio recording permission denied")
+            //setup_recorder()
+            //audioRecorder.record()
+            visualizer.isHidden = false
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.visualizer.alpha = 1
+            }, completion: nil)
+            self.checkPermissionAndRecord()//startRecording()
+            lblStartRecord.isHidden = true
+            imageRecord.image = #imageLiteral(resourceName: "stop_recording")
+            isRecording = true
         }
-        /*if isAudioRecordingGranted {
-            if(isRecording) {
-                
-                isRecording = false
-                imageRecord.image = #imageLiteral(resourceName: "speaker")
-                
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.view.layoutIfNeeded()
-                }, completion: nil)
-                self.stopRecording()
-                
-                lblStartRecord.isHidden = false
-                imgViewSoundWave.isHidden = true
-                
-            }else {
-                
-                visualizer.isHidden = false
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.visualizer.alpha = 1
-                }, completion: nil)
-                self.checkPermissionAndRecord()
-                
-                lblStartRecord.isHidden = true
-                imgViewSoundWave.isHidden = false
-                
-                imageRecord.image = #imageLiteral(resourceName: "stop_recording")
-                
-                isRecording = true
-            }
-        }else {
-            appShared.alert(vc: self, message: "Audio recording permission denied")
-        }*/
     }
     
     @IBAction func fileComplaintAction(_ sender: Any) {
