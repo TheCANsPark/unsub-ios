@@ -104,6 +104,7 @@ PODS:
   - PKHUD (5.2.0)
   - PromisesObjC (1.2.10)
   - Protobuf (3.13.0)
+  - PRTween (0.1.0)
   - RNCryptor (5.0.3)
   - SkyFloatingLabelTextField (3.6.0)
   - StatusBarOverlay (1.9):
@@ -123,6 +124,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher (~> 4.8.0)
   - PKHUD (~> 5.0)
+  - PRTween (~> 0.1)
   - RNCryptor (~> 5.0)
   - SkyFloatingLabelTextField (~> 3.0)
   - StatusBarOverlay (~> 1.0)
@@ -157,6 +159,7 @@ SPEC REPOS:
     - PKHUD
     - PromisesObjC
     - Protobuf
+    - PRTween
     - RNCryptor
     - SkyFloatingLabelTextField
     - StatusBarOverlay
@@ -190,10 +193,11 @@ SPEC CHECKSUMS:
   PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
+  PRTween: 6c58c7e32ebcf31e33e6a6e6bc727ebef3b668ef
   RNCryptor: c93d19029dcf7ff160aca0f24d6c9e7b0d82f664
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   StatusBarOverlay: ce2193d14935dce0c7097ac8f79a7145e87e0c07
 
-PODFILE CHECKSUM: be9b0faa0badb03cc6dd3189dcbd91b2c2de4f1c
+PODFILE CHECKSUM: 27a947133b667c4d6f7be8cd12dd8f632f825700
 
 COCOAPODS: 1.8.4

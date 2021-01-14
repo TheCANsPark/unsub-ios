@@ -32,7 +32,11 @@ class LoginnViewController: UIViewController, UIGestureRecognizerDelegate {
         let param = ["grant_type":  "password",
                      "username"  :  txtMail.text!,
                      "password"  :  txtPassword.text!,
-                     "scope"     :  "3"] 
+                     "scope"     :  "3",
+                     "device_token" : appShared.fcmToken,
+                     "os_type": "ios"
+                    ]
+                    
         NetworkManager.sharedInstance.apiParsePost(WEB_URL.login as NSString, postParameters: param as NSDictionary, completionHandler: {(response :NSDictionary?, statusCode : Int?) in
             Loader.shared.hide()
             if statusCode == STATUS_CODE.success {

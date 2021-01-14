@@ -25,6 +25,8 @@ pod 'RNCryptor', '~> 5.0'
 pod 'StatusBarOverlay', '~> 1.0’
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
+pod 'PRTween', '~> 0.1'
+
  
 
 post_install do |installer|

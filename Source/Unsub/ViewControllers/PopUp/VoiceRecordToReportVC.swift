@@ -78,7 +78,6 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
         let seconds = currentTime - minutes / 60
         
         updateSlider(to: self.audioSlider.value + Float(timer.timeInterval))
-        //audioSlider.value = Float(currentTime)
         lblStartTime.text = AppSharedData.sharedInstance.getFormattedDurationString(fromSeconds: currentTime)
     }
     

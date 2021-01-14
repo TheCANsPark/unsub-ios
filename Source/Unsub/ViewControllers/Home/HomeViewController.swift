@@ -9,6 +9,13 @@
 import UIKit
 import AVFoundation
 import ImageIO
+import Accelerate
+
+enum RecorderState {
+    case recording
+    case stopped
+    case denied
+}
 
 class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     
@@ -16,6 +23,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var lblStartRecord: UILabel!
     @IBOutlet weak var imageRecord: UIImageView!
     @IBOutlet weak var viewRecordAudio: UIView!
+    @IBOutlet weak var visualizer: AudioVisualizerView!
     
     var audioRecorder: AVAudioRecorder!
     var isAudioRecordingGranted: Bool!
@@ -23,6 +31,24 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     var isPushFileComplaint = true
     
     var arrVoiceName = [String]()
+    
+    //For Audio
+    let settings = [AVFormatIDKey: kAudioFormatLinearPCM, AVLinearPCMBitDepthKey: 16, AVLinearPCMIsFloatKey: true, AVSampleRateKey: Float64(44100), AVNumberOfChannelsKey: 1] as [String : Any]
+    
+    /*let settings = [
+         AVSampleRateKey: 16000,
+         AVNumberOfChannelsKey: 1,
+         AVFormatIDKey: kAudioFormatLinearPCM, //Wav formate
+         AVLinearPCMIsBigEndianKey: false,
+         AVLinearPCMIsNonInterleaved: true,
+         AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+    ] as [String : Any]*/
+    
+    let audioEngine = AVAudioEngine()
+    private var renderTs: Double = 0
+    private var recordingTs: Double = 0
+    private var silenceTs: Double = 0
+    private var audioFile: AVAudioFile?
     
     //MARK:- LifeCycleOfViewController
     override func viewDidLoad() {
@@ -47,7 +73,7 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         checkRecordPermission()
         
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -84,19 +110,8 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
             do {
                 try session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
                 try session.setActive(true)
-                let settings = [
-                    AVSampleRateKey: 16000,
-                    AVNumberOfChannelsKey: 1,
-                    AVFormatIDKey: kAudioFormatLinearPCM, //Wav formate
-                    AVLinearPCMIsBigEndianKey: false,
-                    AVLinearPCMIsNonInterleaved: true,
-                    AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-//                    AVFormatIDKey: Int(kAudioFileWAVEType),
-//                    AVSampleRateKey: 44100,
-//                    AVNumberOfChannelsKey: 2,
-//                    AVEncoderAudioQualityKey:AVAudioQuality.high.rawValue
-                    ] as [String : Any]
-                audioRecorder = try AVAudioRecorder(url: getFileUrl(), settings: settings)
+                
+                audioRecorder = try AVAudioRecorder(url: getFileUrl(), settings: self.settings)
                 audioRecorder.delegate = self
                 //audioRecorder.isMeteringEnabled = true
                 audioRecorder.prepareToRecord()
@@ -117,11 +132,108 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     }
 
     func getFileUrl() -> URL {
+//        let format = DateFormatter()
+//        format.dateFormat="yyyy-MM-dd-HH-mm-ss-SSS"
+//        let filename = "recording-\(format.string(from: Date()))" + ".wav"
+        
         let filename = "myRecording.wav"
         let filePath = getDocumentsDirectory().appendingPathComponent(filename)
         return filePath
     }
 
+    private func createAudioRecordFile() -> AVAudioFile? {
+        guard let path = self.getFileUrl() as? URL else {
+            return nil
+        }
+        do {
+            let file = try AVAudioFile(forWriting: path, settings: self.settings, commonFormat: .pcmFormatFloat32, interleaved: true)
+            return file
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    private func format() -> AVAudioFormat? {
+        let format = AVAudioFormat(settings: self.settings)
+        return format
+    }
+    
+    // MARK:- Recording
+    func startRecording() {
+        self.recordingTs = NSDate().timeIntervalSince1970
+        self.silenceTs = 0
+        do {
+            let session = AVAudioSession.sharedInstance()
+            //try session.setCategory(.playAndRecord, mode: .default)
+            try session.setActive(true)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return
+        }
+        let inputNode = self.audioEngine.inputNode
+        guard let format = self.format() else {
+            return
+        }
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { (buffer, time) in
+            let level: Float = -50
+            let length: UInt32 = 1024
+            buffer.frameLength = length
+            let channels = UnsafeBufferPointer(start: buffer.floatChannelData, count: Int(buffer.format.channelCount))
+            var value: Float = 0
+            vDSP_meamgv(channels[0], 1, &value, vDSP_Length(length))
+            var average: Float = ((value == 0) ? -100 : 20.0 * log10f(value))
+            if average > 0 {
+                average = 0
+            } else if average < -100 {
+                average = -100
+            }
+            let silent = average < level
+            let ts = NSDate().timeIntervalSince1970
+            if ts - self.renderTs > 0.1 {
+                let floats = UnsafeBufferPointer(start: channels[0], count: Int(buffer.frameLength))
+                let frame = floats.map({ (f) -> Int in
+                    return Int(f * Float(Int16.max))
+                })
+                DispatchQueue.main.async {
+                    let seconds = (ts - self.recordingTs)
+                    //self.timeLabel.text = seconds.toTimeString
+                    self.renderTs = ts
+                    let len = self.visualizer.waveforms.count
+                    for i in 0 ..< len {
+                        let idx = ((frame.count - 1) * i) / len
+                        let f: Float = sqrt(1.5 * abs(Float(frame[idx])) / Float(Int16.max))
+                        self.visualizer.waveforms[i] = min(49, Int(f * 50))
+                    }
+                    self.visualizer.active = !silent
+                    self.visualizer.setNeedsDisplay()
+                }
+            }
+            
+            let write = true
+            if write {
+                if self.audioFile == nil {
+                    self.audioFile = self.createAudioRecordFile()
+                }
+                if let f = self.audioFile {
+                    do {
+                        try f.write(from: buffer)
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+        do {
+            self.audioEngine.prepare()
+            try self.audioEngine.start()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return
+        }
+        self.updateUI(.recording)
+    }
+    
     func finishAudioRecording(success: Bool) {
         
         if success {
@@ -132,6 +244,12 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
             lblStartRecord.isHidden = false
             imgViewSoundWave.isHidden = true
             
+            
+            self.audioFile = nil
+            self.audioEngine.inputNode.removeTap(onBus: 0)
+            self.audioEngine.stop()
+            self.updateUI(.stopped)
+            
             print("recorded successfully.")
             
         }else{
@@ -139,19 +257,98 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         }
     }
     
+    private func stopRecording() {
+        self.audioFile = nil
+        self.audioEngine.inputNode.removeTap(onBus: 0)
+        self.audioEngine.stop()
+        do {
+            try AVAudioSession.sharedInstance().setActive(false)
+        } catch  let error as NSError {
+            print(error.localizedDescription)
+            return
+        }
+        self.updateUI(.stopped)
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "VoiceRecordToReportVC") as! VoiceRecordToReportVC
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .overCurrentContext
+        
+        vc.voiceURL = getFileUrl()
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    private func checkPermissionAndRecord() {
+        let permission = AVAudioSession.sharedInstance().recordPermission()
+        switch permission {
+        case .undetermined:
+            AVAudioSession.sharedInstance().requestRecordPermission({ (result) in
+                DispatchQueue.main.async {
+                    if result {
+                        self.startRecording()
+                    }
+                    else {
+                        self.updateUI(.denied)
+                    }
+                }
+            })
+            break
+        case .granted:
+            self.startRecording()
+            break
+        case .denied:
+            self.updateUI(.denied)
+            break
+        }
+    }
+    
+    
+    //MARK:- Update User Interface
+    private func updateUI(_ recorderState: RecorderState) {
+        switch recorderState {
+        case .recording:
+            UIApplication.shared.isIdleTimerDisabled = true
+            self.visualizer.isHidden = false
+            lblStartRecord.isHidden = true
+            break
+        case .stopped:
+            UIApplication.shared.isIdleTimerDisabled = false
+            self.visualizer.isHidden = true
+            lblStartRecord.isHidden = false
+            break
+        case .denied:
+            UIApplication.shared.isIdleTimerDisabled = false
+            self.visualizer.isHidden = true
+            lblStartRecord.isHidden = false
+            break
+        }
+    }
+    
     //MARK:- UIButtonActions
     @IBAction func btnRecord(_ sender: Any) {
+        
         if isAudioRecordingGranted {
             if(isRecording) {
                 
-                finishAudioRecording(success: true)
                 isRecording = false
                 imageRecord.image = #imageLiteral(resourceName: "speaker")
                 
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+                
+                stopRecording()
+                //finishAudioRecording(success: true)
+                
             }else {
                 
-                setup_recorder()
-                audioRecorder.record()
+                //setup_recorder()
+                //audioRecorder.record()
+                
+                visualizer.isHidden = false
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.visualizer.alpha = 1
+                }, completion: nil)
+                self.checkPermissionAndRecord()//startRecording()
                 
                 lblStartRecord.isHidden = true
                 imgViewSoundWave.isHidden = false
@@ -163,6 +360,38 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         }else {
             appShared.alert(vc: self, message: "Audio recording permission denied")
         }
+        /*if isAudioRecordingGranted {
+            if(isRecording) {
+                
+                isRecording = false
+                imageRecord.image = #imageLiteral(resourceName: "speaker")
+                
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+                self.stopRecording()
+                
+                lblStartRecord.isHidden = false
+                imgViewSoundWave.isHidden = true
+                
+            }else {
+                
+                visualizer.isHidden = false
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.visualizer.alpha = 1
+                }, completion: nil)
+                self.checkPermissionAndRecord()
+                
+                lblStartRecord.isHidden = true
+                imgViewSoundWave.isHidden = false
+                
+                imageRecord.image = #imageLiteral(resourceName: "stop_recording")
+                
+                isRecording = true
+            }
+        }else {
+            appShared.alert(vc: self, message: "Audio recording permission denied")
+        }*/
     }
     
     @IBAction func fileComplaintAction(_ sender: Any) {

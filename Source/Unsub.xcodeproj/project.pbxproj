@@ -10,6 +10,8 @@
 		0404681225A82CC90047F22D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0404681125A82CC90047F22D /* GoogleService-Info.plist */; };
 		0422B8BC259DD82D00109CC8 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422B8BB259DD82D00109CC8 /* CustomSlider.swift */; };
 		0425DC1C2591ED5F002679C2 /* VoiceRecordToReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */; };
+		0431A65825B037FE000F72C6 /* AudioVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0431A65725B037FE000F72C6 /* AudioVisualizerView.swift */; };
+		0431A65A25B03887000F72C6 /* IntExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0431A65925B03887000F72C6 /* IntExt.swift */; };
 		04DC729225A32DD6006500F4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DC729125A32DD6006500F4 /* UIImage.swift */; };
 		04DC729725A33452006500F4 /* sound_wave.gif in Resources */ = {isa = PBXBuildFile; fileRef = 04DC729625A33452006500F4 /* sound_wave.gif */; };
 		04DC729925A3367D006500F4 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DC729825A3367C006500F4 /* CustomView.swift */; };
@@ -81,6 +83,9 @@
 		0404681325A82CDA0047F22D /* Unsub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Unsub.entitlements; sourceTree = "<group>"; };
 		0422B8BB259DD82D00109CC8 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		0425DC1B2591ED5F002679C2 /* VoiceRecordToReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecordToReportVC.swift; sourceTree = "<group>"; };
+		0431A65625B0356E000F72C6 /* UnsubBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsubBridgingHeader.h; sourceTree = "<group>"; };
+		0431A65725B037FE000F72C6 /* AudioVisualizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioVisualizerView.swift; sourceTree = "<group>"; };
+		0431A65925B03887000F72C6 /* IntExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExt.swift; sourceTree = "<group>"; };
 		04DC729125A32DD6006500F4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		04DC729625A33452006500F4 /* sound_wave.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sound_wave.gif; sourceTree = "<group>"; };
 		04DC729825A3367C006500F4 /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
@@ -163,6 +168,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0431A65525B0356E000F72C6 /* BridgingHeader */ = {
+			isa = PBXGroup;
+			children = (
+				0431A65625B0356E000F72C6 /* UnsubBridgingHeader.h */,
+			);
+			path = BridgingHeader;
+			sourceTree = "<group>";
+		};
 		04DC729525A32FBB006500F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +188,7 @@
 		04FBF54C2521EB1500500A0D /* CustomClasses */ = {
 			isa = PBXGroup;
 			children = (
+				0431A65725B037FE000F72C6 /* AudioVisualizerView.swift */,
 				0422B8BB259DD82D00109CC8 /* CustomSlider.swift */,
 				04DC729825A3367C006500F4 /* CustomView.swift */,
 			);
@@ -228,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				0404681325A82CDA0047F22D /* Unsub.entitlements */,
+				0431A65525B0356E000F72C6 /* BridgingHeader */,
 				04FBF54C2521EB1500500A0D /* CustomClasses */,
 				04DC729525A32FBB006500F4 /* Resources */,
 				0404681125A82CC90047F22D /* GoogleService-Info.plist */,
@@ -357,6 +372,7 @@
 			children = (
 				13C2AD6B22AF942800822273 /* UIImageView.swift */,
 				04DC729125A32DD6006500F4 /* UIImage.swift */,
+				0431A65925B03887000F72C6 /* IntExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -650,6 +666,7 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/PRTween/PRTween.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework",
@@ -673,6 +690,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PRTween.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
@@ -714,12 +732,14 @@
 				13DD331C22BA64E900591F45 /* ResourceDetailViewController.swift in Sources */,
 				134B6EE122A6802900DD97C8 /* BaseViewController.swift in Sources */,
 				1327061C22B8E58000DE0403 /* Resource.swift in Sources */,
+				0431A65825B037FE000F72C6 /* AudioVisualizerView.swift in Sources */,
 				13DB6F4B22B26EA50055BF77 /* MyComplaintsViewController.swift in Sources */,
 				13E61C0F22C61D3400FAF015 /* ContainerChatTimeVC.swift in Sources */,
 				13FDBCE022BBB870002C5ABE /* ChatViewController.swift in Sources */,
 				134B6EC722A67D9A00DD97C8 /* AppDelegate.swift in Sources */,
 				13DC8A9422A936740018097C /* LoginnViewController.swift in Sources */,
 				134B6ECF22A67D9A00DD97C8 /* Unsub.xcdatamodeld in Sources */,
+				0431A65A25B03887000F72C6 /* IntExt.swift in Sources */,
 				13C8496022B1003500C909B2 /* MapViewController.swift in Sources */,
 				134B6EE422A683C000DD97C8 /* ContainerViewController.swift in Sources */,
 				134B6EDD22A67FDF00DD97C8 /* HomeViewController.swift in Sources */,
@@ -878,6 +898,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosapp.unsub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mac/Projects/codezilla-ios-unsub/Source/Unsub/BridgingHeader/UnsubBridgingHeader.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -897,6 +918,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.iosapp.unsub;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/mac/Projects/codezilla-ios-unsub/Source/Unsub/BridgingHeader/UnsubBridgingHeader.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -745,38 +745,40 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
                 {
                     print("reverse geodcode fail: \(error!.localizedDescription)")
                 }
-                let pm = placemarks! as [CLPlacemark]
-                
-                if pm.count > 0 {
-                    let pm = placemarks![0]
-                    print(pm.country)
-                    print(pm.locality)
-                    print(pm.subLocality)
-                    print(pm.thoroughfare)
-                    print(pm.postalCode)
-                    print(pm.subThoroughfare)
-                    print(pm.location)
-                    print(pm.name)
-                    var addressString : String = ""
-                    if pm.subLocality != nil {
-                        addressString = addressString + pm.subLocality! + ", "
+                if let pm = placemarks {   // as? [CLPlacemark]
+                    if pm.count > 0 {
+                        let pm = placemarks![0]
+                        print(pm.country)
+                        print(pm.locality)
+                        print(pm.subLocality)
+                        print(pm.thoroughfare)
+                        print(pm.postalCode)
+                        print(pm.subThoroughfare)
+                        print(pm.location)
+                        print(pm.name)
+                        var addressString : String = ""
+                        if pm.subLocality != nil {
+                            addressString = addressString + pm.subLocality! + ", "
+                        }
+                        if pm.thoroughfare != nil {
+                            addressString = addressString + pm.thoroughfare! + ", "
+                        }
+                        if pm.locality != nil {
+                            addressString = addressString + pm.locality! + ", "
+                        }
+                        if pm.country != nil {
+                            addressString = addressString + pm.country! + ", "
+                        }
+                        if pm.postalCode != nil {
+                            addressString = addressString + pm.postalCode! + " "
+                        }
+                        print(addressString)
+                        self.locationManager.stopUpdatingLocation()
+                        self.txtAddressLocation.text = addressString
                     }
-                    if pm.thoroughfare != nil {
-                        addressString = addressString + pm.thoroughfare! + ", "
-                    }
-                    if pm.locality != nil {
-                        addressString = addressString + pm.locality! + ", "
-                    }
-                    if pm.country != nil {
-                        addressString = addressString + pm.country! + ", "
-                    }
-                    if pm.postalCode != nil {
-                        addressString = addressString + pm.postalCode! + " "
-                    }
-                    print(addressString)
-                    self.locationManager.stopUpdatingLocation()
-                    self.txtAddressLocation.text = addressString
                 }
+                
+                
         })
         
     }
@@ -870,7 +872,7 @@ class FileComplaintsViewController: BaseViewController, UICollectionViewDelegate
             self.txtEmail.isUserInteractionEnabled = false
             
             self.txtSchoolName.text = val.value(forKey: "tertiary") as? String
-            self.txtSchoolName.isUserInteractionEnabled = false
+            //self.txtSchoolName.isUserInteractionEnabled = false
             self.txtVictimNo.text = val.value(forKey: "victims_count") as? String
             self.txtVictimNo.isUserInteractionEnabled = false
             self.txtViolatorNo.text = val.value(forKey: "violators") as? String

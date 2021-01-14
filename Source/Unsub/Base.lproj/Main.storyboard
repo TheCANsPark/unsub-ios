@@ -558,6 +558,10 @@
                                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YqW-YU-SwD">
                                                 <rect key="frame" x="0.0" y="0.0" width="265" height="85"/>
                                             </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tW4-pe-A4j" customClass="AudioVisualizerView" customModule="Unsub" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="265" height="85"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please click on this button to record your Audio" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tkk-Yl-Bdc">
                                                 <rect key="frame" x="15" y="10" width="240" height="65"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
@@ -581,15 +585,19 @@
                                             <constraint firstAttribute="bottom" secondItem="Tkk-Yl-Bdc" secondAttribute="bottom" constant="10" id="9MX-s6-K6v"/>
                                             <constraint firstItem="3JV-xd-AEz" firstAttribute="bottom" secondItem="pxf-vp-2R3" secondAttribute="bottom" id="AdB-B0-P9X"/>
                                             <constraint firstItem="Tkk-Yl-Bdc" firstAttribute="leading" secondItem="BqD-y2-7dl" secondAttribute="leading" constant="15" id="GpK-Wc-lDg"/>
+                                            <constraint firstItem="tW4-pe-A4j" firstAttribute="top" secondItem="BqD-y2-7dl" secondAttribute="top" id="HOK-YT-yZT"/>
                                             <constraint firstItem="YqW-YU-SwD" firstAttribute="leading" secondItem="BqD-y2-7dl" secondAttribute="leading" id="I0r-ga-qbO"/>
                                             <constraint firstItem="YqW-YU-SwD" firstAttribute="top" secondItem="BqD-y2-7dl" secondAttribute="top" id="PgL-Iy-yef"/>
                                             <constraint firstItem="3JV-xd-AEz" firstAttribute="trailing" secondItem="pxf-vp-2R3" secondAttribute="trailing" id="W9v-fj-ECd"/>
+                                            <constraint firstItem="tW4-pe-A4j" firstAttribute="leading" secondItem="BqD-y2-7dl" secondAttribute="leading" id="WEA-QB-j5b"/>
                                             <constraint firstAttribute="trailing" secondItem="pxf-vp-2R3" secondAttribute="trailing" constant="10" id="X0x-Sx-lF3"/>
                                             <constraint firstItem="pxf-vp-2R3" firstAttribute="top" secondItem="BqD-y2-7dl" secondAttribute="top" constant="10" id="aaI-tS-Jv8"/>
                                             <constraint firstAttribute="bottom" secondItem="pxf-vp-2R3" secondAttribute="bottom" constant="10" id="eDX-gl-AxE"/>
                                             <constraint firstAttribute="height" constant="85" id="h0v-TY-H03"/>
                                             <constraint firstItem="3JV-xd-AEz" firstAttribute="leading" secondItem="pxf-vp-2R3" secondAttribute="leading" id="hUc-kC-Hm0"/>
+                                            <constraint firstAttribute="bottom" secondItem="tW4-pe-A4j" secondAttribute="bottom" id="msJ-bh-1lc"/>
                                             <constraint firstItem="pxf-vp-2R3" firstAttribute="leading" secondItem="Tkk-Yl-Bdc" secondAttribute="trailing" constant="15" id="pah-wG-3dF"/>
+                                            <constraint firstItem="pxf-vp-2R3" firstAttribute="leading" secondItem="tW4-pe-A4j" secondAttribute="trailing" constant="5" id="vUn-sE-GHt"/>
                                             <constraint firstItem="3JV-xd-AEz" firstAttribute="top" secondItem="pxf-vp-2R3" secondAttribute="top" id="wpd-Kx-5lH"/>
                                             <constraint firstItem="Tkk-Yl-Bdc" firstAttribute="top" secondItem="BqD-y2-7dl" secondAttribute="top" constant="10" id="z03-so-e3R"/>
                                         </constraints>
@@ -619,6 +627,7 @@
                         <outlet property="imgViewSoundWave" destination="YqW-YU-SwD" id="ztM-Bi-PBV"/>
                         <outlet property="lblStartRecord" destination="Tkk-Yl-Bdc" id="fYl-PC-1WF"/>
                         <outlet property="viewRecordAudio" destination="BqD-y2-7dl" id="LjG-lD-vzU"/>
+                        <outlet property="visualizer" destination="tW4-pe-A4j" id="mOe-Cl-xRb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -2520,7 +2529,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button hidden="YES" opaque="NO" clipsSubviews="YES" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-8l-yai">
-                                                    <rect key="frame" x="170" y="78" width="90" height="30"/>
+                                                    <rect key="frame" x="170" y="83" width="90" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="PEc-L0-D96"/>
                                                         <constraint firstAttribute="height" constant="30" id="dtQ-mD-yx9"/>
@@ -2550,7 +2559,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="jkhjk" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rjb-BQ-mCE">
-                                                    <rect key="frame" x="170" y="118" width="120" height="25"/>
+                                                    <rect key="frame" x="170" y="113" width="120" height="30"/>
                                                     <color key="backgroundColor" red="0.0" green="0.51276081799999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="120" id="fRS-fP-Wel"/>
@@ -3254,7 +3263,7 @@
                                                             <fragment content=" Terms and Conditions">
                                                                 <attributes>
                                                                     <color key="NSColor" red="0.19997704029083252" green="0.20001652836799622" blue="0.19996866583824158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                     <integer key="NSUnderline" value="1"/>
                                                                 </attributes>
@@ -3279,7 +3288,7 @@
                                                             <fragment content="Privacy Policy">
                                                                 <attributes>
                                                                     <color key="NSColor" red="0.19997704029083252" green="0.20001652836799622" blue="0.19996866583824158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                     <integer key="NSUnderline" value="1"/>
                                                                 </attributes>
