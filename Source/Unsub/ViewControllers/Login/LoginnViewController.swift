@@ -74,9 +74,10 @@ class LoginnViewController: UIViewController, UIGestureRecognizerDelegate {
         if txtMail.text?.count == 0 || txtPassword.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
             
+        }else if txtPassword.text?.count ?? 0 < 6 {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Password must be of minimum 6 digits")
         } else  if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
-            
         } else {
             loginRequest()
         }

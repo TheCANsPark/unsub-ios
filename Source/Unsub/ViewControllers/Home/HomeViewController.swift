@@ -49,12 +49,9 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
         appShared.homeViewControllerRef = self
         
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-            
-            
             viewRecordAudio.isHidden = false
             
         }else {
-            
             viewRecordAudio.isHidden = true
             
         }

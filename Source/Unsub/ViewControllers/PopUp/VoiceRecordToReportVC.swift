@@ -92,7 +92,9 @@ class VoiceRecordToReportVC: UIViewController, AVAudioPlayerDelegate {
             try session.setActive(true)
             
             audioPlayer = try AVAudioPlayer(contentsOf: appShared.homeViewControllerRef.getFileUrl())
-            
+           
+            //file:///var/mobile/Containers/Data/Application/4B2F5DAD-6F0B-49B1-A16E-AC939BFF3732/Documents/myRecording.wav
+            //file:///var/mobile/Containers/Data/Application/237FE4C3-F968-4355-8815-F2438B55CB6A/Documents/myRecording.wav
             audioPlayer.volume = 1.0
             audioPlayer.delegate = self
             audioPlayer.prepareToPlay()

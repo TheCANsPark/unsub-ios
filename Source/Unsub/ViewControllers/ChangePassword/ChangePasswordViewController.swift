@@ -59,6 +59,8 @@ class ChangePasswordViewController: UIViewController, UIGestureRecognizerDelegat
     @IBAction func submit(_ sender: Any) {
         if txtCurrentPass.text?.count == 0 || txtNewPas.text?.count == 0 || txtConfirmPass.text?.count == 0 {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter all the fields")
+        } else if txtNewPas.text?.count ?? 0 < 6 {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Password must be of minimum 6 digits")
         } else if txtConfirmPass.text! != txtNewPas.text! {
             AppSharedData.sharedInstance.alert(vc: self, message: "Password and confirm password does not match")
         } else {

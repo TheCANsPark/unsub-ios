@@ -223,6 +223,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIPickerViewD
         } else if AppSharedData.sharedInstance.isEmailValid(email: txtMail.text!) == false {
             AppSharedData.sharedInstance.alert(vc: self, message: "Please enter correct mail")
             
+        } else if txtPassword.text?.count ?? 0 < 6 {
+            AppSharedData.sharedInstance.alert(vc: self, message: "Password must be of minimum 6 digits")
         } else if txtPassword.text != txtConfirmPassword.text! {
             AppSharedData.sharedInstance.alert(vc: self, message: "Password and confirm password does not match")
         } else if txtState.text?.count == 0 {
