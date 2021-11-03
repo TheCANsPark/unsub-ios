@@ -360,7 +360,10 @@ class HomeViewController: BaseViewController, AVAudioRecorderDelegate {
     }
     
     @IBAction func resourceCenterAction(_ sender: Any) {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ResourceCenterViewController") as? ResourceCenterViewController
+        /*let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ResourceCenterViewController") as? ResourceCenterViewController
+        self.navigationController?.pushViewController(vc!, animated: true)*/
+        
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ForumListViewController") as? ForumListViewController
         self.navigationController?.pushViewController(vc!, animated: true)
     }
     

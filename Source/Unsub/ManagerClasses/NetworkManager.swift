@@ -154,7 +154,7 @@ class NetworkManager {
                           "Authorization"  : "Bearer any"]
             }
         }
-        if url as String == WEB_URL.commentQuery || urlString == WEB_URL.changePassword  {
+        if url as String == WEB_URL.commentQuery || urlString == WEB_URL.changePassword || url.contains(WEB_URL.getForumsComments) || url.contains(WEB_URL.getForums)  {
             if UserDefaults.standard.bool(forKey: kLogin) == true {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken)!
                 header = ["Content-Type"   : "application/json",
@@ -252,7 +252,7 @@ class NetworkManager {
         
         var header = HTTPHeaders()
         if UserDefaults.standard.bool(forKey: kLogin) == true {
-            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory || url == WEB_URL.getComments || url.contains(WEB_URL.getTimeline)   {
+            if  url == WEB_URL.contacts || url == WEB_URL.getIncidents || url == WEB_URL.getProfile || url.contains(WEB_URL.getIncidentDetails) || url == WEB_URL.getResourceCategory || url == WEB_URL.getComments || url.contains(WEB_URL.getTimeline) || url.contains(WEB_URL.getForums) || url.contains(WEB_URL.getForumsComments)   {
                 let token = AppSharedData.sharedInstance.getRefreshTokenAndAccessToken().value(forKey: kAccessToken) as! String
                 header = ["Authorization"  : "Bearer \(token)"]
             }
